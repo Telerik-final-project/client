@@ -1,32 +1,21 @@
 <div class="container">
-  <div fxLayout="row wrap" fxLayoutAlign="center center">
-    <mat-card>
-      <div fxLayout="row wrap">
-        <div fxFlex="50%" fxLayoutAlign="start center">
-          <mat-card-header>
-            <mat-card-title>Job title</mat-card-title>
-            <mat-card-subtitle>Created at: </mat-card-subtitle>
-          </mat-card-header>
-        </div>
-        <div class="button-row" fxFlex="50%" fxLayoutAlign="end center">
-          <button mat-raised-button color="primary">Primary</button>
-        </div>
-      </div>
-      <div>
-        <mat-card-content>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam consequat elementum magna, vitae aliquam odio tristique vitae.
-            Etiam pretium eros nibh, et elementum nisl imperdiet et. Etiam tellus arcu, imperdiet scelerisque augue non,
-            elementum ullamcorper nunc. Etiam scelerisque neque vitae enim interdum, vel laoreet arcu condimentum. Curabitur
-            at condimentum sem. Pellentesque vitae pellentesque odio. Pellentesque habitant morbi tristique senectus et netus
-            et malesuada fames ac turpis egestas. Vestibulum vel augue a sapien tristique venenatis quis nec dui. Aliquam
-            in condimentum nunc. Sed viverra varius nisi, id finibus diam scelerisque sollicitudin. Donec sapien odio, molestie
-            a aliquam ut, maximus vel neque.
-          </p>
-        </mat-card-content>
-      </div>
+  <mat-card fxLayout="row wrap">
+    <div fxFlex="50%" fxLayoutAlign="start center">
+      <mat-card-header>
+        <mat-card-title>{{ad.title}}</mat-card-title>
+        <mat-card-subtitle>Created at: {{ ad.createdAt }}</mat-card-subtitle>
+      </mat-card-header>
+    </div>
+    <div class="button-row" fxFlex="50%" fxLayoutAlign="end center">
+      <button mat-raised-button color="primary">Apply</button>
+    </div>
 
-    </mat-card>
-
-  </div>
+    <div fxLayout="row wrap">
+      <mat-card-content>
+        <p>
+          {{ ad.description }}
+        </p>
+      </mat-card-content>
+    </div>
+  </mat-card>
 </div>

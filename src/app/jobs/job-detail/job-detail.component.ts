@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IJobAd } from './../../models/job-ad';
 
 @Component({
   selector: 'app-job-detail',
@@ -7,8 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class JobDetailComponent implements OnInit {
 
-  constructor() {
-  }
+  private ad: IJobAd = {
+    title: 'DevOps',
+    createdAt: '16/03/2018',
+    description: `Some very long description here. Some very long descriptio here.
+    Some very long description here. Some very long description here.
+    fxLayout="row wrap".  fxLayout="row wrap".  fxLayout="row wrap"`,
+  };
+
+  constructor() {}
 
   ngOnInit() {
   }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IJobAd } from './../models/job-ad';
 
 @Component({
   selector: 'app-job-list',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./job-list.component.css']
 })
 export class JobListComponent implements OnInit {
+  private ads = Array<IJobAd>();
 
   constructor() { }
 
