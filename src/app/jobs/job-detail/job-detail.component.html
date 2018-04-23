@@ -2,18 +2,18 @@
   <mat-card fxLayout="row wrap">
     <div fxFlex="50%" fxLayoutAlign="start center">
       <mat-card-header>
-        <mat-card-title>{{ad.title}}</mat-card-title>
-        <mat-card-subtitle>Created at: {{ ad.createdAt }}</mat-card-subtitle>
+        <mat-card-title>{{job.title}}</mat-card-title>
+        <mat-card-subtitle>Created at: {{ job.createdAt }}</mat-card-subtitle>
       </mat-card-header>
     </div>
     <div class="button-row" fxFlex="50%" fxLayoutAlign="end center">
-      <button mat-raised-button color="primary">Apply</button>
+      <button [routerLink]="['apply']"mat-raised-button color="primary">Apply</button>
     </div>
 
     <div fxLayout="row wrap">
       <mat-card-content>
         <p>
-          {{ ad.description }}
+          {{ job.description }}
         </p>
       </mat-card-content>
     </div>

@@ -1,17 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { JobsService } from './../core/jobs.service';
 import { IJobAd } from './../models/job-ad';
 
 @Component({
   selector: 'app-job-list',
   templateUrl: './job-list.component.html',
-  styleUrls: ['./job-list.component.css']
+  styleUrls: ['./job-list.component.css'],
 })
 export class JobListComponent implements OnInit {
-  private ads = Array<IJobAd>();
+  @Output()
+  public jobs: IJobAd[];
 
-  constructor() { }
+  constructor(private jobsService: JobsService) {}
 
-  ngOnInit() {
+  public ngOnInit(): void {
+    this.jobs = this.jobsService.getAll();
   }
 
 }

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { JobsService } from './../../core/jobs.service';
 import { IJobAd } from './../../models/job-ad';
 
 @Component({
@@ -7,18 +9,18 @@ import { IJobAd } from './../../models/job-ad';
   styleUrls: ['./job-detail.component.css'],
 })
 export class JobDetailComponent implements OnInit {
+  @Input()
+  public job: IJobAd;
+  public jobId: number;
 
-  private ad: IJobAd = {
-    title: 'DevOps',
-    createdAt: '16/03/2018',
-    description: `Some very long description here. Some very long descriptio here.
-    Some very long description here. Some very long description here.
-    fxLayout="row wrap".  fxLayout="row wrap".  fxLayout="row wrap"`,
-  };
+  constructor(private jobService: JobsService, private route: ActivatedRoute, private router: Router) {}
 
-  constructor() {}
-
-  ngOnInit() {
+  public ngOnInit(): void {
+    this.route.params.subscribe((params: Params) => {
+      console.log(params);
+      this.jobId = +params.jobId;
+      this.job = this.jobService.getById(this.jobId);
+    });
   }
 
 }

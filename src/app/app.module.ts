@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
+import { AppConfig } from './config/app.config';
+import { CoreModule } from './core/core.module';
 import { HomeComponent } from './home/home.component';
 import { JobApplicationComponent } from './jobs/job-application/job-application.component';
 import { JobListComponent } from './jobs/job-list.component';
+import { JobViewComponent } from './jobs/job-view.component';
 import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
@@ -16,6 +19,7 @@ import { NavbarComponent } from './navbar/navbar.component';
     JobApplicationComponent,
     JobListComponent,
     JobDetailComponent,
+    JobViewComponent,
     NavbarComponent,
     HomeComponent,
   ],
@@ -23,8 +27,9 @@ import { NavbarComponent } from './navbar/navbar.component';
     BrowserModule,
     SharedModule,
     AppRoutingModule,
+    CoreModule,
   ],
-  providers: [],
+  providers: [AppConfig],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

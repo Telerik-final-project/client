@@ -1,3 +1,5 @@
-<p>
-  job-list works!
-</p>
+<mat-nav-list>
+  <div *ngFor="let job of jobs">
+    <app-job-view [job]="job"></app-job-view>
+  </div>
+</mat-nav-list>
