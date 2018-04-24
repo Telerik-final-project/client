@@ -1,8 +1,10 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
+import { JobsModule } from './jobs/jobs.module';
 import { SharedModule } from './shared/shared.module';
 
 import { AppConfig } from './config/app.config';
@@ -15,7 +17,6 @@ import { JobListComponent } from './jobs/job-list.component';
 import { JobViewComponent } from './jobs/job-view.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { NavbarModule } from './navbar/navbar.module';
-import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     CoreModule,
     NavbarModule,
-    HttpClientModule
+    HttpClientModule,
+    JobsModule,
   ],
   providers: [AppConfig],
   bootstrap: [AppComponent],

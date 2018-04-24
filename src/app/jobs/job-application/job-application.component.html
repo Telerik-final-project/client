@@ -36,7 +36,7 @@
     </div>
     <div fxLayout="row" fxLayout.xs="column" fxFlexFill>
       <div fxFlex="20"></div>
-      <div fxFlex class="dropzone" #dzCv="ngxDropzone" [dropzone]="configCv" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></div>
+      <div fxFlex class="dropzone" #dzCv="ngxDropzone" [dropzone]="configCv" (addedFile)="onAdded()" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></div>
       <div fxFlex="10"></div>
       <div fxFlex  class="dropzone" [dropzone]="configCover" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></div>
       <div fxFlex="20"></div>
@@ -45,8 +45,9 @@
       <div fxFlex="20"></div>
       <mat-list fxFlex class="form-item">
         <mat-list-item>
-          <button [disabled]="firstName.errors || lastName.errors || !firstName.value.length || !lastName.value.length" mat-raised-button
-            color="primary" (click)="onSubmit()">Submit</button>
+          <button [disabled]="firstName.errors || lastName.errors || !firstName.value.length || !lastName.value.length || !addedSuccessfully" mat-raised-button
+            color="primary" (click)="onSubmit()">Submit </button>
+            {{addedFile}}
         </mat-list-item>
       </mat-list>
       <div fxFlex="20"></div>

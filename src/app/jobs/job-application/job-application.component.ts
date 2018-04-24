@@ -30,7 +30,7 @@ export class JobApplicationComponent implements OnInit {
     dictDefaultMessage: 'Upload your Cover letter (optional)',
     maxFiles: 1,
   };
-
+  private addedSuccessfully = false;
   private minNameLength = 3;
   private maxNameLength = 100;
   private maxCommentLength = 1024;
@@ -82,10 +82,11 @@ export class JobApplicationComponent implements OnInit {
 
   private onUploadSuccess(success: any): void {
     success[0].previewElement.firstElementChild.setAttribute('style', 'background:rgba(0, 170, 0, 0.55)');
+    this.addedSuccessfully = true;
   }
 
-  private onAdded() {
-
+  private onAdded(): void {
+    console.log(this.dropzoneCv);
   }
 
   private getErrorMessage(field: AbstractControl): string {
