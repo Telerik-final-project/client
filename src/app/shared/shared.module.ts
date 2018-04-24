@@ -4,6 +4,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatListModule, MatSelectModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DropzoneModule } from 'ngx-dropzone-wrapper';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatListModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
+    DropzoneModule,
   ],
   exports: [
     FormsModule,
@@ -29,6 +31,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatListModule,
     FlexLayoutModule,
     BrowserAnimationsModule,
+    DropzoneModule,
   ],
 })
 export class SharedModule { }
