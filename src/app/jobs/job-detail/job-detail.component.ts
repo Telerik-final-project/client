@@ -20,6 +20,7 @@ export class JobDetailComponent implements OnInit {
       console.log(params);
       this.jobId = +params.jobId;
       this.job = this.jobService.getById(this.jobId);
+      this.jobService.setCurrentJob(this.job);
     });
   }
 

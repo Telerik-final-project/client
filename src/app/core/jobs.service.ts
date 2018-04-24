@@ -5,6 +5,7 @@ import { IJobAd } from './../models/job-ad';
 
 @Injectable()
 export class JobsService {
+    private currentJob: IJobAd;
     private jobs: IJobAd[] = [
     {
         id: 1,
@@ -32,6 +33,14 @@ export class JobsService {
     }];
 
     constructor(private appConfig: AppConfig) {}
+
+    public setCurrentJob(job: IJobAd): void {
+        this.currentJob = job;
+    }
+
+    public getCurrentJob(): IJobAd {
+        return this.currentJob;
+    }
 
     public getAll(): IJobAd[] {
         return this.jobs;
