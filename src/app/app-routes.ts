@@ -7,11 +7,16 @@ import { JobListComponent } from './jobs/job-list.component';
 export const ROUTES: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
-    { path: 'jobs', children: [
-        { path: '', component: JobListComponent, pathMatch: 'full' },
-        { path: ':jobId', children: [
-            { path: '', component: JobDetailComponent, pathMatch: 'full' },
-            { path: 'apply', component: JobApplicationComponent },
-        ] },
-    ]},
+    { path: 'auth', loadChildren: './auth/auth.module#AuthModule' }, //Lazy loading
+    {
+        path: 'jobs', children: [
+            { path: '', component: JobListComponent, pathMatch: 'full' },
+            {
+                path: ':jobId', children: [
+                    { path: '', component: JobDetailComponent, pathMatch: 'full' },
+                    { path: 'apply', component: JobApplicationComponent },
+                ]
+            },
+        ]
+    },
 ];
