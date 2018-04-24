@@ -1,6 +1,6 @@
 export class AppConfig {
-    private readonly apiUrl: string;
-    private readonly jwtIssuer: string;
+    public readonly apiUrl: string;
+    public readonly jwtIssuer: string;
 
     constructor() {
         this.apiUrl = 'http://localhost:3012/api';

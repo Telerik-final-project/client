@@ -12,15 +12,12 @@ import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 import { JobDetailComponent } from './jobs/job-detail/job-detail.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { NavbarModule } from './navbar/navbar.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
-    JobApplicationComponent,
-    JobListComponent,
-    JobDetailComponent,
-    JobViewComponent,
-    NavbarComponent,
     HomeComponent,
   ],
   imports: [
@@ -28,6 +25,8 @@ import { NavbarComponent } from './navbar/navbar.component';
     SharedModule,
     AppRoutingModule,
     CoreModule,
+    NavbarModule,
+    HttpClientModule
   ],
   providers: [AppConfig],
   bootstrap: [AppComponent],
