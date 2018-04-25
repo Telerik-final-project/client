@@ -1,16 +1,57 @@
-<form class="example-form">
-  <mat-list>
-    <mat-list-item>Applying for {{ job.title }}</mat-list-item>
-    <mat-divider></mat-divider>
-  </mat-list>
-
-  <mat-form-field class="example-full-width">
-    <input matInput placeholder="First name">
-  </mat-form-field>
-
-  <mat-form-field class="example-full-width">
-    <input matInput placeholder="Long Last Name That Will Be Truncated">
-  </mat-form-field>
-
-
-</form>
+<div class="container">
+  <form [formGroup]="form" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="20px">
+    <div fxLayout="row" fxFlexFill>
+      <div fxFlex="20"></div>
+      <mat-list fxFlex class="form-item">
+        <mat-list-item>Applying for {{ job?.title }}</mat-list-item>
+        <mat-divider></mat-divider>
+      </mat-list>
+      <div fxFlex="20"></div>
+    </div>
+    <div fxLayout="row" fxFlexFill>
+      <div fxFlex="20"></div>
+      <mat-form-field fxFlex class="form-item" hintLabel="Max 100 characters">
+        <input matInput minlength="3" maxlength="100" formControlName="firstName" placeholder="First name" required>
+        <mat-hint align="end">{{firstName.value.length || 0}}/100</mat-hint>
+        <mat-error>{{getErrorMessage(firstName)}}</mat-error>
+      </mat-form-field>
+      <div fxFlex="20"></div>
+    </div>
+    <div fxLayout="row" fxFlexFill>
+      <div fxFlex="20"></div>
+      <mat-form-field fxFlex class="form-item" hintLabel="Max 100 characters">
+        <input matInput minlength="3" maxlength="100" formControlName="lastName" placeholder="Last name" required>
+        <mat-hint align="end">{{lastName.value.length || 0}}/100</mat-hint>
+        <mat-error>{{getErrorMessage(lastName)}}</mat-error>
+      </mat-form-field>
+      <div fxFlex="20"></div>
+    </div>
+    <div fxLayout="row" fxFlexFill>
+      <div fxFlex="20"></div>
+      <mat-form-field fxFlex class="form-item" hintLabel="Max 1024 characters">
+        <textarea matInput #textarea maxlength="1024" formControlName="comment" placeholder="Comment"></textarea>
+        <mat-hint align="end">{{textarea.value?.length || 0}}/1024</mat-hint>
+      </mat-form-field>
+      <div fxFlex="20"></div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxFlexFill>
+      <div fxFlex="20"></div>
+      <div fxFlex class="dropzone" #dzCv="ngxDropzone" [dropzone]="configCv" (addedFile)="onAdded()" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></div>
+      <div fxFlex="10"></div>
+      <div fxFlex  class="dropzone" [dropzone]="configCover" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></div>
+      <div fxFlex="20"></div>
+    </div>
+    <div fxLayout="row" fxFlexFill>
+      <div fxFlex="20"></div>
+      <mat-list fxFlex class="form-item">
+        <mat-list-item>
+          <button [disabled]="firstName.errors || lastName.errors || !firstName.value.length || !lastName.value.length || !addedSuccessfully" mat-raised-button
+            color="primary" (click)="onSubmit()">Submit </button>
+            {{addedFile}}
+        </mat-list-item>
+      </mat-list>
+      <div fxFlex="20"></div>
+    </div>
+    
+  </form>
+</div>

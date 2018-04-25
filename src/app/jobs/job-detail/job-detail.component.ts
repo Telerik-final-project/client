@@ -19,8 +19,10 @@ export class JobDetailComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       console.log(params);
       this.jobId = +params.jobId;
-      this.job = this.jobService.getById(this.jobId);
-      this.jobService.setCurrentJob(this.job);
+      this.jobService.getById(this.jobId).subscribe((data) => {
+        this.job = data;
+        // this.jobService.setCurrentJob(this.job);
+      });
     });
   }
 
