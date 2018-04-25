@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule
+    RouterModule,
   ],
   declarations: [JobListComponent, JobDetailComponent, JobApplicationComponent, JobViewComponent],
 })

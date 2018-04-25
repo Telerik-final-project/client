@@ -1,0 +1,35 @@
+<!-- <form (ngSubmit)="submit(form)">
+  <h1 mat-dialog-title>Add file</h1>
+  <mat-dialog-content>
+    <mat-form-field>
+      <input matInput formControlName="filename" placeholder="Enter filename">
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button type="submit">Add</button>
+    <button mat-button type="button" (click)="dialogRef.close()">Cancel</button>
+  </mat-dialog-actions>
+</form> -->
+<div fxLayout="column" fxLayoutAlign="center center">
+  <div fxLayout="row" fxFlexFill fxFlexOffset="20px">
+    <div fxFlex="30"></div>
+    <mat-card fxFlex>
+      <form [formGroup]="form" (ngSubmit)="submit(form)">
+        <mat-card-content fxLayout="column">
+          <mat-form-field>
+            <input matInput placeholder="Email" formControlName="email">
+            <mat-error>{{getErrorMessage(email)}}</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Password" formControlName="password">
+            <mat-error>{{getErrorMessage(password)}}</mat-error>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions fxFlexAlign="center">
+          <button type="submit" [disabled]="form.status === 'INVALID'" mat-raised-button color="primary">Login</button>
+        </mat-card-actions>
+      </form>
+    </mat-card>
+    <div fxFlex="30"></div>
+  </div>
+</div>

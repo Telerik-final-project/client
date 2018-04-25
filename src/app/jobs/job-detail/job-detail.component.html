@@ -2,8 +2,8 @@
   <mat-card fxLayout="row wrap">
     <div fxFlex="50%" fxLayoutAlign="start center">
       <mat-card-header>
-        <mat-card-title>{{job.title}}</mat-card-title>
-        <mat-card-subtitle>Created at: {{ job.createdAt }}</mat-card-subtitle>
+        <mat-card-title>{{job?.title}}</mat-card-title>
+        <mat-card-subtitle>Created at: {{ job?.createdAt }}</mat-card-subtitle>
       </mat-card-header>
     </div>
     <div class="button-row" fxFlex="50%" fxLayoutAlign="end center">
@@ -13,7 +13,7 @@
     <div fxLayout="row wrap">
       <mat-card-content>
         <p>
-          {{ job.description }}
+          {{ job?.description }}
         </p>
       </mat-card-content>
     </div>

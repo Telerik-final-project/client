@@ -16,7 +16,6 @@ import { DropzoneModule } from 'ngx-dropzone-wrapper';
     MatFormFieldModule,
     MatInputModule,
     MatListModule,
-    BrowserAnimationsModule,
     FlexLayoutModule,
     DropzoneModule,
   ],
@@ -30,7 +29,6 @@ import { DropzoneModule } from 'ngx-dropzone-wrapper';
     MatInputModule,
     MatListModule,
     FlexLayoutModule,
-    BrowserAnimationsModule,
     DropzoneModule,
   ],
 })

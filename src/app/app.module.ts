@@ -1,3 +1,4 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -31,6 +32,7 @@ import { NavbarModule } from './navbar/navbar.module';
     NavbarModule,
     HttpClientModule,
     JobsModule,
+    BrowserAnimationsModule,
   ],
   providers: [AppConfig],
   bootstrap: [AppComponent],

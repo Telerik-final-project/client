@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
 import { AppConfig } from './../config/app.config';
 import { IJobAd } from './../models/job-ad';
 
@@ -32,7 +34,7 @@ export class JobsService {
         updatedAt: '16/03/2018',
     }];
 
-    constructor(private appConfig: AppConfig) {}
+    constructor(private appConfig: AppConfig, private httpClient: HttpClient) {}
 
     public setCurrentJob(job: IJobAd): void {
         this.currentJob = job;
@@ -42,12 +44,13 @@ export class JobsService {
         return this.currentJob;
     }
 
-    public getAll(): IJobAd[] {
-        return this.jobs;
+    public getAll(): Observable<IJobAd[]> {
+        return this.httpClient.get(`${this.appConfig.apiUrl}/jobs`).pipe(map((x) => x as IJobAd[]));
+        // return this.jobs;
     }
 
-    public getById(id: number): IJobAd {
-        return this.jobs.find((job) => job.id === id);
+    public getById(id: number): Observable<IJobAd> {
+        return this.httpClient.get<IJobAd>(`${this.appConfig.apiUrl}/jobs/${id}`);
     }
 
 }

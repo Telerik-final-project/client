@@ -44,6 +44,7 @@ export class JobApplicationComponent implements OnInit {
   constructor(private jobsService: JobsService, private route: ActivatedRoute, private router: Router) { }
 
   public ngOnInit(): void {
+    // console.log(this.job);
     this.form = new FormGroup({
       firstName: new FormControl(
         '', [
@@ -57,13 +58,18 @@ export class JobApplicationComponent implements OnInit {
       ),
       comment: new FormControl('', [Validators.maxLength(this.maxCommentLength)]),
     });
-    this.job = this.jobsService.getCurrentJob();
+    // this.job = this.jobsService.getCurrentJob();
     if (!this.job) {
       this.route.params.subscribe((params: Params) => {
         console.log(params);
         this.jobId = +params.jobId;
-        this.job = this.jobsService.getById(this.jobId);
-        this.jobsService.setCurrentJob(this.job);
+        this.jobsService.getById(this.jobId).subscribe((data) => {
+          this.job = data;
+          // this.jobsService.setCurrentJob(this.job);
+        });
+      });
+      this.jobsService.getById(this.jobId).toPromise().then((res) => {
+        console.log(res);
       });
     }
 

@@ -3,7 +3,7 @@
     <div fxLayout="row" fxFlexFill>
       <div fxFlex="20"></div>
       <mat-list fxFlex class="form-item">
-        <mat-list-item>Applying for {{ job.title }}</mat-list-item>
+        <mat-list-item>Applying for {{ job?.title }}</mat-list-item>
         <mat-divider></mat-divider>
       </mat-list>
       <div fxFlex="20"></div>
@@ -22,7 +22,7 @@
       <mat-form-field fxFlex class="form-item" hintLabel="Max 100 characters">
         <input matInput minlength="3" maxlength="100" formControlName="lastName" placeholder="Last name" required>
         <mat-hint align="end">{{lastName.value.length || 0}}/100</mat-hint>
-        <mat-error>{{getErrorMessage(firstName)}}</mat-error>
+        <mat-error>{{getErrorMessage(lastName)}}</mat-error>
       </mat-form-field>
       <div fxFlex="20"></div>
     </div>
