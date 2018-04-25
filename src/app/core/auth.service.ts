@@ -10,8 +10,9 @@ export class AuthService {
   constructor(private httpClient: HttpClient, private appConfig: AppConfig) { }
 
   register(user: User): Observable<object> {
-    console.log(user);
-    console.log(this.appConfig.apiUrl);
-    return this.httpClient.post('http://localhost:3012/api/register', {});
+    return this.httpClient.post(`${this.appConfig.apiUrl}/register`, user);
+  }
+
+  currentUser(){
   }
 }

@@ -1,5 +1,6 @@
-<form #f="ngForm" (ngSubmit)="register(f.value)">
-  <input type="email" name="email" ngModel>
-  <input type="password" name="password" ngModel>
+<form [formGroup]="registerForm" (ngSubmit)="register()">
+  <input type="text" formControlName="username" [(ngModel)]="username">
+  <input type="email" formControlName="email">
+  <input type="password" formControlName="password">
   <button>Register</button>
 </form>
