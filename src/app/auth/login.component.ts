@@ -42,10 +42,11 @@ export class LoginComponent implements OnInit {
   }
 
   private getErrorMessage(field: AbstractControl): string {
+    
     if (field.hasError('required')) {
-      return 'The field is required';
+      return 'The field is required!';
     } else if (field.hasError('email')) {
-      return 'Invalid email';
+      return 'Invalid email!';
     }
   }
 }
