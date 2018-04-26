@@ -14,16 +14,15 @@ export class AuthService {
 
   constructor(
     private httpClient: HttpClient, private appConfig: AppConfig,
-    private jwtService: JwtHelperService, private router: Router) { }
+    private jwtService: JwtHelperService, private router: Router,
+  ) { }
 
   public login(user: User, options?: HttpOptions): Observable<object> {
     return this.httpClient.post(`${this.appConfig.apiUrl}/login`, user, options);
   }
 
   public register(user: User): Observable<object> {
-    console.log(user);
-    console.log(this.appConfig.apiUrl);
-    return this.httpClient.post('http://localhost:3012/api/register', {});
+    return this.httpClient.post(`${this.appConfig.apiUrl}/register`, user);
   }
 
   public isAuthenticated(): boolean {

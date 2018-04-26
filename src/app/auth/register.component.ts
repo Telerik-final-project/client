@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user';
 import { AuthService } from '../core/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { ReactiveFormsModule, NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -9,14 +10,21 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
+  public registerForm: FormGroup;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private authService: AuthService, private formBuilder: FormBuilder) { }
+  username = 'test';
 
   ngOnInit() {
+    this.registerForm = this.formBuilder.group({
+      username: [this.username,  [Validators.maxLength(1024), Validators.required]],
+      email: ['',  [Validators.email, Validators.required]],
+      password: ['', [Validators.maxLength(256), Validators.required]],
+    });
   }
 
-  register(user: User) {
-    this.httpClient.post('http://localhost:3012/api/register', { user }).subscribe((x) => x);
+  register() {
+    console.log(this.registerForm.value)
+    this.authService.register( this.registerForm.value ).subscribe((x) => console.log(x));
   }
-
 }

@@ -1,5 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -31,6 +32,7 @@ export const tokenGetter = () => {
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
     SharedModule,
     AppRoutingModule,
     CoreModule,
