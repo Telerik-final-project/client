@@ -2,14 +2,19 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DropzoneConfigInterface  } from 'ngx-dropzone-wrapper';
+import { Observable } from 'rxjs/Observable';
 
 import { DropzoneCoverConfig } from '../../config/dropzone-cover.config';
 import { DropzoneCvConfig } from '../../config/dropzone-cv.config';
 import { ApplicationsService } from './../../core/applications.service';
 import { AuthService } from './../../core/auth.service';
 import { JobsService } from './../../core/jobs.service';
-import { IJobAd } from './../../models/job-ad';
+import { JobAd } from './../../models/job-ad';
 import { JobApplication } from './../../models/job-application';
+
+import { MatDialog } from '@angular/material/dialog';
+
+import { JobApplicationDialogComponent } from './job-application-dialog.component';
 
 @Component({
   selector: 'app-job-application',
@@ -27,7 +32,7 @@ export class JobApplicationComponent implements OnInit {
   private minNameLength = 3;
   private maxNameLength = 100;
   private maxCommentLength = 1024;
-  private job: IJobAd;
+  private job: JobAd;
   private jobId: number;
   private form: FormGroup;
   private firstName: AbstractControl;
@@ -39,18 +44,21 @@ export class JobApplicationComponent implements OnInit {
   constructor(
     private jobsService: JobsService, private route: ActivatedRoute, private router: Router,
     private authService: AuthService, private applicationsService: ApplicationsService,
+    private dialog: MatDialog,
   ) { }
 
   public ngOnInit(): void {
     this.form = new FormGroup({
       firstName: new FormControl(
         '', [
-          Validators.required, Validators.minLength(this.minNameLength), Validators.maxLength(this.maxNameLength),
+          Validators.required, Validators.minLength(this.minNameLength),
+          Validators.maxLength(this.maxNameLength), Validators.pattern('[a-zA-Z]+'),
         ],
       ),
       lastName: new FormControl(
         '', [
-          Validators.required, Validators.minLength(this.minNameLength), Validators.maxLength(this.maxNameLength),
+          Validators.required, Validators.minLength(this.minNameLength),
+          Validators.maxLength(this.maxNameLength), Validators.pattern('[a-zA-Z]+'),
         ],
       ),
       comment: new FormControl('', [Validators.maxLength(this.maxCommentLength)]),
@@ -71,6 +79,11 @@ export class JobApplicationComponent implements OnInit {
     this.comment = this.form.get('comment');
 
     console.log(this.authService.decodeToken());
+  }
+
+  public openDialog(): Observable<boolean> {
+    const dialogRef = this.dialog.open(JobApplicationDialogComponent, {});
+    return dialogRef.beforeClose();
   }
 
   private onSubmit(): void {
@@ -112,6 +125,15 @@ export class JobApplicationComponent implements OnInit {
       return 'You must enter a name';
     } else if (field.hasError('maxlength')) {
       return 'To short name';
+    } else if (field.hasError('pattern')) {
+      return 'Not a valid input';
     }
+  }
+
+  private canDeactivate(): Observable<boolean> | boolean {
+    if (this.form.dirty) {
+      return this.openDialog();
+    }
+    return true;
   }
 }

@@ -1,5 +1,6 @@
 <mat-nav-list>
-  <div *ngFor="let job of jobs">
+  <div *ngFor="let job of paginatedJobs">
     <app-job-view [job]="job"></app-job-view>
   </div>
 </mat-nav-list>
+<mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="onChangePage($event)"></mat-paginator>

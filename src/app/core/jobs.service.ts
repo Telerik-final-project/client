@@ -4,31 +4,31 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 import { AppConfig } from './../config/app.config';
 import { HttpOptions } from './../models/http-options';
-import { IJobAd } from './../models/job-ad';
+import { JobAd } from './../models/job-ad';
 
 @Injectable()
 export class JobsService {
-    private currentJob: IJobAd;
+    private currentJob: JobAd;
 
     constructor(private appConfig: AppConfig, private httpClient: HttpClient) {}
 
-    public setCurrentJob(job: IJobAd): void {
+    public setCurrentJob(job: JobAd): void {
         this.currentJob = job;
     }
 
-    public getCurrentJob(): IJobAd {
+    public getCurrentJob(): JobAd {
         return this.currentJob;
     }
 
-    public getAll(): Observable<IJobAd[]> {
-        return this.httpClient.get(`${this.appConfig.apiUrl}/jobs`).pipe(map((x) => x as IJobAd[]));
+    public getAll(): Observable<JobAd[]> {
+        return this.httpClient.get(`${this.appConfig.apiUrl}/jobs`).pipe(map((x) => x as JobAd[]));
     }
 
-    public getById(id: number): Observable<IJobAd> {
-        return this.httpClient.get<IJobAd>(`${this.appConfig.apiUrl}/jobs/${id}`);
+    public getById(id: number): Observable<JobAd> {
+        return this.httpClient.get<JobAd>(`${this.appConfig.apiUrl}/jobs/${id}`);
     }
 
-    public create(application: IJobAd, options?: HttpOptions): Observable<object> {
+    public create(application: JobAd, options?: HttpOptions): Observable<object> {
         return this.httpClient.post(`${this.appConfig.apiUrl}/jobs`, application, options);
     }
 }

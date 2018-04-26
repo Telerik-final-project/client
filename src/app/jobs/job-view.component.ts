@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IJobAd } from '../models/job-ad';
+import { JobAd } from '../models/job-ad';
 
 @Component({
   selector: 'app-job-view',
@@ -8,12 +8,12 @@ import { IJobAd } from '../models/job-ad';
 })
 export class JobViewComponent implements OnInit {
   @Input()
-  public job: IJobAd;
+  public job: JobAd;
 
   @Output()
   private showJob = new EventEmitter();
 
-  constructor() { }
+  constructor() {}
   public ngOnInit(): void {}
 
 }

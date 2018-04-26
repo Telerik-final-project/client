@@ -1,17 +1,17 @@
-export interface IJobAd {
-    id: number;
+export class JobAd {
+    public id: number;
 
-    title: string;
+    public title: string;
 
-    description: string;
+    public description: string;
 
-    category: string;
+    public category: string;
 
-    status: string;
+    public status: string;
 
-    isDeleted: number;
+    public isDeleted: number;
 
-    createdAt: string;
+    public createdAt: string;
 
-    updatedAt: string;
+    public updatedAt: string;
 }
