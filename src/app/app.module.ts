@@ -1,8 +1,9 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { JwtModule } from '@auth0/angular-jwt';
 
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
@@ -20,6 +21,10 @@ import { JobViewComponent } from './jobs/job-view.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { NavbarModule } from './navbar/navbar.module';
 
+export const tokenGetter = () => {
+  return localStorage.getItem('access_token');
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +40,13 @@ import { NavbarModule } from './navbar/navbar.module';
     HttpClientModule,
     JobsModule,
     BrowserAnimationsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter,
+        whitelistedDomains: ['localhost:3012'],
+        blacklistedRoutes: [],
+      },
+    }),
   ],
   providers: [AppConfig],
   bootstrap: [AppComponent],

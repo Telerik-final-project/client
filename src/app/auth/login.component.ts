@@ -1,6 +1,7 @@
-import { HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { AuthService } from './../core/auth.service';
 
@@ -13,8 +14,9 @@ export class LoginComponent implements OnInit {
   private form: FormGroup;
   private email: AbstractControl;
   private password: AbstractControl;
+  private credentialsError: string;
 
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService, private router: Router) {}
 
   public ngOnInit(): void {
     this.form = new FormGroup({
@@ -26,9 +28,14 @@ export class LoginComponent implements OnInit {
   }
 
   private submit(form: FormGroup): void {
-    console.log(form.value);
-    this.auth.login(this.form.value, {observe: 'response', responseType: 'json'}).subscribe((x: HttpResponse<{token: string}>) => {
-      console.log(x);
+    this.auth.login(this.form.value, {observe: 'response', responseType: 'json'}).subscribe(
+      (x: HttpResponse<{token: string}>) => {
+      localStorage.setItem('access_token', x.body.token);
+      this.credentialsError = undefined;
+      this.router.navigate(['home']);
+    },
+      (err: HttpErrorResponse) => {
+      this.credentialsError = err.error.err;
     });
   }
 

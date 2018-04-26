@@ -12,6 +12,7 @@
             <input matInput placeholder="Password" formControlName="password">
             <mat-error>{{ getErrorMessage(password) }}</mat-error>
           </mat-form-field>
+          <mat-error>{{credentialsError}}</mat-error>
         </mat-card-content>
         <mat-card-actions fxFlexAlign="center">
           <button type="submit" [disabled]="form.status === 'INVALID'" mat-raised-button color="primary">Login</button>

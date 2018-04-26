@@ -2,8 +2,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DropzoneConfigInterface  } from 'ngx-dropzone-wrapper';
+
+import { DropzoneCoverConfig } from '../../config/dropzone-cover.config';
+import { DropzoneCvConfig } from '../../config/dropzone-cv.config';
+import { ApplicationsService } from './../../core/applications.service';
+import { AuthService } from './../../core/auth.service';
 import { JobsService } from './../../core/jobs.service';
 import { IJobAd } from './../../models/job-ad';
+import { JobApplication } from './../../models/job-application';
 
 @Component({
   selector: 'app-job-application',
@@ -12,24 +18,11 @@ import { IJobAd } from './../../models/job-ad';
 })
 export class JobApplicationComponent implements OnInit {
   @ViewChild('dzCv') public dropzoneCv;
-  public configCv: DropzoneConfigInterface = {
-    url: 'http://localhost:3012/api/jobs/upload',
-    method: 'POST',
-    autoProcessQueue: true,
-    acceptedFiles: '.pdf, .doc, .docx',
-    maxFilesize: 16,
-    dictDefaultMessage: 'Upload your CV',
-    maxFiles: 1,
-  };
-  public configCover: DropzoneConfigInterface = {
-    url: 'http://localhost:3012/api/jobs/upload',
-    method: 'POST',
-    autoProcessQueue: true,
-    acceptedFiles: '.pdf, .doc, .docx',
-    maxFilesize: 16,
-    dictDefaultMessage: 'Upload your Cover letter (optional)',
-    maxFiles: 1,
-  };
+
+  public configCv =  new DropzoneCvConfig();
+  public configCover = new DropzoneCoverConfig();
+
+  public jobApplication: JobApplication;
   private addedSuccessfully = false;
   private minNameLength = 3;
   private maxNameLength = 100;
@@ -40,11 +33,15 @@ export class JobApplicationComponent implements OnInit {
   private firstName: AbstractControl;
   private lastName: AbstractControl;
   private comment: AbstractControl;
+  private cvUrl: string;
+  private coverUrl: string;
 
-  constructor(private jobsService: JobsService, private route: ActivatedRoute, private router: Router) { }
+  constructor(
+    private jobsService: JobsService, private route: ActivatedRoute, private router: Router,
+    private authService: AuthService, private applicationsService: ApplicationsService,
+  ) { }
 
   public ngOnInit(): void {
-    // console.log(this.job);
     this.form = new FormGroup({
       firstName: new FormControl(
         '', [
@@ -58,28 +55,35 @@ export class JobApplicationComponent implements OnInit {
       ),
       comment: new FormControl('', [Validators.maxLength(this.maxCommentLength)]),
     });
-    // this.job = this.jobsService.getCurrentJob();
+
     if (!this.job) {
       this.route.params.subscribe((params: Params) => {
         console.log(params);
         this.jobId = +params.jobId;
         this.jobsService.getById(this.jobId).subscribe((data) => {
           this.job = data;
-          // this.jobsService.setCurrentJob(this.job);
         });
-      });
-      this.jobsService.getById(this.jobId).toPromise().then((res) => {
-        console.log(res);
       });
     }
 
     this.firstName = this.form.get('firstName');
     this.lastName = this.form.get('lastName');
     this.comment = this.form.get('comment');
+
+    console.log(this.authService.decodeToken());
   }
 
   private onSubmit(): void {
-    console.log(this.form.get('firstName'));
+    this.jobApplication = {
+      firstName: this.form.get('firstName').value,
+      lastName: this.form.get('lastName').value,
+      comment: this.form.get('comment').value,
+      jobOfferId: this.job.id,
+      userId: this.authService.decodeToken().sub,
+      cvUrl: this.cvUrl,
+      coverLetterUrl: this.coverUrl,
+    };
+    this.applicationsService.create(this.jobApplication, {observe: 'response', responseType: 'json'});
   }
 
   private onUploadError(err: any): void {
@@ -87,6 +91,12 @@ export class JobApplicationComponent implements OnInit {
   }
 
   private onUploadSuccess(success: any): void {
+    if (success[1].type === 'cv') {
+      this.cvUrl = success[1].fileUrl;
+    } else {
+      this.coverUrl = success[1].fileUrl;
+    }
+
     success[0].previewElement.firstElementChild.setAttribute('style', 'background:rgba(0, 170, 0, 0.55)');
     this.addedSuccessfully = true;
   }
