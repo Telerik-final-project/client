@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthService } from './../core/auth.service';
 
@@ -15,8 +15,9 @@ export class LoginComponent implements OnInit {
   private email: AbstractControl;
   private password: AbstractControl;
   private credentialsError: string;
+  private returnUrl: string;
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute) {}
 
   public ngOnInit(): void {
     this.form = new FormGroup({
@@ -25,6 +26,7 @@ export class LoginComponent implements OnInit {
     });
     this.email = this.form.get('email');
     this.password = this.form.get('password');
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/home';
   }
 
   private submit(form: FormGroup): void {
@@ -32,7 +34,7 @@ export class LoginComponent implements OnInit {
       (x: HttpResponse<{token: string}>) => {
       localStorage.setItem('access_token', x.body.token);
       this.credentialsError = undefined;
-      this.router.navigate(['home']);
+      this.router.navigateByUrl(this.returnUrl);
     },
       (err: HttpErrorResponse) => {
       this.credentialsError = err.error.err;
