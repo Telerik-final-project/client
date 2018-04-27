@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../core/auth.service';
 import { PasswordValidation } from '../core/validate-passwords.service';
 import { User } from '../models/user';
@@ -19,7 +20,7 @@ export class RegisterComponent implements OnInit {
   private comparedPasswords: string = '';
   private errors: string;
 
-  constructor(private authService: AuthService, private formBuilder: FormBuilder) { }
+  constructor(private authService: AuthService, private formBuilder: FormBuilder, private router: Router) { }
 
   public ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
@@ -27,7 +28,7 @@ export class RegisterComponent implements OnInit {
       email: ['', [Validators.email, Validators.required]],
       password: ['', [Validators.minLength(+'6'), Validators.maxLength(+'256'), Validators.required]],
       password2: ['', [Validators.minLength(+'6'), Validators.required]],
-    }, {
+    },                                         {
         Validators: PasswordValidation.MatchPasswords,
       });
 
@@ -44,10 +45,13 @@ export class RegisterComponent implements OnInit {
       password: this.registerForm.value.password,
     };
 
-    console.log(newUser);
     this.authService.register(newUser).subscribe(
       (x) => console.log(x),
       (err: HttpErrorResponse) => this.errors = err.error.err);
+
+    if (!this.errors) {
+      this.router.navigateByUrl('/auth/login');
+    }
   }
 
   private getErrorMessage(field: AbstractControl, fieldName?: string): string {

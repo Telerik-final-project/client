@@ -14,11 +14,11 @@ import { AuthRoutingModule } from './routing/auth-routing.module';
     FormsModule,
     AuthRoutingModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
   ],
   declarations: [
     RegisterComponent,
     LoginComponent,
-  ]
+  ],
 })
 export class AuthModule { }
