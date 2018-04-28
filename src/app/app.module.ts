@@ -32,7 +32,6 @@ export const tokenGetter = () => {
   ],
   imports: [
     BrowserModule,
-    ReactiveFormsModule,
     SharedModule,
     AppRoutingModule,
     CoreModule,

@@ -12,10 +12,11 @@ import { AuthService } from './../core/auth.service';
 export class NavbarComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    console.log(this.authService.isAuthenticated());
+  }
 
   public logout(): void {
     this.authService.logout();
   }
-
 }
