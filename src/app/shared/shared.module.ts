@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule,
-  MatListModule, MatPaginatorModule, MatSelectModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatDatepickerModule, MatFormFieldModule, MatInputModule,
+  MatListModule, MatNativeDateModule, MatPaginatorModule, MatSelectModule, MatSnackBarModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
 
@@ -20,6 +20,9 @@ import { DropzoneModule } from 'ngx-dropzone-wrapper';
     FlexLayoutModule,
     DropzoneModule,
     MatPaginatorModule,
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   exports: [
     FormsModule,
@@ -33,6 +36,9 @@ import { DropzoneModule } from 'ngx-dropzone-wrapper';
     FlexLayoutModule,
     DropzoneModule,
     MatPaginatorModule,
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
 })
 export class SharedModule { }
