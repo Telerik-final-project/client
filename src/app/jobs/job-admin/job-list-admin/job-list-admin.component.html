@@ -1,0 +1,38 @@
+<div fxLayout="column">
+  <div fxLayout="row" fxFill>
+      <h2 fxFlexAlign="center">Job Ads</h2>
+      <mat-icon class="icon icon-add" fxFlexOffset="20px" fxFlexAlign="center">add circle</mat-icon>
+  </div>
+  
+  <mat-table #table [dataSource]="jobs" matSort fxFill>
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+      <mat-cell *matCellDef="let job"> {{job.id}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="jobTitle">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Job Title </mat-header-cell>
+      <mat-cell *matCellDef="let job"> {{job.title}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="createdAt">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Created At </mat-header-cell>
+      <mat-cell *matCellDef="let job"> {{job.createdAt | date:'dd/MM/yyyy'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="view">
+      <mat-header-cell *matHeaderCellDef> View </mat-header-cell>
+      <mat-cell *matCellDef="let job"><mat-icon class="icon icon-info" (click)="onView(job.id)">info</mat-icon></mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="edit">
+      <mat-header-cell *matHeaderCellDef> Edit </mat-header-cell>
+      <mat-cell *matCellDef="let job"><mat-icon class="icon icon-edit" (click)="onEdit(job.id)">create</mat-icon></mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="delete">
+      <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
+      <mat-cell *matCellDef="let job"><mat-icon class="icon icon-delete" (click)="onDelete(job.id)">delete</mat-icon></mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator *ngIf="length > 10" #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+  </mat-paginator>
+</div>

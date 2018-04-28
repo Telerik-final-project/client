@@ -59,7 +59,6 @@ export class JobListComponent implements OnInit {
   }
 
   private filterJobs(input: string, startDate: string, endDate: string): void {
-    console.log(endDate);
     const copy = this.jobs.slice();
     this.userInput = input;
     this.paginatedJobs = this.jobsService.filter(copy, input, this.selectedCategory, startDate, endDate);

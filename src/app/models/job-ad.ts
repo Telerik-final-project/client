@@ -19,4 +19,6 @@ export class JobAd {
     public typeId: number;
 
     public JobType: JobType;
+
+    public _data: string;
 }

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { DateAdapter } from '@angular/material';
 
+import { AdminAuthGuard } from './guards/admin-guard.service';
 import { ApplicationGuard } from './guards/application-guard.service';
 import { AuthGuard } from './guards/auth-guard.service';
 import { ClosedApplicationGuard } from './guards/closed-application-guard.service';
@@ -22,6 +23,7 @@ import { CustomDateAdapter } from './../shared/material/date-adapter';
     ApplicationsService,
     ApplicationGuard,
     AuthGuard,
+    AdminAuthGuard,
     ClosedApplicationGuard,
     JobTypesService,
     {provide: DateAdapter, useClass: CustomDateAdapter},

@@ -10,7 +10,6 @@ import { JwtPayload } from './../models/jwt-payload';
 
 @Injectable()
 export class AuthService {
-  public isAuth: boolean;
 
   constructor(
     private httpClient: HttpClient, private appConfig: AppConfig,
@@ -31,12 +30,16 @@ export class AuthService {
     return !!token && !this.jwtService.isTokenExpired(token) && decoded.iss === this.appConfig.jwtIssuer;
   }
 
+  public isAdmin(): boolean {
+    return this.isAuthenticated() && this.decodeToken().role === 'admin';
+  }
+
   public logout(): void {
     localStorage.removeItem('access_token');
     this.router.navigate(['/home']);
   }
-  public getToken(): string {
-    return localStorage.getItem('access_token');
+  public clearLocalStorage(): void {
+    return localStorage.removeItem('access_token');
   }
 
   public decodeToken(): JwtPayload {

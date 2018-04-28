@@ -5,8 +5,8 @@
         <app-job-view [job]="job"></app-job-view>
       </div>
     </mat-nav-list>
-    <mat-paginator *ngIf="paginatedJobs?.length" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
-      (page)="onChangePage($event)"></mat-paginator>
+    <mat-paginator *ngIf="paginatedJobs?.length > 10" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+      (page)="onChangePage($event)" [showFirstLastButtons]="true"></mat-paginator>
   </div>
   <div class="filter" fxFlex.gt-sm fxFlexOrder="2" fxFlexOffset.gt-sm="20px" fxFlexOrder.sm="1" fxFlexOrder.xs="1" fxFlex.sm="100" fxFlex.xs="100">
     <div fxLayout="row" fxLayoutGap="10px">
