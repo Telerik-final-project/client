@@ -12,16 +12,20 @@ export class JobsService {
 
   constructor(private appConfig: AppConfig, private httpClient: HttpClient) {}
 
-  public getAll(): Observable < JobAd[] > {
+  public getAll(): Observable <JobAd[]> {
     return this.httpClient.get(`${this.appConfig.apiUrl}/jobs`).pipe(map((x) => x as JobAd[]));
   }
 
-  public getById(id: number): Observable < JobAd > {
+  public getById(id: number): Observable <JobAd> {
     return this.httpClient.get < JobAd > (`${this.appConfig.apiUrl}/jobs/${id}`);
   }
 
-  public create(application: JobAd, options?: HttpOptions): Observable < object > {
+  public create(application: JobAd, options?: HttpOptions): Observable <object> {
     return this.httpClient.post(`${this.appConfig.apiUrl}/jobs`, application, options);
+  }
+
+  public delete(id: number, options?: HttpOptions): Observable<object> {
+    return this.httpClient.post(`${this.appConfig.apiUrl}/jobs/delete/${id}`, {id}, options);
   }
 
   public filter(

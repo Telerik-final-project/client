@@ -5,6 +5,7 @@ export class HttpOptions {
         [header: string]: string | string[];
     };
     public observe?;
+    public body?;
     public params?: HttpParams | {
         [param: string]: string | string[];
     };

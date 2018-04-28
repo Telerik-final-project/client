@@ -47,14 +47,21 @@ export class JobListAdminComponent implements OnInit, AfterViewInit {
   private onDelete(id: number): void {
     this.openDialog().subscribe((isConfirmed: boolean) => {
       if (isConfirmed) {
-        // todo
+        this.jobsService.delete(id, { responseType: 'json', observe: 'response'}).subscribe(
+          () => {
+            let index = 0;
+            const found = this.jobs.data.find((job, i) => {
+              index = i;
+              return job.id === id;
+            });
+            this.jobs.data.splice(index, 1);
+            this.jobs.paginator = this.paginator;
+          },
+          () => {
+            this.openSnackMsg('Oops, we encountered a server error! :(');
+          });
       }
     });
-  }
-
-  private openDialog(): Observable<boolean> {
-    const dialogRef = this.dialog.open(JobListAdminDialogComponent, {});
-    return dialogRef.beforeClose();
   }
 
   private onView(id: number): void {
@@ -63,5 +70,10 @@ export class JobListAdminComponent implements OnInit, AfterViewInit {
 
   private onEdit(id: number): void {
     this.router.navigate(['/jobs/' + id]);
+  }
+
+  private openDialog(): Observable<boolean> {
+    const dialogRef = this.dialog.open(JobListAdminDialogComponent, {});
+    return dialogRef.beforeClose();
   }
 }
