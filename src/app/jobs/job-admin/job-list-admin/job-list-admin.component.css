@@ -1,0 +1,40 @@
+.icon {
+  cursor: pointer;
+}
+
+.icon-info:hover {
+  color: #3b74e5;
+}
+
+.icon-delete:hover {
+  color: #d32626;
+}
+
+.icon-edit:hover {
+  color: #e2b614;
+}
+
+.icon-add:hover {
+  color: #14aa28;
+}
+
+.mat-column-view,
+.mat-column-edit,
+.mat-column-delete {
+  max-width: 64px;
+}
+
+.mat-column-id {
+  max-width: 84px;
+}
+
+.mat-column-view,
+.mat-column-edit,
+.mat-column-delete {
+  max-width: 64px;
+  text-align: center;
+}
+
+.mat-column-createdAt {
+  max-width: 124px;
+}

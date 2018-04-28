@@ -25,7 +25,7 @@ export class RegisterComponent extends ValidateInputFields implements OnInit, IR
   public minLength = 6;
   public passMaxLength = 256;
 
-  private errors: string = '';
+  private errors: any = '';
   private validPass: string;
 
   constructor(
@@ -75,7 +75,7 @@ export class RegisterComponent extends ValidateInputFields implements OnInit, IR
       password: this.registerForm.value.password,
     };
 
-    this.authService.register(newUser).subscribe(
+    this.errors = this.authService.register(newUser).subscribe(
       (x) => console.log(x),
       (err: HttpErrorResponse) => this.errors = err.error.err);
 

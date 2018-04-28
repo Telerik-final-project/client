@@ -8,27 +8,93 @@ import { JobAd } from './../models/job-ad';
 
 @Injectable()
 export class JobsService {
-    private currentJob: JobAd;
+  private jobs: JobAd[];
 
-    constructor(private appConfig: AppConfig, private httpClient: HttpClient) {}
+  constructor(private appConfig: AppConfig, private httpClient: HttpClient) {}
 
-    public setCurrentJob(job: JobAd): void {
-        this.currentJob = job;
+  public getAll(): Observable < JobAd[] > {
+    return this.httpClient.get(`${this.appConfig.apiUrl}/jobs`).pipe(map((x) => x as JobAd[]));
+  }
+
+  public getById(id: number): Observable < JobAd > {
+    return this.httpClient.get < JobAd > (`${this.appConfig.apiUrl}/jobs/${id}`);
+  }
+
+  public create(application: JobAd, options?: HttpOptions): Observable < object > {
+    return this.httpClient.post(`${this.appConfig.apiUrl}/jobs`, application, options);
+  }
+
+  public filter(
+    jobs: JobAd[], keyword: string = '',
+    type: string = '', startDate: string = '01/01/1970', endDate: string = '31/12/9999'): JobAd[] {
+    return jobs.filter((job) => (
+      job.descriptionUrl.toLowerCase().includes(keyword.toLowerCase()) ||
+        job.title.toLowerCase().includes(keyword.toLowerCase())) && (job.JobType.jobType.includes(type) &&
+        this.checkForEndDate(endDate, job.createdAt) && this.checkForStartDate(startDate, job.createdAt)));
+  }
+  private checkForStartDate(start: string, job: string): boolean {
+    const beautifed = this.beautifyDate(job, start);
+
+    if (beautifed.filterYear < beautifed.jobYear) {
+      return true;
+    } else if (beautifed.filterYear === beautifed.jobYear) {
+      if (beautifed.filterMonth < beautifed.jobMonth) {
+        return true;
+      } else if (beautifed.filterMonth === beautifed.jobMonth) {
+        if (beautifed.filterDay <= beautifed.jobDay) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    } else {
+      return false;
     }
+  }
 
-    public getCurrentJob(): JobAd {
-        return this.currentJob;
-    }
+  private checkForEndDate(end: string, job: string): boolean {
+    const beautifed = this.beautifyDate(job, end);
 
-    public getAll(): Observable<JobAd[]> {
-        return this.httpClient.get(`${this.appConfig.apiUrl}/jobs`).pipe(map((x) => x as JobAd[]));
+    if (beautifed.filterYear > beautifed.jobYear) {
+      return true;
+    } else if (beautifed.filterYear === beautifed.jobYear) {
+      if (beautifed.filterMonth > beautifed.jobMonth) {
+        return true;
+      } else if (beautifed.filterMonth === beautifed.jobMonth) {
+          if (beautifed.filterDay >= beautifed.jobDay) {
+            return true;
+          } else {
+            return false;
+          }
+      } else {
+        return false;
+      }
+    } else {
+      return false;
     }
+  }
+  private beautifyDate(job: string, filterDate: string): {
+    jobDay: number; jobMonth: number; jobYear: number;
+    filterDay: number; filterMonth: number; filterYear: number; } {
+    const temp = filterDate.split('/');
+    const jobDate = new Date(job);
+    const newFilterDate = new Date(`${temp[1]}/${temp[0]}/${temp[2]}`);
+    const jobDay = +jobDate.getDate();
+    const jobMonth = +jobDate.getMonth() + 1;
+    const jobYear = +jobDate.getFullYear();
+    const filterDay = +newFilterDate.getDate();
+    const filterMonth = +newFilterDate.getMonth() + 1;
+    const filterYear = +newFilterDate.getFullYear();
 
-    public getById(id: number): Observable<JobAd> {
-        return this.httpClient.get<JobAd>(`${this.appConfig.apiUrl}/jobs/${id}`);
-    }
-
-    public create(application: JobAd, options?: HttpOptions): Observable<object> {
-        return this.httpClient.post(`${this.appConfig.apiUrl}/jobs`, application, options);
-    }
+    return {
+        jobDay,
+        jobMonth,
+        jobYear,
+        filterDay,
+        filterMonth,
+        filterYear,
+    };
+  }
 }
