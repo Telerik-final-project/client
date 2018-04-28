@@ -1,16 +1,17 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../core/auth.service';
-import { ValidateInputFields } from '../core/passwords-validator.service';
-import { User } from '../models/user';
-import { IRegister } from './register.interface';
+
+import { AuthService } from '../../core/auth.service';
+import { IRegister } from './interfaces/register.interface';
+import { ValidateInputFields } from './validators/passwords-validator';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class RegisterComponent extends ValidateInputFields implements OnInit, IRegister {
@@ -27,13 +28,10 @@ export class RegisterComponent extends ValidateInputFields implements OnInit, IR
   private errors: string = '';
   private validPass: string;
 
-  private chdr: ChangeDetectorRef;
-
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private chd: ChangeDetectorRef,
   ) {
     super();
   }
@@ -81,19 +79,21 @@ export class RegisterComponent extends ValidateInputFields implements OnInit, IR
       (x) => console.log(x),
       (err: HttpErrorResponse) => this.errors = err.error.err);
 
+    console.log(this.errors);
+
     if (!this.errors) {
-      this.router.navigateByUrl('/auth/login');
+      this.router.navigateByUrl('/users/login');
     }
   }
 
   private getErrorMessage(field: AbstractControl, fieldName?: string): string {
-    const passwordsValidation = this.passwordsFieldsValidator(this.registerForm);
-    if (passwordsValidation) { return ''; }
-
     if (fieldName === 'password' || fieldName === 'password2') {
       const ifPasswordsMatch = this.ifPasswordsMatch(field);
       if (ifPasswordsMatch) { return ifPasswordsMatch; }
     }
+
+    const passwordsValidation = this.passwordsFieldsValidator(this.registerForm);
+    if (passwordsValidation) { return ''; }
 
     const mainValidation = this.mainValidator(field);
     if (mainValidation) { return mainValidation; }
@@ -102,5 +102,3 @@ export class RegisterComponent extends ValidateInputFields implements OnInit, IR
     if (generalValidation) { return generalValidation; }
   }
 }
-
-// aaaaa@ss.ss

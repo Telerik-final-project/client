@@ -2,9 +2,10 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IRegister } from '../auth/register.interface';
-import { AuthService } from '../core/auth.service';
-import { User } from '../models/user';
+
+import { AuthService } from '../../../core/auth.service';
+import { User } from '../../../models/user';
+import { IRegister } from '../interfaces/register.interface';
 
 export class ValidateInputFields implements OnInit, IRegister {
     public registerForm: FormGroup;
@@ -69,10 +70,12 @@ export class ValidateInputFields implements OnInit, IRegister {
         const password2: AbstractControl = this.registerForm.get('password2');
 
         if (password.value !== password2.value) {
-            password.setErrors({ errMsg: 'EBASI TUPOTO' });
-            password2.setErrors({ errMsg: 'EBASI TUPOTO' });
+            const err = { errMsg: `Passwords doesn't match!` };
 
-            return `Passwords doesn't match!`;
+            password.setErrors(err);
+            password2.setErrors(err);
+
+            return err.errMsg;
         }
         return null;
     }
