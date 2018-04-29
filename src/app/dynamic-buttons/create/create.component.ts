@@ -1,16 +1,19 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { IDynamicLinksForm } from '../_interfaces/create.edit.interface';
-import { ButtonsService } from '../services/buttons.service';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+
 import { IDynamicButtons } from '../../models/dynamic.buttons.interface';
+import { IDynamicButtonsForm } from '../_interfaces/create.edit.interface';
+
+import { DynamicButtonsService } from '../../core/dynamic.buttons.service';
 
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.css'],
 })
-export class CreateComponent implements OnInit, IDynamicLinksForm {
+export class CreateComponent implements OnInit, IDynamicButtonsForm {
   public form: FormGroup;
   public name: AbstractControl;
   public targetUrl: AbstractControl;
@@ -31,8 +34,7 @@ export class CreateComponent implements OnInit, IDynamicLinksForm {
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
-    private buttonsService: ButtonsService,
+    private buttonsService: DynamicButtonsService,
   ) { }
 
   public ngOnInit(): void {
@@ -73,7 +75,9 @@ export class CreateComponent implements OnInit, IDynamicLinksForm {
       isDeleted: 0,
     };
 
-    this.buttonsService.create(newButton, { observe: 'response', responseType: 'json' });
+    this.buttonsService
+      .create(newButton, { observe: 'response', responseType: 'json' })
+      .subscribe((params: Params) => console.log(params));
   }
 
   public chidchangeVisibility(): void {

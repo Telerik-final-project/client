@@ -1,6 +1,6 @@
 import { AbstractControl, FormGroup } from '@angular/forms';
 
-export interface IDynamicLinksForm {
+export interface IDynamicButtonsForm {
     form: FormGroup;
     name: AbstractControl;
     targetUrl: AbstractControl;
