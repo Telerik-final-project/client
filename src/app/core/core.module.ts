@@ -8,6 +8,7 @@ import { AuthGuard } from './guards/auth-guard.service';
 import { ClosedApplicationGuard } from './guards/closed-application-guard.service';
 
 import { AppConfig } from '../config/app.config';
+import { ButtonsService } from '../dynamic-buttons/services/buttons.service';
 import { ApplicationsService } from './applications.service';
 import { AuthService } from './auth.service';
 import { JobTypesService } from './job-types.service';
@@ -20,6 +21,7 @@ import { CustomDateAdapter } from './../shared/material/date-adapter';
     JobsService,
     AppConfig,
     AuthService,
+    ButtonsService,
     ApplicationsService,
     ApplicationGuard,
     AuthGuard,

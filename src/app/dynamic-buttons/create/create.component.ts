@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IDynamicLinksForm } from '../_interfaces/create.edit.interface';
+import { ButtonsService } from '../services/buttons.service';
+import { IDynamicButtons } from '../../models/dynamic.buttons.interface';
 
 @Component({
   selector: 'app-create',
@@ -30,6 +32,7 @@ export class CreateComponent implements OnInit, IDynamicLinksForm {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
+    private buttonsService: ButtonsService,
   ) { }
 
   public ngOnInit(): void {
@@ -61,7 +64,7 @@ export class CreateComponent implements OnInit, IDynamicLinksForm {
   }
 
   public create(): void {
-    const newButton: object = {
+    const newButton: IDynamicButtons = {
       name: this.form.value.name,
       target: this.form.value.targetUrl,
       link: this.form.value.iconUrl,
@@ -69,6 +72,8 @@ export class CreateComponent implements OnInit, IDynamicLinksForm {
       isHidden: this.isHidden,
       isDeleted: 0,
     };
+
+    this.buttonsService.create(newButton, { observe: 'response', responseType: 'json' });
   }
 
   public chidchangeVisibility(): void {
