@@ -1,0 +1,50 @@
+<div>
+  <h2>Create/Edit Job Ad</h2>
+  <form [formGroup]="form" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="20px">
+    <div fxLayout="row" fxFlexFill>
+      <div fxFlex="20"></div>
+      <mat-form-field fxFlex class="form-item" hintLabel="Max 256 characters">
+        <input matInput minlength="4" maxlength="256" formControlName="title" placeholder="Title" required>
+        <mat-hint align="end">{{title.value.length || 0}}/100</mat-hint>
+        <mat-error>{{getErrorMessage(title)}}</mat-error>
+      </mat-form-field>
+      <div fxFlex="20"></div>
+    </div>
+    <div fxLayout="row" fxFlexFill>
+      <div fxFlex="20"></div>
+      <div fxFlex>
+          <div [froalaEditor]>Hello, Froala!</div>
+          <mat-error>{{getDescriptionErrorMessage(jobType)}}</mat-error>
+      </div>
+      <div fxFlex="20"></div>
+    </div>
+    <div fxLayout="row" fxFlexFill>
+      <div fxFlex="20"></div>
+        <mat-form-field fxFlex>
+          <mat-select matInput placeholder="Category" formControlName="jobType" required>
+            <mat-option *ngFor="let type of jobTypes" [value]="type.jobType">
+              {{type.jobType}}
+            </mat-option>
+          </mat-select>
+          <mat-error>{{getErrorMessage(jobType)}}</mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex fxFlexOffset="10%">
+          <mat-select matInput placeholder="Status" formControlName="status" required>
+            <mat-option value="open">Active</mat-option>
+            <mat-option value="closed">Inactive</mat-option>
+          </mat-select>
+          <mat-error>{{getErrorMessage(status)}}</mat-error>
+        </mat-form-field>
+      <div fxFlex="20"></div>
+    </div>
+    <div fxLayout="row" fxFlexFill>
+      <div fxFlex="20"></div>
+      <mat-list fxFlex class="form-item">
+        <mat-list-item>
+          <button [disabled]="title.errors || jobType.errors || status.errors" mat-raised-button color="primary" (click)="onSubmit()">Submit </button>
+        </mat-list-item>
+      </mat-list>
+      <div fxFlex="20"></div>
+    </div>
+  </form>
+</div>

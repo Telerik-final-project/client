@@ -122,9 +122,9 @@ export class JobApplicationComponent implements OnInit {
     if (field.hasError('minlength')) {
       return 'Too short name';
     } else if (field.hasError('required')) {
-      return 'You must enter a name';
+      return 'You must enter a value';
     } else if (field.hasError('maxlength')) {
-      return 'To short name';
+      return 'Too long name';
     } else if (field.hasError('pattern')) {
       return 'Not a valid input';
     }
