@@ -17,6 +17,7 @@ export const ROUTES: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
     { path: 'users', loadChildren: './users/users.module#UsersModule' }, // Lazy loading
+    { path: 'btn', loadChildren: './dynamic-buttons/dynamic-buttons.module#DynamicButtonsModule' },
     {
         path: 'jobs', children:
         [
