@@ -1,0 +1,11 @@
+.cdk-global-overlay-wrapper {
+    align-items: unset;
+}
+
+.cdk-overlay-pane {
+    height: 90% !important;
+}
+
+#mat-dialog-0 {
+    background: turquoise
+  }

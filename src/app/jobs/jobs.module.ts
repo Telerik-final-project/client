@@ -9,7 +9,7 @@ import { SharedTableModule } from './../shared/material/shared-table.module';
 import { SharedDialogModule } from './../shared/shared-dialog.module';
 import { SharedModule } from './../shared/shared.module';
 
-import { JobCreateComponent } from './job-admin/job-create/job-create.component';
+import { JobCreateAdminDialogComponent } from './job-admin/job-list-admin/job-create-admin-dialog/job-create-admin-dialog.component';
 import { JobListAdminDialogComponent } from './job-admin/job-list-admin/job-list-admin-dialog/job-list-admin-dialog.component';
 import { JobListAdminComponent } from './job-admin/job-list-admin/job-list-admin.component';
 import { JobApplicationDialogComponent } from './job-application/job-application-dialog.component';
@@ -34,10 +34,10 @@ import { JobViewComponent } from './job-view.component';
     JobApplicationDialogComponent,
     JobListAdminComponent,
     JobListAdminDialogComponent,
-    JobCreateComponent,
+    JobCreateAdminDialogComponent,
   ],
   entryComponents: [
-    JobApplicationDialogComponent, JobListAdminDialogComponent,
+    JobApplicationDialogComponent, JobListAdminDialogComponent, JobCreateAdminDialogComponent,
   ],
 })
 export class JobsModule { }

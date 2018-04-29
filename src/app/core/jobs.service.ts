@@ -21,7 +21,7 @@ export class JobsService {
   }
 
   public create(application: JobAd, options?: HttpOptions): Observable <object> {
-    return this.httpClient.post(`${this.appConfig.apiUrl}/jobs`, application, options);
+    return this.httpClient.post<JobAd>(`${this.appConfig.apiUrl}/jobs/create`, application, options);
   }
 
   public delete(id: number, options?: HttpOptions): Observable<object> {
