@@ -11,9 +11,9 @@
     <div class="button-row" fxFlex="50%" fxLayoutAlign="end center">
       <button [routerLink]="['apply']"mat-raised-button color="primary">Apply</button>
     </div>
-
     <div fxLayout="row wrap">
-      <mat-card-content [innerHTML]="job?.description" >
+      <mat-divider></mat-divider>
+      <mat-card-content [innerHTML]="job?.description" class="content">
       </mat-card-content>
     </div>
   </mat-card>

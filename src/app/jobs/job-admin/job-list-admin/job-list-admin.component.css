@@ -39,13 +39,6 @@
   max-width: 124px;
 }
 
-.cdk-global-overlay-wrapper {
-  align-items: unset;
-}
-.cdk-overlay-pane {
-  height: 90% !important;
-}
-
-#mat-dialog-0 {
-  background: turquoise
+.mat-row:hover {
+  background-color: #f8f8f8;
 }

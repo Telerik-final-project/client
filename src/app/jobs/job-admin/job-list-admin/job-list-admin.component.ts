@@ -1,7 +1,7 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSnackBar, MatSort, MatTableDataSource } from '@angular/material';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
@@ -69,9 +69,10 @@ export class JobListAdminComponent implements OnInit, AfterViewInit {
 
   private onCreateAd(): void {
     this.openDialog(JobCreateAdminDialogComponent).subscribe((res: JobAd) => {
-      this.jobs.data.push(res);
-      this.jobs.paginator = this.paginator;
-      console.log(res);
+      if (res) {
+        this.jobs.data.push(res);
+        this.jobs.paginator = this.paginator;
+      }
     });
   }
 
@@ -88,16 +89,22 @@ export class JobListAdminComponent implements OnInit, AfterViewInit {
   }
 
   private openDialog(component: ComponentType<any>, jobData?: JobAd): Observable<any> {
-    const dialogRef = this.dialog.open(component, {
-      data: {
+    let dialogRef: MatDialogRef<JobCreateAdminDialogComponent> | MatDialogRef<JobListAdminDialogComponent>;
+    if (jobData) {
+      const dataToSend = {
         id: jobData.id,
         title: jobData.title,
         type_id: jobData.type_id,
         status: jobData.status,
         description: jobData.description,
         descriptionUrl: jobData.descriptionUrl,
-      },
-    });
+      };
+      dialogRef = this.dialog.open(component, {
+        data: dataToSend,
+      });
+    } else {
+      dialogRef = this.dialog.open(component);
+    }
     return dialogRef.beforeClose();
   }
 }

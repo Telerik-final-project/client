@@ -1,11 +1,19 @@
 .cdk-global-overlay-wrapper {
-    align-items: unset;
+  align-items: unset;
 }
 
 .cdk-overlay-pane {
-    height: 90% !important;
+  height: 90% !important;
 }
 
 #mat-dialog-0 {
-    background: turquoise
-  }
+  background: turquoise
+}
+
+.icon {
+  cursor: pointer;
+}
+
+.icon-close:hover {
+  color: #d32626;
+}

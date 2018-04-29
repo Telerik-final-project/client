@@ -86,6 +86,7 @@ export class JobCreateAdminDialogComponent implements OnInit {
   }
 
   private onOkay(res: JobAd): void {
+    console.log('sssssssssssss');
     this.dialogRef.close(res);
   }
 
