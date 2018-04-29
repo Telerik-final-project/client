@@ -4,15 +4,17 @@ import { SharedModule } from '../shared/shared.module';
 import { CreateComponent } from './create/create.component';
 import { CreateModule } from './create/create.module';
 import { CreateRoutingModule } from './create/routing/create-routing.module';
+import { DynamicButtonsRoutingModule } from './routing/dynamic-buttons-routing.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    CreateModule,
     CreateRoutingModule,
+    DynamicButtonsRoutingModule,
+    CreateModule,
     SharedModule,
   ],
-  declarations: [CreateComponent],
+  declarations: [],
   exports: [
     CreateModule,
   ],
