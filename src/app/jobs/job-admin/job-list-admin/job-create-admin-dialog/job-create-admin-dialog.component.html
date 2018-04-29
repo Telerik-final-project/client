@@ -1,7 +1,7 @@
-
-  <h2>Create/Edit Job Ad</h2>
-  <form [formGroup]="form" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
-    <div fxLayout="row" fxFlexFill>
+<div fxLayout="column" fxLayoutGap="20px">
+  <h2 fxFlexFill>Create/Edit Job Ad</h2>
+  <form fxFlexFill [formGroup]="form" fxLayout="column" fxLayoutGap="20px">
+    <div fxLayout="row" >
       <div fxFlex="10"></div>
       <mat-form-field fxFlex class="form-item" hintLabel="Max 256 characters">
         <input matInput minlength="4" maxlength="256" formControlName="title" placeholder="Title" required>
@@ -10,14 +10,14 @@
       </mat-form-field>
       <div fxFlex="10"></div>
     </div>
-    <div fxLayout="row" fxFlexFill>
+    <div fxLayout="row" >
       <div fxFlex="10"></div>
       <mat-form-field fxFlex class="form-item" hintLabel="Max 16384 characters">
         <textarea matInput formControlName="description" [froalaEditor]='editorOptions' required></textarea>
       </mat-form-field>
       <div fxFlex="10"></div>
     </div>
-    <div fxLayout="row" fxFlexFill>
+    <div fxLayout="row" >
       <div fxFlex="10"></div>
       <mat-form-field fxFlex>
         <mat-select matInput placeholder="Category" formControlName="jobType" required>
@@ -36,7 +36,7 @@
       </mat-form-field>
       <div fxFlex="10"></div>
     </div>
-    <div fxLayout="row" fxFlexFill>
+    <div fxLayout="row" >
       <div fxFlex="10"></div>
       <mat-list fxFlex class="form-item">
         <mat-list-item>
@@ -46,3 +46,5 @@
       <div fxFlex="10"></div>
     </div>
   </form>
+
+</div>

@@ -2,7 +2,7 @@
   <div class="positions" fxFlex.gt-sm="60" fxFlexOrder="1" fxFlexOrder.sm="2" fxFlexOrder.xs="2" fxFlex.sm="100" fxFlex.xs="100">
     <mat-nav-list>
       <div *ngFor="let job of paginatedJobs">
-        <app-job-view [job]="job"></app-job-view>
+        <app-job-view [job]="job" *ngIf="authService.isAdmin() || job.status === 'open'"></app-job-view>
       </div>
     </mat-nav-list>
     <mat-paginator *ngIf="paginatedJobs?.length > 10" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"

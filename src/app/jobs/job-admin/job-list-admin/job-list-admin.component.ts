@@ -80,12 +80,23 @@ export class JobListAdminComponent implements OnInit, AfterViewInit {
   }
 
   private onEdit(id: number): void {
-    this.router.navigate(['/jobs/' + id]);
+    this.jobsService.getById(id).subscribe((job) => {
+      this.openDialog(JobCreateAdminDialogComponent, job).subscribe((x) => {
+        console.log(x);
+      });
+    });
   }
 
-  private openDialog(component: ComponentType<any>): Observable<any> {
+  private openDialog(component: ComponentType<any>, jobData?: JobAd): Observable<any> {
     const dialogRef = this.dialog.open(component, {
-      data: { jobAd: this.currentlyClickedRow },
+      data: {
+        id: jobData.id,
+        title: jobData.title,
+        type_id: jobData.type_id,
+        status: jobData.status,
+        description: jobData.description,
+        descriptionUrl: jobData.descriptionUrl,
+      },
     });
     return dialogRef.beforeClose();
   }

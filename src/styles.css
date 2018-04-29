@@ -11,3 +11,7 @@
     max-height: 80%;
     margin-top: 10%;
 } */
+
+.custom-overlay  .cdk-overlay-pane {
+    width: 100%;
+}

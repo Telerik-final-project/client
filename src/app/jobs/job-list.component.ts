@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/cor
 import { DateAdapter, MatDatepickerInputEvent, MatSnackBar, PageEvent } from '@angular/material';
 
 import { JobType } from '../models/job-type';
+import { AuthService } from './../core/auth.service';
 import { JobTypesService } from './../core/job-types.service';
 import { JobsService } from './../core/jobs.service';
 import { JobAd } from './../models/job-ad';
@@ -27,7 +28,7 @@ export class JobListComponent implements OnInit {
   private endDateInput: string;
 
   constructor(
-    private jobsService: JobsService, private snackMsg: MatSnackBar,
+    private jobsService: JobsService, private snackMsg: MatSnackBar, private authService: AuthService,
     private jobTypesService: JobTypesService, private adapter: DateAdapter<any>) {}
 
   public ngOnInit(): void {

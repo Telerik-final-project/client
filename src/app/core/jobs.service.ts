@@ -17,11 +17,15 @@ export class JobsService {
   }
 
   public getById(id: number): Observable <JobAd> {
-    return this.httpClient.get < JobAd > (`${this.appConfig.apiUrl}/jobs/${id}`);
+    return this.httpClient.get<JobAd>(`${this.appConfig.apiUrl}/jobs/${id}`);
   }
 
-  public create(application: JobAd, options?: HttpOptions): Observable <object> {
-    return this.httpClient.post<JobAd>(`${this.appConfig.apiUrl}/jobs/create`, application, options);
+  public create(job: JobAd, options?: HttpOptions): Observable <object> {
+    return this.httpClient.post<JobAd>(`${this.appConfig.apiUrl}/jobs/create`, job, options);
+  }
+
+  public update(job: JobAd, options?: HttpOptions): Observable <object> {
+    return this.httpClient.post<JobAd>(`${this.appConfig.apiUrl}/jobs/edit`, job, options);
   }
 
   public delete(id: number, options?: HttpOptions): Observable<object> {

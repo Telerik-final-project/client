@@ -5,6 +5,7 @@ export class JobAd {
     public title: string;
 
     public descriptionUrl: string;
+    public description: string;
 
     public category: string;
 

@@ -2,6 +2,7 @@ import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 import { JobTypesService } from './../../../../core/job-types.service';
 import { JobsService } from './../../../../core/jobs.service';
@@ -30,7 +31,7 @@ export class JobCreateAdminDialogComponent implements OnInit {
   constructor(
     private jobTypeService: JobTypesService, private jobsService: JobsService,
     private dialogRef: MatDialogRef<JobCreateAdminDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: any, private elRef: ElementRef) {}
+    @Inject(MAT_DIALOG_DATA) private data: JobAd, private elRef: ElementRef, private router: Router) {}
 
   public ngOnInit(): void {
     this.form = new FormGroup({
@@ -51,6 +52,15 @@ export class JobCreateAdminDialogComponent implements OnInit {
     this.jobType = this.form.get('jobType');
     this.status = this.form.get('status');
     this.description = this.form.get('description');
+
+    if (this.data) {
+      /* tslint:disable */
+      this.form.controls['title'].setValue(this.data.title);
+      this.form.controls['jobType'].setValue(this.data.type_id);
+      this.form.controls['status'].setValue(this.data.status);
+      this.form.controls['description'].setValue(this.data.description);
+      /* tslint:enable */
+    }
   }
 
   private getErrorMessage(field: AbstractControl): string {
@@ -80,20 +90,39 @@ export class JobCreateAdminDialogComponent implements OnInit {
   }
 
   private onSubmit(): void {
-    const newAd = {
-      title: this.title.value,
-      descriptionUrl: this.description.value,
-      type_id: this.jobType.value,
-      status: this.status.value,
-      isDeleted: 0,
-    };
-    this.jobsService.create(newAd as JobAd, { observe: 'response', responseType: 'json', headers: new HttpHeaders({
-      'Content-Type':  'application/json'}) }).subscribe((x: HttpResponse<object>) => {
-      if (x.status === this.statusOk) {
-        console.log(x);
-        this.onOkay(x.body as JobAd);
-      }
-    });
+    if (this.data) {
+      const updatedAd = {
+        id: this.data.id,
+        title: this.title.value,
+        description: this.description.value,
+        descriptionUrl: this.data.descriptionUrl,
+        type_id: this.jobType.value,
+        status: this.status.value,
+        isDeleted: 0,
+      };
+
+      this.jobsService.update(updatedAd as JobAd, { observe: 'response', responseType: 'json', headers: new HttpHeaders({
+        'Content-Type':  'application/json'}) }).subscribe((x: HttpResponse<object>) => {
+          if (x.status === this.statusOk) {
+            this.onOkay(x.body as JobAd);
+          }
+        });
+    } else {
+      const newAd = {
+        title: this.title.value,
+        description: this.description.value,
+        type_id: this.jobType.value,
+        status: this.status.value,
+        isDeleted: 0,
+      };
+
+      this.jobsService.create(newAd as JobAd, { observe: 'response', responseType: 'json', headers: new HttpHeaders({
+        'Content-Type':  'application/json'}) }).subscribe((x: HttpResponse<object>) => {
+        if (x.status === this.statusOk) {
+          this.onOkay(x.body as JobAd);
+        }
+      });
+    }
   }
 
   // private getDescriptionRealLen(): number {
