@@ -16,7 +16,7 @@ export class JobAd {
 
     public updatedAt: string;
 
-    public typeId: number;
+    public type_id: number;
 
     public JobType: JobType;
 

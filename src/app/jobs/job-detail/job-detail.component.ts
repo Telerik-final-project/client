@@ -16,15 +16,19 @@ export class JobDetailComponent implements OnInit {
   constructor(private jobService: JobsService, private route: ActivatedRoute, private router: Router) {}
 
   public ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      console.log(params);
-      this.jobId = +params.jobId;
-      this.jobService.getById(this.jobId).subscribe((data) => {
-        this.job = data;
-        console.log(data);
-        // this.jobService.setCurrentJob(this.job);
+    this.route.params.subscribe(
+      (params: Params) => {
+        console.log(params);
+        this.jobId = +params.jobId;
+        this.jobService.getById(this.jobId).subscribe((data) => {
+          this.job = data;
+          console.log(data);
+          // this.jobService.setCurrentJob(this.job);
+        });
+      },
+      (err) => {
+        console.log(err);
       });
-    });
   }
 
 }

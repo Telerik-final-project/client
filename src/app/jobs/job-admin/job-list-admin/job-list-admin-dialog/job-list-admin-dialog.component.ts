@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
+import { JobAd } from './../../../../models/job-ad';
+
 @Component({
   selector: 'app-job-list-admin-dialog',
   templateUrl: './job-list-admin-dialog.component.html',
@@ -8,7 +10,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class JobListAdminDialogComponent {
 
-  constructor(private dialogRef: MatDialogRef<JobListAdminDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: any) { }
+  constructor(private dialogRef: MatDialogRef<JobListAdminDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: JobAd) { }
 
   private onNoClick(): void {
     this.dialogRef.close(false);

@@ -1,9 +1,10 @@
-<div class="container">
-  <mat-card fxLayout="row wrap">
+<div class="container"  fxLayout="row"> 
+  <div fxFlex="20"></div>
+  <mat-card fxFlex fxLayout="row wrap">
     <div fxFlex="50%" fxLayoutAlign="start center">
       <mat-card-header>
         <mat-card-title>{{job?.title}}</mat-card-title>
-        <mat-card-subtitle>Created at: {{ job?.createdAt }}</mat-card-subtitle>
+        <mat-card-subtitle>Created at: {{ job?.createdAt | date:'dd/MM/yyyy' }}</mat-card-subtitle>
         <mat-card-subtitle>Category: {{ job?.JobType.jobType }}</mat-card-subtitle>
       </mat-card-header>
     </div>
@@ -12,11 +13,10 @@
     </div>
 
     <div fxLayout="row wrap">
-      <mat-card-content>
-        <p>
-          {{ job?.descriptionUrl }}
-        </p>
+      <mat-card-content [innerHTML]="job?.descriptionUrl" >
       </mat-card-content>
     </div>
   </mat-card>
+  <div fxFlex="20"></div>
+  
 </div>

@@ -1,3 +1,4 @@
+import { ComponentType } from '@angular/cdk/portal';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSnackBar, MatSort, MatTableDataSource } from '@angular/material';
 import { MatDialog } from '@angular/material/dialog';
@@ -6,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { JobsService } from '../../../core/jobs.service';
 import { JobAd } from './../../../models/job-ad';
+import { JobCreateAdminDialogComponent } from './job-create-admin-dialog/job-create-admin-dialog.component';
 import { JobListAdminDialogComponent } from './job-list-admin-dialog/job-list-admin-dialog.component';
 
 @Component({
@@ -18,6 +20,7 @@ export class JobListAdminComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) private sort: MatSort;
   private displayedColumns = ['id', 'jobTitle', 'createdAt', 'view', 'edit', 'delete'];
   private jobs = new MatTableDataSource<JobAd>();
+  private currentlyClickedRow: JobAd;
   private length: number;
   constructor(private jobsService: JobsService, private snackMsg: MatSnackBar, private router: Router, private dialog: MatDialog) { }
 
@@ -45,7 +48,7 @@ export class JobListAdminComponent implements OnInit, AfterViewInit {
   }
 
   private onDelete(id: number): void {
-    this.openDialog().subscribe((isConfirmed: boolean) => {
+    this.openDialog(JobListAdminDialogComponent).subscribe((isConfirmed: boolean) => {
       if (isConfirmed) {
         this.jobsService.delete(id, { responseType: 'json', observe: 'response'}).subscribe(
           () => {
@@ -64,6 +67,14 @@ export class JobListAdminComponent implements OnInit, AfterViewInit {
     });
   }
 
+  private onCreateAd(): void {
+    this.openDialog(JobCreateAdminDialogComponent).subscribe((res: JobAd) => {
+      this.jobs.data.push(res);
+      this.jobs.paginator = this.paginator;
+      console.log(res);
+    });
+  }
+
   private onView(id: number): void {
     this.router.navigate(['/jobs/' + id]);
   }
@@ -72,8 +83,10 @@ export class JobListAdminComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/jobs/' + id]);
   }
 
-  private openDialog(): Observable<boolean> {
-    const dialogRef = this.dialog.open(JobListAdminDialogComponent, {});
+  private openDialog(component: ComponentType<any>): Observable<any> {
+    const dialogRef = this.dialog.open(component, {
+      data: { jobAd: this.currentlyClickedRow },
+    });
     return dialogRef.beforeClose();
   }
 }
