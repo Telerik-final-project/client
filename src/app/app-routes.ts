@@ -7,6 +7,7 @@ import { ClosedApplicationGuard } from './core/guards/closed-application-guard.s
 import { AdminAuthGuard } from './core/guards/admin-guard.service';
 
 import { HomeComponent } from './home/home.component';
+import { JobCreateComponent } from './jobs/job-admin/job-create/job-create.component';
 import { JobApplicationComponent } from './jobs/job-application/job-application.component';
 import { JobDetailComponent } from './jobs/job-detail/job-detail.component';
 import { JobListComponent } from './jobs/job-list.component';
@@ -24,6 +25,7 @@ export const ROUTES: Routes = [
             { path: 'admin', canActivateChild: [AdminAuthGuard], children:
                 [
                     { path: '', component: JobListAdminComponent, pathMatch: 'full' },
+                    { path: 'create', component: JobCreateComponent, pathMatch: 'full' },
                     {
                         path: ':jobId', children: [
                             { path: '', component: JobDetailComponent, pathMatch: 'full' },
