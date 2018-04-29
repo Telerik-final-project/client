@@ -1,3 +1,41 @@
-<p>
-  create works!
-</p>
+<div fxLayout="column" fxLayoutAlign="center center">
+  <div fxLayout="row" fxFlexFill fxFlexOffset="20px">
+    <div fxFlex="30"></div>
+    <mat-card fxFlex>
+      <form [formGroup]="form" (ngSubmit)="create()">
+        <mat-card-content fxLayout="column">
+
+          <mat-form-field>
+            <input type="text" matInput placeholder="Name" formControlName="name">
+            <mat-error>{{ getErrorMessage(name, 'name') }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input type="text" matInput placeholder="Link target" formControlName="targetUrl">
+            <mat-error>{{ getErrorMessage(targetUrl) }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input type="text" matInput placeholder="Icon link" formControlName="iconUrl">
+            <mat-error>{{ getErrorMessage(iconUrl) }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-select [(placeholder)]="selected" formControlName="dropdown">
+                <mat-option *ngFor="let item of dropdownValues" (click)="changeSelected($event)">
+                  {{ item.value }}
+                </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-checkbox (click)="chidchangeVisibility()">Do you want to hide the button from the UI?</mat-checkbox>
+
+        </mat-card-content>
+        <mat-card-actions fxFlexAlign="center">
+          <button [disabled]="form.status === 'INVALID'" mat-raised-button color="primary">Create</button>
+        </mat-card-actions>
+      </form>
+    </mat-card>
+    <div fxFlex="30"></div>
+  </div>
+</div>

@@ -4,7 +4,7 @@ import { AbstractControl, FormBuilder, FormGroup, NgModel, ReactiveFormsModule, 
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../core/auth.service';
-import { IRegister } from './interfaces/register.interface';
+import { IRegister } from './_interfaces/register.interface';
 import { ValidateInputFields } from './validators/passwords-validator';
 
 @Component({
