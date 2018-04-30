@@ -1,4 +1,3 @@
-import { OverlayContainer } from '@angular/cdk/overlay';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,10 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit{
-  constructor(private overlayContainer: OverlayContainer) {}
+  constructor() {}
 
   public ngOnInit(): void {
-    const overlayContainerClasses = this.overlayContainer.getContainerElement().classList;
-    overlayContainerClasses.add('custom-overlay');
   }
 }

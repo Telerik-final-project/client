@@ -1,13 +1,15 @@
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 
 import { JobTypesService } from './../../../../core/job-types.service';
 import { JobsService } from './../../../../core/jobs.service';
 import { JobAd } from './../../../../models/job-ad';
 import { JobType } from './../../../../models/job-type';
+import { JobApplicationDialogComponent } from './../../../job-application/job-application-dialog.component';
 
 @Component({
   selector: 'app-job-create-admin-dialog',
@@ -27,10 +29,25 @@ export class JobCreateAdminDialogComponent implements OnInit {
   private selectedType: JobType;
   private descriptionLength = 0;
   private statusOk = 200;
+  private editorOptions = {
+    charCounterMax: 16384,
+    toolbarButtonsXS: [
+      'bold', 'italic', 'underline', 'strikeThrough', 'subscript',
+      'superscript', 'align', 'insertLink', '|', 'undo', 'redo'],
+    toolbarButtonsSM: [
+      'fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|',
+      'fontFamily', 'fontSize', 'color', '|', 'align', 'quote', '-', 'insertLink', '|', 'emoticons',
+      'specialCharacters', 'selectAll', 'html', '|', 'undo', 'redo'],
+    events : {
+      'froalaEditor.keyup': (e, editor) => {
+        this.descriptionLength = editor.charCounter.count();
+      },
+    },
+  };
 
   constructor(
     private jobTypeService: JobTypesService, private jobsService: JobsService,
-    private dialogRef: MatDialogRef<JobCreateAdminDialogComponent>,
+    private dialogRef: MatDialogRef<JobCreateAdminDialogComponent>, private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) private data: JobAd, private elRef: ElementRef, private router: Router) {}
 
   public ngOnInit(): void {
@@ -73,20 +90,27 @@ export class JobCreateAdminDialogComponent implements OnInit {
     }
   }
 
-  // private getDescriptionErrorMessage(): string {
-  //   const value = this.getDescriptionRealLen();
-  //   if (value === 0) {
-  //     return 'You must enter a value';
-  //   } else if (value < this.minTitleName) {
-  //     return 'Too short value';
-  //   }
-  // }
+  private getDescriptionErrorMessage(): string {
+    const value = this.descriptionLength;
+    if (value === 0) {
+      return 'You must enter a value';
+    } else if (value < this.minTitleName) {
+      return 'Too short value';
+    }
+  }
   private onNoClick(): void {
-    this.dialogRef.close(false);
+    if (this.title.value || this.jobType.value || this.status.value || this.description.value) {
+      this.openDialog().subscribe((res) => {
+        if (res) {
+          this.dialogRef.close(false);
+        }
+      });
+    } else {
+      this.dialogRef.close(false);
+    }
   }
 
   private onOkay(res: JobAd): void {
-    console.log('sssssssssssss');
     this.dialogRef.close(res);
   }
 
@@ -124,6 +148,11 @@ export class JobCreateAdminDialogComponent implements OnInit {
         }
       });
     }
+  }
+
+  private openDialog(): Observable<boolean> {
+    const dialogRef = this.dialog.open(JobApplicationDialogComponent, {});
+    return dialogRef.beforeClose();
   }
 
   // private getDescriptionRealLen(): number {

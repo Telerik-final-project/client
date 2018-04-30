@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatButtonModule, MatCardModule, MatCheckbox,
   MatDatepickerModule, MatFormFieldModule,
-  MatInputModule, MatListModule, MatNativeDateModule,
+  MatInputModule, MatListModule, MatMenuModule, MatNativeDateModule,
   MatPaginatorModule, MatSelectModule, MatSnackBarModule,
 } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -22,6 +22,7 @@ import { DropzoneModule } from 'ngx-dropzone-wrapper';
     MatFormFieldModule,
     MatInputModule,
     MatListModule,
+    MatMenuModule,
     FlexLayoutModule,
     DropzoneModule,
     MatPaginatorModule,
@@ -39,6 +40,7 @@ import { DropzoneModule } from 'ngx-dropzone-wrapper';
     MatFormFieldModule,
     MatInputModule,
     MatListModule,
+    MatMenuModule,
     FlexLayoutModule,
     DropzoneModule,
     MatPaginatorModule,

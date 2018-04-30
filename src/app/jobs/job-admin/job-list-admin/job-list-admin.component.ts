@@ -15,24 +15,29 @@ import { JobListAdminDialogComponent } from './job-list-admin-dialog/job-list-ad
   templateUrl: './job-list-admin.component.html',
   styleUrls: ['./job-list-admin.component.css'],
 })
-export class JobListAdminComponent implements OnInit, AfterViewInit {
+export class JobListAdminComponent implements OnInit {
   @ViewChild(MatPaginator) private paginator: MatPaginator;
   @ViewChild(MatSort) private sort: MatSort;
-  private displayedColumns = ['id', 'jobTitle', 'createdAt', 'view', 'edit', 'delete'];
+  private displayedColumns = ['id', 'title', 'createdAt', 'view', 'edit', 'delete'];
   private jobs = new MatTableDataSource<JobAd>();
   private currentlyClickedRow: JobAd;
   private length: number;
   constructor(private jobsService: JobsService, private snackMsg: MatSnackBar, private router: Router, private dialog: MatDialog) { }
 
-  public ngAfterViewInit(): void {
+  public initPaginator(): void {
     this.jobs.sort = this.sort;
     this.jobs.paginator = this.paginator;
   }
 
   public ngOnInit(): void {
     this.jobsService.getAll().subscribe((data) => {
+      window.setTimeout(() => {
+        this.initPaginator();
+      });
+
       this.jobs.data = data;
       this.length = this.jobs.data.length;
+
       if (this.length === 0) {
         this.openSnackMsg('No data available');
       }
@@ -101,9 +106,15 @@ export class JobListAdminComponent implements OnInit, AfterViewInit {
       };
       dialogRef = this.dialog.open(component, {
         data: dataToSend,
+        panelClass: ['admin-dialog'],
+        closeOnNavigation: true,
+        disableClose: true,
       });
     } else {
-      dialogRef = this.dialog.open(component);
+      dialogRef = this.dialog.open(component, {
+        panelClass: ['admin-dialog'],
+        disableClose: true,
+      });
     }
     return dialogRef.beforeClose();
   }

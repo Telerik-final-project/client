@@ -36,9 +36,13 @@
 }
 
 .mat-column-createdAt {
-  max-width: 124px;
+  max-width: 94px;
 }
 
 .mat-row:hover {
   background-color: #f8f8f8;
+}
+
+mat-table {
+  min-height: inherit !important;
 }
