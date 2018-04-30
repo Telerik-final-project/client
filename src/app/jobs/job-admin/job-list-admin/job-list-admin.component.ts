@@ -22,7 +22,7 @@ export class JobListAdminComponent implements OnInit {
   private jobs = new MatTableDataSource<JobAd>();
   private currentlyClickedRow: JobAd;
   private length: number;
-  constructor(private jobsService: JobsService, private snackMsg: MatSnackBar, private router: Router, private dialog: MatDialog) { }
+  constructor(private jobsService: JobsService, private snackMsg: MatSnackBar, private router: Router, private dialog: MatDialog) {}
 
   public initPaginator(): void {
     this.jobs.sort = this.sort;

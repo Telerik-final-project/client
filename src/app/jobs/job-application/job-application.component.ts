@@ -1,3 +1,4 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -12,6 +13,7 @@ import { JobsService } from './../../core/jobs.service';
 import { JobAd } from './../../models/job-ad';
 import { JobApplication } from './../../models/job-application';
 
+import { MatSnackBar } from '@angular/material';
 import { MatDialog } from '@angular/material/dialog';
 
 import { JobApplicationDialogComponent } from './job-application-dialog.component';
@@ -32,6 +34,7 @@ export class JobApplicationComponent implements OnInit {
   private minNameLength = 3;
   private maxNameLength = 100;
   private maxCommentLength = 1024;
+  private httpSuccessResponseCode = 200;
   private job: JobAd;
   private jobId: number;
   private form: FormGroup;
@@ -44,7 +47,7 @@ export class JobApplicationComponent implements OnInit {
   constructor(
     private jobsService: JobsService, private route: ActivatedRoute, private router: Router,
     private authService: AuthService, private applicationsService: ApplicationsService,
-    private dialog: MatDialog,
+    private dialog: MatDialog, private snackMsg: MatSnackBar,
   ) { }
 
   public ngOnInit(): void {
@@ -96,7 +99,15 @@ export class JobApplicationComponent implements OnInit {
       cvUrl: this.cvUrl,
       coverLetterUrl: this.coverUrl,
     };
-    this.applicationsService.create(this.jobApplication, {observe: 'response', responseType: 'json'});
+    this.applicationsService
+      .create(this.jobApplication, {observe: 'response', responseType: 'json'})
+      .subscribe((response: HttpResponse<any>) => {
+      if (response.status === this.httpSuccessResponseCode) {
+        this.openSnackMsg('Successfully applied for the job!');
+      } else {
+        this.openSnackMsg('Something went wrong with your application!');
+      }
+    });
   }
 
   private onUploadError(err: any): void {
@@ -116,6 +127,14 @@ export class JobApplicationComponent implements OnInit {
 
   private onAdded(): void {
     console.log(this.dropzoneCv);
+  }
+
+  private openSnackMsg(msg: string): void {
+    this.snackMsg.open(msg, 'Close', {
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'left',
+    });
   }
 
   private getErrorMessage(field: AbstractControl): string {
