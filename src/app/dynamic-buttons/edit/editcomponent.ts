@@ -9,11 +9,11 @@ import { IDynamicButtonsForm } from '../_interfaces/create.edit.interface';
 import { DynamicButtonsService } from '../../core/dynamic.buttons.service';
 
 @Component({
-  selector: 'app-create',
-  templateUrl: './create.component.html',
-  styleUrls: ['./create.component.css'],
+  selector: 'app-edit',
+  templateUrl: './edit.component.html',
+  styleUrls: ['./edit.component.css'],
 })
-export class CreateComponent implements OnInit, IDynamicButtonsForm {
+export class EditComponent implements OnInit, IDynamicButtonsForm {
   public form: FormGroup;
   public name: AbstractControl;
   public targetUrl: AbstractControl;
