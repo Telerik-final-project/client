@@ -1,9 +1,10 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSort, MatTableDataSource } from '@angular/material';
+import { MatSort, MatTableDataSource, MatPaginator } from '@angular/material';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DynamicButtonsService } from '../../core/dynamic.buttons.service';
+import { IElements } from '../_interfaces/listing.interface';
 
 @Component({
   selector: 'app-listing',
@@ -15,7 +16,9 @@ export class ListingComponent implements OnInit {
 
   public ELEMENT_DATA: IElements[] = [];
   public dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+  public paginatedButtons: number = this.ELEMENT_DATA.length;
 
+  @ViewChild(MatPaginator) public paginator: MatPaginator;
   @ViewChild(MatSort) public sort: MatSort;
 
   constructor(private buttonsService: DynamicButtonsService) { }
@@ -23,6 +26,15 @@ export class ListingComponent implements OnInit {
   public ngOnInit(): void { }
 
   public ngAfterViewInit(): void {
+    this.loadDBInfo();
+  }
+
+  public applyFilter(filterValue: string): void {
+    const newFilteredValue = filterValue.trim().toLowerCase();
+    this.dataSource.filter = newFilteredValue;
+  }
+
+  private loadDBInfo(): void {
     this.buttonsService
       .getAll({ observe: 'response', responseType: 'json' })
       .subscribe((x) => {
@@ -38,16 +50,10 @@ export class ListingComponent implements OnInit {
         });
 
         console.log(this.dataSource);
+
+        this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       });
   }
-}
 
-export interface IElements {
-  id: number;
-  name: string;
-  targetUrl: number;
-  iconUrl: number;
-  date: string;
-  buttons: string[];
 }
