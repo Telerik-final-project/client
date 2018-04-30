@@ -14,4 +14,12 @@ export class DynamicButtonsService {
     public create(newButton: IDynamicButtons, options?: HttpOptions): Observable<object> {
         return this.httpClient.post(`${this.appConfig.apiUrl}/admin/buttons/create`, newButton, options);
     }
+
+    public getAll(options?: HttpOptions): any {
+        return this.httpClient.get(`${this.appConfig.apiUrl}/admin/buttons`, options);
+    }
+
+    public getInfoPerID(options?: HttpOptions): any {
+        return this.httpClient.get(`${this.appConfig.apiUrl}/admin/buttons/edit`, options);
+    }
 }
