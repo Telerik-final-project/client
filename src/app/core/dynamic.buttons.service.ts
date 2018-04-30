@@ -19,7 +19,7 @@ export class DynamicButtonsService {
         return this.httpClient.get(`${this.appConfig.apiUrl}/admin/buttons`, options);
     }
 
-    public getInfoPerID(options?: HttpOptions): any {
-        return this.httpClient.get(`${this.appConfig.apiUrl}/admin/buttons/edit`, options);
+    public getInfoPerID(id: number, options?: HttpOptions): any {
+        return this.httpClient.get(`${this.appConfig.apiUrl}/admin/buttons/edit/${id}`, options);
     }
 }

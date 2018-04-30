@@ -5,4 +5,5 @@ export interface IElements {
     iconUrl: number;
     date: string;
     buttons: string[];
+    type: string;
 }
