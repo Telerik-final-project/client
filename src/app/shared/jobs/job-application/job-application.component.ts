@@ -1,8 +1,13 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { DropzoneConfigInterface  } from 'ngx-dropzone-wrapper';
+import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { Observable } from 'rxjs/Observable';
 
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
@@ -17,6 +22,7 @@ import { AuthService } from '../../../core/auth.service';
 import { JobsService } from '../../../core/jobs.service';
 import { JobAd } from '../../../models/job-ad';
 import { JobApplication } from '../../../models/job-application';
+import { SharedSnackModule } from '../../material/shared-snack.module';
 
 @Component({
   selector: 'app-job-application',
@@ -34,7 +40,7 @@ export class JobApplicationComponent implements OnInit {
   public coverUrl: string;
   @ViewChild('dzCv') public dropzoneCv;
 
-  public configCv =  new DropzoneCvConfig();
+  public configCv = new DropzoneCvConfig();
   public configCover = new DropzoneCoverConfig();
 
   public jobApplication: JobApplication;
@@ -46,26 +52,32 @@ export class JobApplicationComponent implements OnInit {
   private onErrorDuration = 3000;
 
   constructor(
-    private jobsService: JobsService, private route: ActivatedRoute, private router: Router,
-    private authService: AuthService, private applicationsService: ApplicationsService,
-    private dialog: MatDialog, private snackMsg: MatSnackBar,
-  ) { }
+    private jobsService: JobsService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authService: AuthService,
+    private applicationsService: ApplicationsService,
+    private dialog: MatDialog,
+    private snack: SharedSnackModule,
+  ) {}
 
   public ngOnInit(): void {
     this.form = new FormGroup({
-      firstName: new FormControl(
-        '', [
-          Validators.required, Validators.minLength(this.minNameLength),
-          Validators.maxLength(this.maxNameLength), Validators.pattern('[a-zA-Z]+'),
-        ],
-      ),
-      lastName: new FormControl(
-        '', [
-          Validators.required, Validators.minLength(this.minNameLength),
-          Validators.maxLength(this.maxNameLength), Validators.pattern('[a-zA-Z]+'),
-        ],
-      ),
-      comment: new FormControl('', [Validators.maxLength(this.maxCommentLength)]),
+      firstName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(this.minNameLength),
+        Validators.maxLength(this.maxNameLength),
+        Validators.pattern('[a-zA-Z]+'),
+      ]),
+      lastName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(this.minNameLength),
+        Validators.maxLength(this.maxNameLength),
+        Validators.pattern('[a-zA-Z]+'),
+      ]),
+      comment: new FormControl('', [
+        Validators.maxLength(this.maxCommentLength),
+      ]),
     });
 
     if (!this.job) {
@@ -102,20 +114,38 @@ export class JobApplicationComponent implements OnInit {
     } as JobApplication;
 
     this.applicationsService
-      .create(this.jobApplication, {observe: 'response', responseType: 'json'})
-      .subscribe((response: HttpResponse<any>) => {
-        if (response.body.errMsg) {
-          this.openSnackMsg('Something went wrong with your application!', this.onErrorDuration).afterDismissed().subscribe(() => {
-            this.markAsPristine(this.form);
-            this.router.navigate(['/']);
-          });
-        } else {
-          this.openSnackMsg('Successfully applied for the job!', this.onSuccessDuration).afterDismissed().subscribe(() => {
-            this.markAsPristine(this.form);
-            this.router.navigate(['/']);
-          });
-        }
-    });
+      .create(this.jobApplication, {
+        observe: 'response',
+        responseType: 'json',
+      })
+      .subscribe(
+        (response: HttpResponse<any>) => {
+          this.snack
+            .openSnackMsg('Successfully applied for the job!', 'Close', {
+              duration: this.onSuccessDuration,
+              verticalPosition: 'top',
+              horizontalPosition: 'center',
+            })
+            .afterDismissed()
+            .subscribe(() => {
+              this.markAsPristine(this.form);
+              this.router.navigate(['/']);
+            });
+        },
+        () => {
+          this.snack
+            .openSnackMsg('Something went wrong with your application!', 'Close', {
+              duration: this.onErrorDuration,
+              verticalPosition: 'top',
+              horizontalPosition: 'center',
+            })
+            .afterDismissed()
+            .subscribe(() => {
+              this.markAsPristine(this.form);
+              this.router.navigate(['/']);
+            });
+        },
+      );
   }
 
   private markAsPristine(formGroup: FormGroup): void {
@@ -130,7 +160,10 @@ export class JobApplicationComponent implements OnInit {
     });
   }
   private onUploadError(err: any): void {
-    err[0].previewElement.firstElementChild.setAttribute('style', 'background: rgba(221, 0, 0, 0.55)');
+    err[0].previewElement.firstElementChild.setAttribute(
+      'style',
+      'background: rgba(221, 0, 0, 0.55)',
+    );
   }
 
   private onUploadSuccess(success: any): void {
@@ -140,16 +173,11 @@ export class JobApplicationComponent implements OnInit {
       this.coverUrl = success[1].fileUrl;
     }
 
-    success[0].previewElement.firstElementChild.setAttribute('style', 'background:rgba(0, 170, 0, 0.55)');
+    success[0].previewElement.firstElementChild.setAttribute(
+      'style',
+      'background:rgba(0, 170, 0, 0.55)',
+    );
     this.addedSuccessfully = true;
-  }
-
-  private openSnackMsg(msg: string, duration: number): MatSnackBarRef<SimpleSnackBar> {
-    return this.snackMsg.open(msg, 'Close', {
-      duration,
-      verticalPosition: 'top',
-      horizontalPosition: 'center',
-    });
   }
 
   private getErrorMessage(field: AbstractControl): string {

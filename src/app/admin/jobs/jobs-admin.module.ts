@@ -1,14 +1,16 @@
-import { SharedJobsModule } from './../../shared/jobs/shared-jobs.module';
-import { JobApplicationDialogComponent } from './../../shared/jobs/job-application/job-application-dialog.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { SharedDialogModule } from '../../shared/material/shared-dialog.module';
 import { SharedIconModule } from '../../shared/material/shared-icon.module';
 import { SharedPaginatorModule } from '../../shared/material/shared-paginator.module';
 import { SharedTableModule } from '../../shared/material/shared-table.module';
-import { SharedDialogModule } from '../../shared/shared-dialog.module';
 import { SharedModule } from '../../shared/shared.module';
+import { SharedJobsModule } from './../../shared/jobs/shared-jobs.module';
+
+import { JobApplicationDialogComponent } from './../../shared/jobs/job-application/job-application-dialog.component';
 import { JobApplicationsAdminComponent } from './job-applications-admin/job-applications-admin.component';
 import { JobCreateAdminDialogComponent } from './job-list-admin/job-create-admin-dialog/job-create-admin-dialog.component';
 import { JobListAdminDialogComponent } from './job-list-admin/job-list-admin-dialog/job-list-admin-dialog.component';

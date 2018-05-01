@@ -8,7 +8,7 @@ import {
 import {
   DateAdapter,
   MatDatepickerInputEvent,
-  MatSnackBar,
+  MatSnackBarConfig,
   PageEvent,
 } from '@angular/material';
 
@@ -17,6 +17,7 @@ import { AuthService } from './../core/auth.service';
 import { JobTypesService } from './../core/job-types.service';
 import { JobsService } from './../core/jobs.service';
 import { JobAd } from './../models/job-ad';
+import { SharedSnackModule } from './../shared/material/shared-snack.module';
 
 @Component({
   selector: 'app-job-list',
@@ -36,13 +37,17 @@ export class JobListComponent implements OnInit {
   public endDateInput: string;
   private startDate = '01/01/1970';
   private endDate = '30/11/9999';
+  private snackOptions = {
+    duration: 2500,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+  } as MatSnackBarConfig;
 
   constructor(
     public jobsService: JobsService,
-    public snackMsg: MatSnackBar,
+    public snack: SharedSnackModule,
     public authService: AuthService,
     public jobTypesService: JobTypesService,
-    public adapter: DateAdapter<any>,
   ) {}
 
   public ngOnInit(): void {
@@ -50,7 +55,7 @@ export class JobListComponent implements OnInit {
       this.jobs = data;
       this.length = this.jobs.length;
       if (this.length === 0) {
-        this.openSnackMsg('There are no open positions - please try later');
+        this.snack.openSnackMsg('There are no open positions - please try later', 'Close', this.snackOptions);
       }
       this.onChangePage({
         pageIndex: 0,
@@ -72,28 +77,14 @@ export class JobListComponent implements OnInit {
     );
   }
 
-  private openSnackMsg(msg: string): void {
-    this.snackMsg.open(msg, 'Close', {
-      duration: 2500,
-      verticalPosition: 'top',
-      horizontalPosition: 'center',
-    });
-  }
-
   private filterJobs(input: string, startDate: string, endDate: string): void {
     const copy = this.jobs.slice();
     this.userInput = input;
-    this.paginatedJobs = this.jobsService.filter(
-      copy,
-      input,
-      this.selectedCategory,
-      startDate,
-      endDate,
-    );
+    this.paginatedJobs = this.jobsService.filter(copy, input, this.selectedCategory, startDate, endDate);
     if (this.paginatedJobs.length === 0) {
-      this.openSnackMsg('There are no open positions with these criteria');
+      this.snack.openSnackMsg('There are no open positions with these criteria', 'Close', this.snackOptions);
     } else {
-      this.snackMsg.dismiss();
+      this.snack.dismissSnackMsg();
     }
   }
 
@@ -110,7 +101,7 @@ export class JobListComponent implements OnInit {
 
   private clearFilters(): void {
     this.keyword = '';
-    this.selectedCategory = '';
+    this.selectedCategory = 'none';
     this.paginatedJobs = this.jobs.slice();
     this.startDate = '01/01/1970';
     this.endDate = '30/11/9999';

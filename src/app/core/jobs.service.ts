@@ -39,6 +39,7 @@ export class JobsService {
       if (jobType === 'none') {
         jobType = '';
       }
+      console.log(keyword, jobType, startDate, endDate);
       return jobs.filter((job) => (
         job.descriptionUrl.toLowerCase().includes(keyword.toLowerCase()) ||
           job.title.toLowerCase().includes(keyword.toLowerCase())) && (job.JobType.jobType.includes(jobType) &&

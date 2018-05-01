@@ -1,12 +1,28 @@
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { JobApplicationDialogComponent } from '../../../../shared/jobs/job-application/job-application-dialog.component';
+import { SharedSnackModule } from '../../../../shared/material/shared-snack.module';
 import { JobTypesService } from './../../../../core/job-types.service';
 import { JobsService } from './../../../../core/jobs.service';
 import { JobAd } from './../../../../models/job-ad';
@@ -33,32 +49,80 @@ export class JobCreateAdminDialogComponent implements OnInit {
   private editorOptions = {
     charCounterMax: 16384,
     toolbarButtonsXS: [
-      'bold', 'italic', 'underline', 'strikeThrough', 'subscript',
-      'superscript', 'align', 'insertLink', '|', 'undo', 'redo'],
+      'bold',
+      'italic',
+      'underline',
+      'strikeThrough',
+      'subscript',
+      'superscript',
+      'align',
+      'insertLink',
+      '|',
+      'undo',
+      'redo',
+    ],
     toolbarButtonsSM: [
-      'fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|',
-      'fontFamily', 'fontSize', 'color', '|', 'align', 'quote', '-', 'insertLink', '|', 'emoticons',
-      'specialCharacters', 'selectAll', 'html', '|', 'undo', 'redo'],
-    events : {
+      'fullscreen',
+      'bold',
+      'italic',
+      'underline',
+      'strikeThrough',
+      'subscript',
+      'superscript',
+      '|',
+      'fontFamily',
+      'fontSize',
+      'color',
+      '|',
+      'align',
+      'quote',
+      '-',
+      'insertLink',
+      '|',
+      'emoticons',
+      'specialCharacters',
+      'selectAll',
+      'html',
+      '|',
+      'undo',
+      'redo',
+    ],
+    events: {
       'froalaEditor.keyup': (e, editor) => {
         this.descriptionLength = editor.charCounter.count();
       },
     },
   };
+  private snackOptions = {
+    duration: 3000,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+  } as MatSnackBarConfig;
 
   constructor(
-    private snackMsg: MatSnackBar, private jobTypeService: JobTypesService, private jobsService: JobsService,
-    private dialogRef: MatDialogRef<JobCreateAdminDialogComponent>, private dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) private data: JobAd, private elRef: ElementRef, private router: Router) {}
+    private snack: SharedSnackModule,
+    private jobTypeService: JobTypesService,
+    private jobsService: JobsService,
+    private dialogRef: MatDialogRef<JobCreateAdminDialogComponent>,
+    private dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) private data: JobAd,
+    private elRef: ElementRef,
+    private router: Router,
+  ) {}
 
   public ngOnInit(): void {
     this.form = new FormGroup({
       title: new FormControl('', [
-        Validators.minLength(this.minTitleName), Validators.maxLength(this.maxTitleName), Validators.required,
+        Validators.minLength(this.minTitleName),
+        Validators.maxLength(this.maxTitleName),
+        Validators.required,
       ]),
       jobType: new FormControl('', [Validators.required]),
       description: new FormControl('', [
-        Validators.required, Validators.minLength(this.minTitleName), Validators.maxLength(this.maxDescriptionLength)]),
+        Validators.required,
+        Validators.minLength(this.minTitleName),
+        Validators.maxLength(this.maxDescriptionLength),
+      ]),
       status: new FormControl('', [Validators.required]),
     });
 
@@ -79,8 +143,6 @@ export class JobCreateAdminDialogComponent implements OnInit {
       this.form.controls['description'].setValue(this.data.description);
       /* tslint:enable */
     }
-    this.openSnackMsg('Successfully updated the job ad.');
-
   }
 
   private getErrorMessage(field: AbstractControl): string {
@@ -102,7 +164,12 @@ export class JobCreateAdminDialogComponent implements OnInit {
     }
   }
   private onNoClick(): void {
-    if (this.title.value || this.jobType.value || this.status.value || this.description.value) {
+    if (
+      this.title.value ||
+      this.jobType.value ||
+      this.status.value ||
+      this.description.value
+    ) {
       this.openDialog().subscribe((res) => {
         if (res) {
           this.dialogRef.close(false);
@@ -116,18 +183,18 @@ export class JobCreateAdminDialogComponent implements OnInit {
   private onOkay(res: JobAd, type: string): void {
     this.dialogRef.close(res);
     if (type === 'update') {
-      this.openSnackMsg('Successfully updated the job ad.');
+      this.snack.openSnackMsg(
+        'Successfully updated the job ad.',
+        'Close',
+        this.snackOptions,
+      );
     } else {
-      this.openSnackMsg('Successfully created a job ad.');
+      this.snack.openSnackMsg(
+        'Successfully created a job ad.',
+        'Close',
+        this.snackOptions,
+      );
     }
-  }
-
-  private openSnackMsg(msg: string): void {
-    this.snackMsg.open(msg, 'Close', {
-      duration: 3000,
-      verticalPosition: 'top',
-      horizontalPosition: 'center',
-    });
   }
 
   private onSubmit(): void {
@@ -142,14 +209,26 @@ export class JobCreateAdminDialogComponent implements OnInit {
         isDeleted: 0,
       };
 
-      this.jobsService.update(updatedAd as JobAd, { observe: 'response', responseType: 'json', headers: new HttpHeaders({
-        'Content-Type':  'application/json'}) }).subscribe((x: HttpResponse<object>) => {
-          if (x.status === this.statusOk) {
+      this.jobsService
+        .update(updatedAd as JobAd, {
+          observe: 'response',
+          responseType: 'json',
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+        })
+        .subscribe(
+          (x: HttpResponse<object>) => {
             this.onOkay(x.body as JobAd, 'update');
-          } else {
-            this.openSnackMsg('We encountered an error during the update.');
-          }
-        });
+          },
+          (err) => {
+            this.snack.openSnackMsg(
+              'We encountered an error during the update.',
+              'Close',
+              this.snackOptions,
+            );
+          },
+        );
     } else {
       const newAd = {
         title: this.title.value,
@@ -159,14 +238,26 @@ export class JobCreateAdminDialogComponent implements OnInit {
         isDeleted: 0,
       };
 
-      this.jobsService.create(newAd as JobAd, { observe: 'response', responseType: 'json', headers: new HttpHeaders({
-        'Content-Type':  'application/json'}) }).subscribe((x: HttpResponse<object>) => {
-        if (x.status === this.statusOk) {
-          this.onOkay(x.body as JobAd, 'create');
-        } else {
-          this.openSnackMsg('We encountered an error during the creation.');
-        }
-      });
+      this.jobsService
+        .create(newAd as JobAd, {
+          observe: 'response',
+          responseType: 'json',
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+        })
+        .subscribe(
+          (x: HttpResponse<object>) => {
+            this.onOkay(x.body as JobAd, 'create');
+          },
+          () => {
+            this.snack.openSnackMsg(
+              'We encountered an error during the creation.',
+              'Close',
+              this.snackOptions,
+            );
+          },
+        );
     }
   }
 

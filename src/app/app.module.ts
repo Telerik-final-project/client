@@ -18,6 +18,7 @@ import { JobListComponent } from './jobs/job-list.component';
 import { JobViewComponent } from './jobs/job-view.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { NavbarModule } from './navbar/navbar.module';
+import { SharedSnackModule } from './shared/material/shared-snack.module';
 
 export const tokenGetter = () => {
   return localStorage.getItem('access_token');
@@ -31,6 +32,7 @@ export const tokenGetter = () => {
   imports: [
     BrowserModule,
     SharedModule,
+    SharedSnackModule,
     AppRoutingModule,
     CoreModule,
     NavbarModule,

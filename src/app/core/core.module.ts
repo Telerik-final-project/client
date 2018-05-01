@@ -13,7 +13,6 @@ import { AuthService } from './auth.service';
 import { JobTypesService } from './job-types.service';
 import { JobsService } from './jobs.service';
 
-import { CustomDateAdapter } from './../shared/material/date-adapter';
 import { DynamicButtonsService } from './dynamic.buttons.service';
 
 @NgModule({
@@ -28,7 +27,6 @@ import { DynamicButtonsService } from './dynamic.buttons.service';
     ClosedApplicationGuard,
     JobTypesService,
     DynamicButtonsService,
-    { provide: DateAdapter, useClass: CustomDateAdapter },
   ],
 })
 export class CoreModule { }

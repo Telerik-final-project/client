@@ -17,7 +17,7 @@ import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { JobApplicationDialogComponent } from './jobs/job-application/job-application-dialog.component';
 import { JobApplicationComponent } from './jobs/job-application/job-application.component';
 import { JobDetailComponent } from './jobs/job-detail/job-detail.component';
-import { SharedDialogModule } from './shared-dialog.module';
+import { SharedDialogModule } from './material/shared-dialog.module';
 
 @NgModule({
   imports: [
