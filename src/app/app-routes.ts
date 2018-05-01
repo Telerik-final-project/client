@@ -1,3 +1,4 @@
+import { JobApplicationsAdminComponent } from './jobs/job-admin/job-applications-admin/job-applications-admin.component';
 import { Routes } from '@angular/router';
 
 import { ApplicationGuard } from './core/guards/application-guard.service';
@@ -30,6 +31,10 @@ export const ROUTES: Routes = [
                             { path: '', component: JobDetailComponent, pathMatch: 'full' },
                             {
                                 path: 'apply', component: JobApplicationComponent,
+                                canDeactivate: [ApplicationGuard], canActivate: [AuthGuard, ClosedApplicationGuard],
+                            },
+                            {
+                                path: 'applications', component: JobApplicationsAdminComponent,
                                 canDeactivate: [ApplicationGuard], canActivate: [AuthGuard, ClosedApplicationGuard],
                             },
                         ],

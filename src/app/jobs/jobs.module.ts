@@ -17,6 +17,7 @@ import { JobApplicationComponent } from './job-application/job-application.compo
 import { JobDetailComponent } from './job-detail/job-detail.component';
 import { JobListComponent } from './job-list.component';
 import { JobViewComponent } from './job-view.component';
+import { JobApplicationsAdminComponent } from './job-admin/job-applications-admin/job-applications-admin.component';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { JobViewComponent } from './job-view.component';
     JobListAdminComponent,
     JobListAdminDialogComponent,
     JobCreateAdminDialogComponent,
+    JobApplicationsAdminComponent,
   ],
   entryComponents: [
     JobApplicationDialogComponent, JobListAdminDialogComponent, JobCreateAdminDialogComponent,
