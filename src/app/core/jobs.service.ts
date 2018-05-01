@@ -35,10 +35,14 @@ export class JobsService {
   public filter(
     jobs: JobAd[], keyword: string = '',
     type: string = '', startDate: string = '01/01/1970', endDate: string = '31/12/9999'): JobAd[] {
-    return jobs.filter((job) => (
-      job.descriptionUrl.toLowerCase().includes(keyword.toLowerCase()) ||
-        job.title.toLowerCase().includes(keyword.toLowerCase())) && (job.JobType.jobType.includes(type) &&
-        this.checkForEndDate(endDate, job.createdAt) && this.checkForStartDate(startDate, job.createdAt)));
+      let jobType = type;
+      if (jobType === 'none') {
+        jobType = '';
+      }
+      return jobs.filter((job) => (
+        job.descriptionUrl.toLowerCase().includes(keyword.toLowerCase()) ||
+          job.title.toLowerCase().includes(keyword.toLowerCase())) && (job.JobType.jobType.includes(jobType) &&
+          this.checkForEndDate(endDate, job.createdAt) && this.checkForStartDate(startDate, job.createdAt)));
   }
   private checkForStartDate(start: string, job: string): boolean {
     const beautifed = this.beautifyDate(job, start);

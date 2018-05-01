@@ -1,0 +1,42 @@
+.icon {
+  cursor: pointer;
+}
+
+.icon-cv, .icon-coverLetter {
+  color: #3b74e5;
+}
+.icon-coverLetter.inactive {
+    color: #d32626;
+    cursor: not-allowed
+}
+
+.mat-column-cv,
+.mat-column-coverLetter {
+  max-width: 64px;
+}
+
+.mat-column-id {
+  max-width: 84px;
+}
+
+.mat-column-cv,
+.mat-column-coverLetter {
+  max-width: 64px;
+  text-align: center;
+}
+
+.mat-column-createdAt {
+  max-width: 94px;
+}
+
+.mat-column-name {
+  max-width: 164px;
+}
+
+.mat-row:hover {
+  background-color: #f8f8f8;
+}
+
+mat-table {
+  min-height: inherit !important;
+}

@@ -20,7 +20,7 @@ export class JobListComponent implements OnInit {
   private pageSize = 10;
   private keyword: string;
   private jobTypes: JobType[];
-  private selectedCategory: string;
+  private selectedCategory = 'none';
   private userInput: string;
   private startDate = '01/01/1970';
   private endDate = '30/11/9999';
@@ -65,6 +65,8 @@ export class JobListComponent implements OnInit {
     this.paginatedJobs = this.jobsService.filter(copy, input, this.selectedCategory, startDate, endDate);
     if (this.paginatedJobs.length === 0) {
         this.openSnackMsg('There are no open positions with these criteria');
+    } else {
+      this.snackMsg.dismiss();
     }
   }
 

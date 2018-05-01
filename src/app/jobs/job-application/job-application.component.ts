@@ -13,7 +13,7 @@ import { JobsService } from './../../core/jobs.service';
 import { JobAd } from './../../models/job-ad';
 import { JobApplication } from './../../models/job-application';
 
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
 import { MatDialog } from '@angular/material/dialog';
 
 import { JobApplicationDialogComponent } from './job-application-dialog.component';
@@ -34,7 +34,8 @@ export class JobApplicationComponent implements OnInit {
   private minNameLength = 3;
   private maxNameLength = 100;
   private maxCommentLength = 1024;
-  private httpSuccessResponseCode = 200;
+  private onSuccessDuration = 2000;
+  private onErrorDuration = 3000;
   private job: JobAd;
   private jobId: number;
   private form: FormGroup;
@@ -98,18 +99,36 @@ export class JobApplicationComponent implements OnInit {
       userId: this.authService.decodeToken().sub,
       cvUrl: this.cvUrl,
       coverLetterUrl: this.coverUrl,
-    };
+    } as JobApplication;
+
     this.applicationsService
       .create(this.jobApplication, {observe: 'response', responseType: 'json'})
       .subscribe((response: HttpResponse<any>) => {
-      if (response.status === this.httpSuccessResponseCode) {
-        this.openSnackMsg('Successfully applied for the job!');
-      } else {
-        this.openSnackMsg('Something went wrong with your application!');
-      }
+        if (response.body.errMsg) {
+          this.openSnackMsg('Something went wrong with your application!', this.onErrorDuration).afterDismissed().subscribe(() => {
+            this.markAsPristine(this.form);
+            this.router.navigate(['/']);
+          });
+        } else {
+          this.openSnackMsg('Successfully applied for the job!', this.onSuccessDuration).afterDismissed().subscribe(() => {
+            this.markAsPristine(this.form);
+            this.router.navigate(['/']);
+          });
+        }
     });
   }
 
+  private markAsPristine(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach((control: FormGroup) => {
+      control.markAsPristine();
+
+      if (control.controls) {
+        (control.controls as any).forEach((c) => {
+          this.markAsPristine(c);
+        });
+      }
+    });
+  }
   private onUploadError(err: any): void {
     err[0].previewElement.firstElementChild.setAttribute('style', 'background: rgba(221, 0, 0, 0.55)');
   }
@@ -125,13 +144,9 @@ export class JobApplicationComponent implements OnInit {
     this.addedSuccessfully = true;
   }
 
-  private onAdded(): void {
-    console.log(this.dropzoneCv);
-  }
-
-  private openSnackMsg(msg: string): void {
-    this.snackMsg.open(msg, 'Close', {
-      duration: 3000,
+  private openSnackMsg(msg: string, duration: number): MatSnackBarRef<SimpleSnackBar> {
+    return this.snackMsg.open(msg, 'Close', {
+      duration,
       verticalPosition: 'top',
       horizontalPosition: 'left',
     });

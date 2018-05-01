@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
@@ -15,7 +15,19 @@ export class ApplicationsService {
         return this.httpClient.get<JobApplication>(`${this.appConfig.apiUrl}/jobs/applications/${id}`);
     }
 
+    public getAll(): Observable<JobApplication[]> {
+        return this.httpClient.get<JobApplication[]>(`${this.appConfig.apiUrl}/jobs/applications`);
+    }
+
+    public getJobApplications(jobId: number): Observable<JobApplication[]> {
+        return this.httpClient.get<JobApplication[]>(`${this.appConfig.apiUrl}/jobs/${jobId}/applications`);
+    }
+
     public create(application: JobApplication, options?: HttpOptions): Observable<object> {
         return this.httpClient.post(`${this.appConfig.apiUrl}/jobs/applications/create`, application, options);
+    }
+
+    public downloadFile(file: string): Observable<object> {
+        return this.httpClient.get(`${this.appConfig.apiUrl}/jobs/download/${file}`, {responseType: 'blob', observe: 'response'});
     }
 }
