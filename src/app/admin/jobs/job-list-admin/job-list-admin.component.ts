@@ -1,11 +1,12 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSnackBar, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSnackBarConfig, MatSort, MatTableDataSource } from '@angular/material';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { JobsService } from '../../../core/jobs.service';
+import { SharedSnackModule } from '../../../shared/material/shared-snack.module';
 import { JobAd } from './../../../models/job-ad';
 import { JobCreateAdminDialogComponent } from './job-create-admin-dialog/job-create-admin-dialog.component';
 import { JobListAdminDialogComponent } from './job-list-admin-dialog/job-list-admin-dialog.component';
@@ -16,13 +17,19 @@ import { JobListAdminDialogComponent } from './job-list-admin-dialog/job-list-ad
   styleUrls: ['./job-list-admin.component.css'],
 })
 export class JobListAdminComponent implements OnInit {
+  public displayedColumns = ['id', 'title', 'createdAt', 'view', 'edit', 'delete'];
+  public jobs = new MatTableDataSource<JobAd>();
+  public length: number;
   @ViewChild(MatPaginator) private paginator: MatPaginator;
   @ViewChild(MatSort) private sort: MatSort;
-  private displayedColumns = ['id', 'title', 'createdAt', 'view', 'edit', 'delete'];
-  private jobs = new MatTableDataSource<JobAd>();
   private currentlyClickedRow: JobAd;
-  private length: number;
-  constructor(private jobsService: JobsService, private snackMsg: MatSnackBar, private router: Router, private dialog: MatDialog) {}
+  private snackOptions = {
+    duration: 2500,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+  } as MatSnackBarConfig;
+
+  constructor(private jobsService: JobsService, private snack: SharedSnackModule, private router: Router, private dialog: MatDialog) {}
 
   public initPaginator(): void {
     this.jobs.sort = this.sort;
@@ -39,16 +46,8 @@ export class JobListAdminComponent implements OnInit {
       this.length = this.jobs.data.length;
 
       if (this.length === 0) {
-        this.openSnackMsg('No data available');
+        this.snack.openSnackMsg('No data available', 'Close', this.snackOptions);
       }
-    });
-  }
-
-  private openSnackMsg(msg: string): void {
-    this.snackMsg.open(msg, 'Close', {
-      duration: 2500,
-      verticalPosition: 'top',
-      horizontalPosition: 'left',
     });
   }
 
@@ -66,7 +65,7 @@ export class JobListAdminComponent implements OnInit {
             this.jobs.paginator = this.paginator;
           },
           () => {
-            this.openSnackMsg('Oops, we encountered a server error! :(');
+            this.snack.openSnackMsg('Oops, we encountered a server error! :(', 'Close', this.snackOptions);
           });
       }
     });
@@ -94,7 +93,8 @@ export class JobListAdminComponent implements OnInit {
   }
 
   private openDialog(component: ComponentType<any>, jobData?: JobAd): Observable<any> {
-    let dialogRef: MatDialogRef<JobCreateAdminDialogComponent> | MatDialogRef<JobListAdminDialogComponent>;
+    let dialogRef: MatDialogRef<Component>;
+
     if (jobData) {
       const dataToSend = {
         id: jobData.id,

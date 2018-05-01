@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { LROUTES } from './login-routes';
+import { ROUTES } from './jobs-routes';
 
 @NgModule({
-  imports: [RouterModule.forChild(LROUTES)],
+  imports: [
+    RouterModule.forChild(ROUTES),
+  ],
   exports: [RouterModule],
 })
-export class LoginRoutingModule { }
+export class JobsRoutingModule { }

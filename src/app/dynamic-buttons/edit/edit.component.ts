@@ -73,7 +73,7 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
       .getInfoPerID(id, { observe: 'response', responseType: 'json' })
       .subscribe((params: Params) => console.log(params));
 
-    this.editID = this.route.snapshotreturnUrl;
+    this.editID = this.route.params.id;
     console.log(this.editID);
 
     const newButton: IDynamicButtons = {

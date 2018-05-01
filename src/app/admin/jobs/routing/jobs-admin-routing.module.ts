@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ROUTES } from './users-routes';
+import { ROUTES } from './jobs-admin-routes';
 
 @NgModule({
   imports: [
@@ -8,4 +8,4 @@ import { ROUTES } from './users-routes';
   ],
   exports: [RouterModule],
 })
-export class UsersRoutingModule { }
+export class JobsAdminRoutingModule { }

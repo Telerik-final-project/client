@@ -1,11 +1,23 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { DateAdapter, MatDatepickerInputEvent, MatSnackBar, PageEvent } from '@angular/material';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import {
+  DateAdapter,
+  MatDatepickerInputEvent,
+  MatSnackBarConfig,
+  PageEvent,
+} from '@angular/material';
 
 import { JobType } from '../models/job-type';
 import { AuthService } from './../core/auth.service';
 import { JobTypesService } from './../core/job-types.service';
 import { JobsService } from './../core/jobs.service';
 import { JobAd } from './../models/job-ad';
+import { SharedSnackModule } from './../shared/material/shared-snack.module';
 
 @Component({
   selector: 'app-job-list',
@@ -13,32 +25,44 @@ import { JobAd } from './../models/job-ad';
   styleUrls: ['./job-list.component.css'],
 })
 export class JobListComponent implements OnInit {
-  @Output()
   public jobs: JobAd[];
   public paginatedJobs: JobAd[];
-  private length: number;
-  private pageSize = 10;
-  private keyword: string;
-  private jobTypes: JobType[];
-  private selectedCategory = 'none';
-  private userInput: string;
+  public length: number;
+  public pageSize = 10;
+  public keyword: string;
+  public jobTypes: JobType[];
+  public selectedCategory = 'none';
+  public userInput: string;
+  public startDateInput: string;
+  public endDateInput: string;
   private startDate = '01/01/1970';
   private endDate = '30/11/9999';
-  private startDateInput: string;
-  private endDateInput: string;
+  private snackOptions = {
+    duration: 2500,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+  } as MatSnackBarConfig;
 
   constructor(
-    private jobsService: JobsService, private snackMsg: MatSnackBar, private authService: AuthService,
-    private jobTypesService: JobTypesService, private adapter: DateAdapter<any>) {}
+    public jobsService: JobsService,
+    public snack: SharedSnackModule,
+    public authService: AuthService,
+    public jobTypesService: JobTypesService,
+    public adapter: DateAdapter<any>,
+  ) {}
 
   public ngOnInit(): void {
     this.jobsService.getAll().subscribe((data) => {
       this.jobs = data;
       this.length = this.jobs.length;
       if (this.length === 0) {
-        this.openSnackMsg('There are no open positions - please try later');
+        this.snack.openSnackMsg('There are no open positions - please try later', 'Close', this.snackOptions);
       }
-      this.onChangePage({pageIndex: 0, length: this.length, pageSize: this.pageSize});
+      this.onChangePage({
+        pageIndex: 0,
+        length: this.length,
+        pageSize: this.pageSize,
+      });
     });
 
     this.jobTypesService.getAll().subscribe((jobTypes) => {
@@ -48,15 +72,10 @@ export class JobListComponent implements OnInit {
 
   public onChangePage(event: PageEvent): void {
     const copy = this.jobs.slice();
-    this.paginatedJobs = copy.slice(event.pageIndex * event.pageSize, (event.pageIndex * event.pageSize) + event.pageSize);
-  }
-
-  private openSnackMsg(msg: string): void {
-    this.snackMsg.open(msg, 'Close', {
-      duration: 2500,
-      verticalPosition: 'top',
-      horizontalPosition: 'left',
-    });
+    this.paginatedJobs = copy.slice(
+      event.pageIndex * event.pageSize,
+      event.pageIndex * event.pageSize + event.pageSize,
+    );
   }
 
   private filterJobs(input: string, startDate: string, endDate: string): void {
@@ -64,9 +83,9 @@ export class JobListComponent implements OnInit {
     this.userInput = input;
     this.paginatedJobs = this.jobsService.filter(copy, input, this.selectedCategory, startDate, endDate);
     if (this.paginatedJobs.length === 0) {
-        this.openSnackMsg('There are no open positions with these criteria');
+      this.snack.openSnackMsg('There are no open positions with these criteria', 'Close', this.snackOptions);
     } else {
-      this.snackMsg.dismiss();
+      this.snack.dismissSnackMsg();
     }
   }
 
@@ -83,7 +102,7 @@ export class JobListComponent implements OnInit {
 
   private clearFilters(): void {
     this.keyword = '';
-    this.selectedCategory = '';
+    this.selectedCategory = 'none';
     this.paginatedJobs = this.jobs.slice();
     this.startDate = '01/01/1970';
     this.endDate = '30/11/9999';

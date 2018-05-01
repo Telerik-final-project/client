@@ -39,6 +39,7 @@ export class JobsService {
       if (jobType === 'none') {
         jobType = '';
       }
+      console.log(keyword, jobType, startDate, endDate);
       return jobs.filter((job) => (
         job.descriptionUrl.toLowerCase().includes(keyword.toLowerCase()) ||
           job.title.toLowerCase().includes(keyword.toLowerCase())) && (job.JobType.jobType.includes(jobType) &&
@@ -46,7 +47,6 @@ export class JobsService {
   }
   private checkForStartDate(start: string, job: string): boolean {
     const beautifed = this.beautifyDate(job, start);
-
     if (beautifed.filterYear < beautifed.jobYear) {
       return true;
     } else if (beautifed.filterYear === beautifed.jobYear) {
@@ -92,7 +92,7 @@ export class JobsService {
     filterDay: number; filterMonth: number; filterYear: number; } {
     const temp = filterDate.split('/');
     const jobDate = new Date(job);
-    const newFilterDate = new Date(`${temp[1]}/${temp[0]}/${temp[2]}`);
+    const newFilterDate = new Date(`${temp[0]}/${+temp[1]}/${temp[2]}`);
     const jobDay = +jobDate.getDate();
     const jobMonth = +jobDate.getMonth() + 1;
     const jobYear = +jobDate.getFullYear();

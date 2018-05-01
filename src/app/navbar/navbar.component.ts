@@ -10,7 +10,7 @@ import { AuthService } from './../core/auth.service';
 
 @Injectable()
 export class NavbarComponent implements OnInit {
-  constructor(private authService: AuthService) { }
+  constructor(public authService: AuthService) { }
 
   public ngOnInit(): void {
     console.log(this.authService.isAuthenticated());

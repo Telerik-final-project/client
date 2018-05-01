@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { JobsService } from './../../core/jobs.service';
-import { JobAd } from './../../models/job-ad';
+
+import { JobsService } from '../../../core/jobs.service';
+import { JobAd } from '../../../models/job-ad';
+import { AuthService } from './../../../core/auth.service';
 
 @Component({
   selector: 'app-job-detail',
@@ -13,7 +15,7 @@ export class JobDetailComponent implements OnInit {
   public job: JobAd;
   public jobId: number;
 
-  constructor(private jobService: JobsService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private jobService: JobsService, private route: ActivatedRoute, private router: Router, public authService: AuthService) {}
 
   public ngOnInit(): void {
     this.route.params.subscribe(
@@ -29,7 +31,7 @@ export class JobDetailComponent implements OnInit {
   }
 
   private navigateToApplications(): void {
-    this.router.navigate(['/jobs/admin', this.jobId, 'applications']);
+    this.router.navigate(['/admin', this.jobId, 'applications']);
   }
 
 }

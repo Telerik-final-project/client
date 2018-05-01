@@ -1,12 +1,13 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSnackBar, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { saveAs } from 'file-saver';
 
 import { ApplicationsService } from '../../../core/applications.service';
 import { JobApplication } from './../../../models/job-application';
+import { SharedSnackModule } from './../../../shared/material/shared-snack.module';
 
 @Component({
   selector: 'app-job-applications-admin',
@@ -14,12 +15,14 @@ import { JobApplication } from './../../../models/job-application';
   styleUrls: ['./job-applications-admin.component.css'],
 })
 export class JobApplicationsAdminComponent implements OnInit {
+  public displayedColumns = ['id', 'name', 'comment', 'createdAt', 'cv', 'coverLetter'];
+  public applications = new MatTableDataSource<JobApplication>();
+  public length: number;
   @ViewChild(MatPaginator) private paginator: MatPaginator;
   @ViewChild(MatSort) private sort: MatSort;
-  private displayedColumns = ['id', 'name', 'comment', 'createdAt', 'cv', 'coverLetter'];
-  private applications = new MatTableDataSource<JobApplication>();
-  private length: number;
-  constructor(private route: ActivatedRoute, private applicationService: ApplicationsService, private snackMsg: MatSnackBar) { }
+  constructor(
+    private route: ActivatedRoute, private applicationService: ApplicationsService,
+    private snack: SharedSnackModule) { }
 
   public initPaginator(): void {
     this.applications.sort = this.sort;
@@ -37,17 +40,13 @@ export class JobApplicationsAdminComponent implements OnInit {
         this.length = this.applications.data.length;
 
         if (this.length === 0) {
-          this.openSnackMsg('No data available');
+          this.snack.openSnackMsg('No data available', 'Close', {
+            duration: 2500,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+          });
         }
       });
-    });
-  }
-
-  private openSnackMsg(msg: string): void {
-    this.snackMsg.open(msg, 'Close', {
-      duration: 2500,
-      verticalPosition: 'top',
-      horizontalPosition: 'left',
     });
   }
 
