@@ -35,6 +35,7 @@ export class CreateComponent implements OnInit, IDynamicButtonsForm {
   constructor(
     private formBuilder: FormBuilder,
     private buttonsService: DynamicButtonsService,
+    private router: Router,
   ) { }
 
   public ngOnInit(): void {
@@ -78,6 +79,8 @@ export class CreateComponent implements OnInit, IDynamicButtonsForm {
     this.buttonsService
       .create(newButton, { observe: 'response', responseType: 'json' })
       .subscribe((params: Params) => console.log(params));
+
+    this.router.navigateByUrl('/btn');
   }
 
   public chidchangeVisibility(): void {
