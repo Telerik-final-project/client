@@ -68,15 +68,15 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
     this.selected = $event.toElement.innerHTML.trim();
   }
 
-  public edit(): void {
-    // const newButton: IDynamicButtons = {
-    //   name: this.form.value.name,
-    //   target: this.form.value.targetUrl,
-    //   link: this.form.value.iconUrl,
-    //   type: this.selected,
-    //   isHidden: this.isHidden,
-    //   isDeleted: 0,
-    // };
+  public edit(id: number): void {
+    const newButton: IDynamicButtons = {
+      name: this.form.value.name,
+      target: this.form.value.targetUrl,
+      link: this.form.value.iconUrl,
+      type: this.selected,
+      isHidden: this.isHidden,
+      isDeleted: 0,
+    };
 
     this.buttonsService
       .getInfoPerID(id, { observe: 'response', responseType: 'json' })
