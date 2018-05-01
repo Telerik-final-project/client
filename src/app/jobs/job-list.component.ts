@@ -48,6 +48,7 @@ export class JobListComponent implements OnInit {
     public snack: SharedSnackModule,
     public authService: AuthService,
     public jobTypesService: JobTypesService,
+    public adapter: DateAdapter<any>,
   ) {}
 
   public ngOnInit(): void {
