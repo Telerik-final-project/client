@@ -4,6 +4,7 @@ import { SharedModule } from '../shared/shared.module';
 import { CreateComponent } from './create/create.component';
 import { EditComponent } from './edit/edit.component';
 import { ListingComponent } from './listing/listing.component';
+import { TableComponent } from './listing/table/table.component';
 import { DynamicButtonsRoutingModule } from './routing/dynamic-buttons-routing.module';
 
 @NgModule({
@@ -12,7 +13,7 @@ import { DynamicButtonsRoutingModule } from './routing/dynamic-buttons-routing.m
     DynamicButtonsRoutingModule,
     SharedModule,
   ],
-  declarations: [CreateComponent, EditComponent, ListingComponent],
+  declarations: [CreateComponent, EditComponent, ListingComponent, TableComponent],
   exports: [],
 })
 export class DynamicButtonsModule { }
