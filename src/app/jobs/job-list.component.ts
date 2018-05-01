@@ -1,5 +1,16 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { DateAdapter, MatDatepickerInputEvent, MatSnackBar, PageEvent } from '@angular/material';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import {
+  DateAdapter,
+  MatDatepickerInputEvent,
+  MatSnackBar,
+  PageEvent,
+} from '@angular/material';
 
 import { JobType } from '../models/job-type';
 import { AuthService } from './../core/auth.service';
@@ -13,23 +24,26 @@ import { JobAd } from './../models/job-ad';
   styleUrls: ['./job-list.component.css'],
 })
 export class JobListComponent implements OnInit {
-  @Output()
   public jobs: JobAd[];
   public paginatedJobs: JobAd[];
-  private length: number;
-  private pageSize = 10;
-  private keyword: string;
-  private jobTypes: JobType[];
-  private selectedCategory = 'none';
-  private userInput: string;
+  public length: number;
+  public pageSize = 10;
+  public keyword: string;
+  public jobTypes: JobType[];
+  public selectedCategory = 'none';
+  public userInput: string;
+  public startDateInput: string;
+  public endDateInput: string;
   private startDate = '01/01/1970';
   private endDate = '30/11/9999';
-  private startDateInput: string;
-  private endDateInput: string;
 
   constructor(
-    private jobsService: JobsService, private snackMsg: MatSnackBar, private authService: AuthService,
-    private jobTypesService: JobTypesService, private adapter: DateAdapter<any>) {}
+    public jobsService: JobsService,
+    public snackMsg: MatSnackBar,
+    public authService: AuthService,
+    public jobTypesService: JobTypesService,
+    public adapter: DateAdapter<any>,
+  ) {}
 
   public ngOnInit(): void {
     this.jobsService.getAll().subscribe((data) => {
@@ -38,7 +52,11 @@ export class JobListComponent implements OnInit {
       if (this.length === 0) {
         this.openSnackMsg('There are no open positions - please try later');
       }
-      this.onChangePage({pageIndex: 0, length: this.length, pageSize: this.pageSize});
+      this.onChangePage({
+        pageIndex: 0,
+        length: this.length,
+        pageSize: this.pageSize,
+      });
     });
 
     this.jobTypesService.getAll().subscribe((jobTypes) => {
@@ -48,23 +66,32 @@ export class JobListComponent implements OnInit {
 
   public onChangePage(event: PageEvent): void {
     const copy = this.jobs.slice();
-    this.paginatedJobs = copy.slice(event.pageIndex * event.pageSize, (event.pageIndex * event.pageSize) + event.pageSize);
+    this.paginatedJobs = copy.slice(
+      event.pageIndex * event.pageSize,
+      event.pageIndex * event.pageSize + event.pageSize,
+    );
   }
 
   private openSnackMsg(msg: string): void {
     this.snackMsg.open(msg, 'Close', {
       duration: 2500,
       verticalPosition: 'top',
-      horizontalPosition: 'left',
+      horizontalPosition: 'center',
     });
   }
 
   private filterJobs(input: string, startDate: string, endDate: string): void {
     const copy = this.jobs.slice();
     this.userInput = input;
-    this.paginatedJobs = this.jobsService.filter(copy, input, this.selectedCategory, startDate, endDate);
+    this.paginatedJobs = this.jobsService.filter(
+      copy,
+      input,
+      this.selectedCategory,
+      startDate,
+      endDate,
+    );
     if (this.paginatedJobs.length === 0) {
-        this.openSnackMsg('There are no open positions with these criteria');
+      this.openSnackMsg('There are no open positions with these criteria');
     } else {
       this.snackMsg.dismiss();
     }

@@ -1,3 +1,4 @@
+import { SharedJobsModule } from './../shared/jobs/shared-jobs.module';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -9,15 +10,9 @@ import { SharedTableModule } from './../shared/material/shared-table.module';
 import { SharedDialogModule } from './../shared/shared-dialog.module';
 import { SharedModule } from './../shared/shared.module';
 
-import { JobCreateAdminDialogComponent } from './job-admin/job-list-admin/job-create-admin-dialog/job-create-admin-dialog.component';
-import { JobListAdminDialogComponent } from './job-admin/job-list-admin/job-list-admin-dialog/job-list-admin-dialog.component';
-import { JobListAdminComponent } from './job-admin/job-list-admin/job-list-admin.component';
-import { JobApplicationDialogComponent } from './job-application/job-application-dialog.component';
-import { JobApplicationComponent } from './job-application/job-application.component';
-import { JobDetailComponent } from './job-detail/job-detail.component';
 import { JobListComponent } from './job-list.component';
 import { JobViewComponent } from './job-view.component';
-import { JobApplicationsAdminComponent } from './job-admin/job-applications-admin/job-applications-admin.component';
+import { JobsRoutingModule } from './routing/jobs-routing.module';
 
 @NgModule({
   imports: [
@@ -25,21 +20,18 @@ import { JobApplicationsAdminComponent } from './job-admin/job-applications-admi
     SharedModule,
     RouterModule,
     SharedDialogModule,
+    SharedJobsModule,
     SharedPaginatorModule,
     SharedTableModule,
     SharedIconModule,
     FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
+    JobsRoutingModule,
   ],
   declarations: [
-    JobListComponent, JobDetailComponent, JobApplicationComponent, JobViewComponent,
-    JobApplicationDialogComponent,
-    JobListAdminComponent,
-    JobListAdminDialogComponent,
-    JobCreateAdminDialogComponent,
-    JobApplicationsAdminComponent,
+    JobListComponent, JobViewComponent,
+
   ],
   entryComponents: [
-    JobApplicationDialogComponent, JobListAdminDialogComponent, JobCreateAdminDialogComponent,
   ],
 })
 export class JobsModule { }

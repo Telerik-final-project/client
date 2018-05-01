@@ -12,7 +12,12 @@ import {
 } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
+import { JobApplicationDialogComponent } from './jobs/job-application/job-application-dialog.component';
+import { JobApplicationComponent } from './jobs/job-application/job-application.component';
+import { JobDetailComponent } from './jobs/job-detail/job-detail.component';
+import { SharedDialogModule } from './shared-dialog.module';
 
 @NgModule({
   imports: [
@@ -34,6 +39,8 @@ import { DropzoneModule } from 'ngx-dropzone-wrapper';
     MatCheckboxModule,
     MatTableModule,
     MatSortModule,
+    RouterModule,
+    SharedDialogModule,
   ],
   exports: [
     FormsModule,

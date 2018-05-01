@@ -16,12 +16,13 @@ import { JobListAdminDialogComponent } from './job-list-admin-dialog/job-list-ad
   styleUrls: ['./job-list-admin.component.css'],
 })
 export class JobListAdminComponent implements OnInit {
+  public displayedColumns = ['id', 'title', 'createdAt', 'view', 'edit', 'delete'];
+  public jobs = new MatTableDataSource<JobAd>();
+  public length: number;
   @ViewChild(MatPaginator) private paginator: MatPaginator;
   @ViewChild(MatSort) private sort: MatSort;
-  private displayedColumns = ['id', 'title', 'createdAt', 'view', 'edit', 'delete'];
-  private jobs = new MatTableDataSource<JobAd>();
   private currentlyClickedRow: JobAd;
-  private length: number;
+
   constructor(private jobsService: JobsService, private snackMsg: MatSnackBar, private router: Router, private dialog: MatDialog) {}
 
   public initPaginator(): void {
@@ -48,7 +49,7 @@ export class JobListAdminComponent implements OnInit {
     this.snackMsg.open(msg, 'Close', {
       duration: 2500,
       verticalPosition: 'top',
-      horizontalPosition: 'left',
+      horizontalPosition: 'center',
     });
   }
 
@@ -94,7 +95,8 @@ export class JobListAdminComponent implements OnInit {
   }
 
   private openDialog(component: ComponentType<any>, jobData?: JobAd): Observable<any> {
-    let dialogRef: MatDialogRef<JobCreateAdminDialogComponent> | MatDialogRef<JobListAdminDialogComponent>;
+    let dialogRef: MatDialogRef<Component>;
+
     if (jobData) {
       const dataToSend = {
         id: jobData.id,

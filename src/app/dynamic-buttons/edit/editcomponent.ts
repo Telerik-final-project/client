@@ -78,9 +78,9 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
     //   isDeleted: 0,
     // };
 
-    this.buttonsService
-      .getInfoPerID(id, { observe: 'response', responseType: 'json' })
-      .subscribe((params: Params) => console.log(params));
+    // this.buttonsService
+    //   .getInfoPerID(id, { observe: 'response', responseType: 'json' })
+    //   .subscribe((params: Params) => console.log(params));
   }
 
   public chidchangeVisibility(): void {

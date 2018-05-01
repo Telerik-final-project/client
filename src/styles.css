@@ -12,6 +12,14 @@
     margin-top: 10%;
 } */
 
+.cdk-global-overlay-wrapper {
+  overflow-y: scroll;
+}
+
+.cdk-global-overlay-wrapper > div {
+  max-height: 100%;
+}
+
 .admin-dialog {
     width: 100%;
 }

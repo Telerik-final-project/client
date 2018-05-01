@@ -14,11 +14,11 @@ import { JobApplication } from './../../../models/job-application';
   styleUrls: ['./job-applications-admin.component.css'],
 })
 export class JobApplicationsAdminComponent implements OnInit {
+  public displayedColumns = ['id', 'name', 'comment', 'createdAt', 'cv', 'coverLetter'];
+  public applications = new MatTableDataSource<JobApplication>();
+  public length: number;
   @ViewChild(MatPaginator) private paginator: MatPaginator;
   @ViewChild(MatSort) private sort: MatSort;
-  private displayedColumns = ['id', 'name', 'comment', 'createdAt', 'cv', 'coverLetter'];
-  private applications = new MatTableDataSource<JobApplication>();
-  private length: number;
   constructor(private route: ActivatedRoute, private applicationService: ApplicationsService, private snackMsg: MatSnackBar) { }
 
   public initPaginator(): void {
@@ -47,7 +47,7 @@ export class JobApplicationsAdminComponent implements OnInit {
     this.snackMsg.open(msg, 'Close', {
       duration: 2500,
       verticalPosition: 'top',
-      horizontalPosition: 'left',
+      horizontalPosition: 'center',
     });
   }
 

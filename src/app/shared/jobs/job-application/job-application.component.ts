@@ -5,18 +5,18 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DropzoneConfigInterface  } from 'ngx-dropzone-wrapper';
 import { Observable } from 'rxjs/Observable';
 
-import { DropzoneCoverConfig } from '../../config/dropzone-cover.config';
-import { DropzoneCvConfig } from '../../config/dropzone-cv.config';
-import { ApplicationsService } from './../../core/applications.service';
-import { AuthService } from './../../core/auth.service';
-import { JobsService } from './../../core/jobs.service';
-import { JobAd } from './../../models/job-ad';
-import { JobApplication } from './../../models/job-application';
-
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
 import { MatDialog } from '@angular/material/dialog';
 
 import { JobApplicationDialogComponent } from './job-application-dialog.component';
+
+import { DropzoneCoverConfig } from '../../../config/dropzone-cover.config';
+import { DropzoneCvConfig } from '../../../config/dropzone-cv.config';
+import { ApplicationsService } from '../../../core/applications.service';
+import { AuthService } from '../../../core/auth.service';
+import { JobsService } from '../../../core/jobs.service';
+import { JobAd } from '../../../models/job-ad';
+import { JobApplication } from '../../../models/job-application';
 
 @Component({
   selector: 'app-job-application',
@@ -24,6 +24,14 @@ import { JobApplicationDialogComponent } from './job-application-dialog.componen
   styleUrls: ['./job-application.component.css'],
 })
 export class JobApplicationComponent implements OnInit {
+  public job: JobAd;
+  public jobId: number;
+  public form: FormGroup;
+  public firstName: AbstractControl;
+  public lastName: AbstractControl;
+  public comment: AbstractControl;
+  public cvUrl: string;
+  public coverUrl: string;
   @ViewChild('dzCv') public dropzoneCv;
 
   public configCv =  new DropzoneCvConfig();
@@ -36,14 +44,6 @@ export class JobApplicationComponent implements OnInit {
   private maxCommentLength = 1024;
   private onSuccessDuration = 2000;
   private onErrorDuration = 3000;
-  private job: JobAd;
-  private jobId: number;
-  private form: FormGroup;
-  private firstName: AbstractControl;
-  private lastName: AbstractControl;
-  private comment: AbstractControl;
-  private cvUrl: string;
-  private coverUrl: string;
 
   constructor(
     private jobsService: JobsService, private route: ActivatedRoute, private router: Router,
@@ -148,7 +148,7 @@ export class JobApplicationComponent implements OnInit {
     return this.snackMsg.open(msg, 'Close', {
       duration,
       verticalPosition: 'top',
-      horizontalPosition: 'left',
+      horizontalPosition: 'center',
     });
   }
 

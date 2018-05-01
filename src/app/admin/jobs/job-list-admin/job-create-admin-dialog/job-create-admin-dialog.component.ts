@@ -1,15 +1,16 @@
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
+import { JobApplicationDialogComponent } from '../../../../shared/jobs/job-application/job-application-dialog.component';
 import { JobTypesService } from './../../../../core/job-types.service';
 import { JobsService } from './../../../../core/jobs.service';
 import { JobAd } from './../../../../models/job-ad';
 import { JobType } from './../../../../models/job-type';
-import { JobApplicationDialogComponent } from './../../../job-application/job-application-dialog.component';
 
 @Component({
   selector: 'app-job-create-admin-dialog',
@@ -46,7 +47,7 @@ export class JobCreateAdminDialogComponent implements OnInit {
   };
 
   constructor(
-    private jobTypeService: JobTypesService, private jobsService: JobsService,
+    private snackMsg: MatSnackBar, private jobTypeService: JobTypesService, private jobsService: JobsService,
     private dialogRef: MatDialogRef<JobCreateAdminDialogComponent>, private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) private data: JobAd, private elRef: ElementRef, private router: Router) {}
 
@@ -78,6 +79,8 @@ export class JobCreateAdminDialogComponent implements OnInit {
       this.form.controls['description'].setValue(this.data.description);
       /* tslint:enable */
     }
+    this.openSnackMsg('Successfully updated the job ad.');
+
   }
 
   private getErrorMessage(field: AbstractControl): string {
@@ -110,8 +113,21 @@ export class JobCreateAdminDialogComponent implements OnInit {
     }
   }
 
-  private onOkay(res: JobAd): void {
+  private onOkay(res: JobAd, type: string): void {
     this.dialogRef.close(res);
+    if (type === 'update') {
+      this.openSnackMsg('Successfully updated the job ad.');
+    } else {
+      this.openSnackMsg('Successfully created a job ad.');
+    }
+  }
+
+  private openSnackMsg(msg: string): void {
+    this.snackMsg.open(msg, 'Close', {
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+    });
   }
 
   private onSubmit(): void {
@@ -129,7 +145,9 @@ export class JobCreateAdminDialogComponent implements OnInit {
       this.jobsService.update(updatedAd as JobAd, { observe: 'response', responseType: 'json', headers: new HttpHeaders({
         'Content-Type':  'application/json'}) }).subscribe((x: HttpResponse<object>) => {
           if (x.status === this.statusOk) {
-            this.onOkay(x.body as JobAd);
+            this.onOkay(x.body as JobAd, 'update');
+          } else {
+            this.openSnackMsg('We encountered an error during the update.');
           }
         });
     } else {
@@ -144,7 +162,9 @@ export class JobCreateAdminDialogComponent implements OnInit {
       this.jobsService.create(newAd as JobAd, { observe: 'response', responseType: 'json', headers: new HttpHeaders({
         'Content-Type':  'application/json'}) }).subscribe((x: HttpResponse<object>) => {
         if (x.status === this.statusOk) {
-          this.onOkay(x.body as JobAd);
+          this.onOkay(x.body as JobAd, 'create');
+        } else {
+          this.openSnackMsg('We encountered an error during the creation.');
         }
       });
     }
