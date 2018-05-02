@@ -14,7 +14,7 @@
   </div>
   <div fxLayout="row">
     <mat-form-field fxFlex class="form-item" hintLabel="Max 16384 characters">
-      <textarea matInput formControlName="description" [froalaEditor]='editorOptions'></textarea>
+      <textarea matInput minlength="4" maxlength="16384" formControlName="description" [froalaEditor]="editorOptions"></textarea>
     </mat-form-field>
   </div>
   <div fxLayout="row">
@@ -37,7 +37,7 @@
   <div fxLayout="row">
     <mat-list fxFlex class="form-item">
       <mat-list-item>
-        <button [disabled]="title.errors || jobType.errors || status.errors" mat-raised-button color="primary" (click)="onSubmit()">Submit </button>
+        <button [disabled]="title.errors || jobType.errors || status.errors || description.errors" mat-raised-button color="primary" (click)="onSubmit($event)">Submit </button>
       </mat-list-item>
     </mat-list>
   </div>

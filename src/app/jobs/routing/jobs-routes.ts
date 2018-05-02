@@ -7,14 +7,17 @@ import { JobDetailComponent } from '../../shared/jobs/job-detail/job-detail.comp
 import { JobListComponent } from '../job-list.component';
 
 export const ROUTES: Routes = [
-    { path: '', component: JobListComponent, pathMatch: 'full' },
-    {
-                path: ':jobId', children: [
-                    { path: '', component: JobDetailComponent, pathMatch: 'full' },
-                    {
-                        path: 'apply', component: JobApplicationComponent,
-                        canDeactivate: [ApplicationGuard], canActivate: [AuthGuard, ClosedApplicationGuard],
-                    },
-                ],
-            },
+  { path: '', component: JobListComponent, pathMatch: 'full' },
+  {
+    path: ':jobId',
+    children: [
+      { path: '', component: JobDetailComponent, canActivate: [ClosedApplicationGuard], pathMatch: 'full' },
+      {
+        path: 'apply',
+        component: JobApplicationComponent,
+        canDeactivate: [ApplicationGuard],
+        canActivate: [AuthGuard, ClosedApplicationGuard],
+      },
+    ],
+  },
 ];

@@ -34,19 +34,22 @@
       </mat-form-field>
       <div fxFlex="20"></div>
     </div>
-    <div fxLayout="row" fxLayout.xs="column" fxFlexFill>
+    <div fxLayout="row" fxFlexFill>
       <div fxFlex="20"></div>
-      <div fxFlex class="dropzone" #dzCv="ngxDropzone" [dropzone]="configCv" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></div>
-      <div fxFlex="10"></div>
-      <div fxFlex  class="dropzone" [dropzone]="configCover" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></div>
+      <div fxFlex fxLayout="row" fxLayout.xs="column">
+        <div fxFlex fxFlexOffset.xs="10px" class="dropzone" #dzCv="ngxDropzone" [dropzone]="configCv" (error)="onUploadError($event)"
+          (success)="onUploadSuccess($event)"></div>
+        <div fxFlex="10" fxFlexOffset.xs="10px"></div>
+        <div fxFlex fxFlexOffset.xs="10px" class="dropzone" [dropzone]="configCover" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></div>
+      </div>
       <div fxFlex="20"></div>
     </div>
     <div fxLayout="row" fxFlexFill>
       <div fxFlex="20"></div>
       <mat-list fxFlex class="form-item">
         <mat-list-item>
-          <button [disabled]="firstName.errors || lastName.errors || !firstName.value.length || !lastName.value.length || !addedSuccessfully" mat-raised-button
-            color="primary" (click)="onSubmit()">Submit </button>
+          <button [disabled]="firstName.errors || lastName.errors || !firstName.value.length || !lastName.value.length || !addedSuccessfully"
+            mat-raised-button color="primary" (click)="onSubmit()">Submit </button>
         </mat-list-item>
       </mat-list>
       <div fxFlex="20"></div>

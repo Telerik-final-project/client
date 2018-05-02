@@ -12,11 +12,11 @@ export class ApplicationsService {
     constructor(private appConfig: AppConfig, private httpClient: HttpClient) {}
 
     public getById(id: number): Observable<JobApplication> {
-        return this.httpClient.get<JobApplication>(`${this.appConfig.apiUrl}/jobs/applications/${id}`);
+        return this.httpClient.get<JobApplication>(`${this.appConfig.apiUrl}/applications/${id}`);
     }
 
     public getAll(): Observable<JobApplication[]> {
-        return this.httpClient.get<JobApplication[]>(`${this.appConfig.apiUrl}/jobs/applications`);
+        return this.httpClient.get<JobApplication[]>(`${this.appConfig.apiUrl}/applications`);
     }
 
     public getJobApplications(jobId: number): Observable<JobApplication[]> {
@@ -24,10 +24,10 @@ export class ApplicationsService {
     }
 
     public create(application: JobApplication, options?: HttpOptions): Observable<object> {
-        return this.httpClient.post(`${this.appConfig.apiUrl}/jobs/applications/create`, application, options);
+        return this.httpClient.post(`${this.appConfig.apiUrl}/applications/create`, application, options);
     }
 
     public downloadFile(file: string): Observable<object> {
-        return this.httpClient.get(`${this.appConfig.apiUrl}/jobs/download/${file}`, {responseType: 'blob', observe: 'response'});
+        return this.httpClient.get(`${this.appConfig.apiUrl}/applications/download/${file}`, {responseType: 'blob', observe: 'response'});
     }
 }
