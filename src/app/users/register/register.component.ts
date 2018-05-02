@@ -1,11 +1,25 @@
+
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+} from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  NgModel,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../core/auth.service';
-import { IRegister } from './_interfaces/register.interface';
-import { ValidateInputFields } from './validators/passwords-validator';
+import { IRegisterMatch } from './_interfaces/match.interface';
+import { IValidator } from './_interfaces/validator.interface';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +28,7 @@ import { ValidateInputFields } from './validators/passwords-validator';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class RegisterComponent extends ValidateInputFields implements OnInit, IRegister {
+export class RegisterComponent implements OnInit {
   public registerForm: FormGroup;
   public username: AbstractControl;
   public email: AbstractControl;
@@ -32,9 +46,9 @@ export class RegisterComponent extends ValidateInputFields implements OnInit, IR
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private router: Router,
-  ) {
-    super();
-  }
+    @Inject('IRegisterMatch') private passwordsMatch: IRegisterMatch,
+    @Inject('IValidator') private passwordsValidator: IValidator,
+  ) { }
 
   public ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
@@ -55,7 +69,12 @@ export class RegisterComponent extends ValidateInputFields implements OnInit, IR
       password2: ['', [
         Validators.required],
       ],
-    });
+    },                                         {
+        validator: [
+          this.passwordsMatch.passwordsMatch,
+          this.passwordsValidator.validate,
+        ],
+      });
 
     this.username = this.registerForm.get('username');
     this.email = this.registerForm.get('email');
@@ -87,18 +106,19 @@ export class RegisterComponent extends ValidateInputFields implements OnInit, IR
   }
 
   private getErrorMessage(field: AbstractControl, fieldName?: string): string {
-    if (fieldName === 'password' || fieldName === 'password2') {
-      const ifPasswordsMatch = this.ifPasswordsMatch(field);
-      if (ifPasswordsMatch) { return ifPasswordsMatch; }
+    if (field.hasError('required')) {
+      return `${fieldName} is required!`;
+    } else if (field.hasError('email')) {
+      return 'Invalid email!';
+    } else if (field.hasError('minlength')) {
+      const fieldLength = field.errors.minlength.requiredLength;
+
+      return `Your ${fieldName} must be at least ${fieldLength} symbols!`;
+    } else if (field.hasError('passwordMatch')) {
+      return 'Passwords don`t match!';
+    } else if (field.hasError('passwordValidate')) {
+      return 'INVALID';
     }
-
-    const passwordsValidation = this.passwordsFieldsValidator(this.registerForm);
-    if (passwordsValidation) { return ''; }
-
-    const mainValidation = this.mainValidator(field);
-    if (mainValidation) { return mainValidation; }
-
-    const generalValidation: string = this.generalValidator(field, fieldName);
-    if (generalValidation) { return generalValidation; }
+    return null;
   }
 }
