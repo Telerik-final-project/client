@@ -3,10 +3,11 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { IDynamicButtons } from '../../models/dynamic.buttons.interface';
 import { IDynamicButtonsForm } from '../_interfaces/create.edit.interface';
 
-import { DynamicButtonsService } from '../../core/dynamic.buttons.service';
+import { Subscription } from 'rxjs/Subscription';
+import { DynamicButtonsService } from '../../../core/dynamic.buttons.service';
+import { IDynamicButtons } from '../../../models/dynamic.buttons.interface';
 
 @Component({
   selector: 'app-edit',
@@ -32,7 +33,7 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
 
   public selected: string = 'Social Link';
 
-  private editID: number;
+  private editID: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -68,13 +69,10 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
     this.selected = $event.toElement.innerHTML.trim();
   }
 
-  public edit(id: number, route: ActivatedRoute): void {
+  public edit(id: number): void {
     this.buttonsService
       .getInfoPerID(id, { observe: 'response', responseType: 'json' })
       .subscribe((params: Params) => console.log(params));
-
-    this.editID = this.route.params.id;
-    console.log(this.editID);
 
     const newButton: IDynamicButtons = {
       name: this.form.value.name,
@@ -84,6 +82,11 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
       isHidden: this.isHidden,
       isDeleted: 0,
     };
+
+    this.route.params.subscribe((param: Params) => {
+      this.editID = param.id;
+    });
+    console.log(this.editID);
 
     this.buttonsService
       .edit(this.editID, newButton, { observe: 'response', responseType: 'json' })

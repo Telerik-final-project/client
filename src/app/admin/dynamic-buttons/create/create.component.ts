@@ -3,10 +3,9 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { IDynamicButtons } from '../../models/dynamic.buttons.interface';
+import { DynamicButtonsService } from '../../../core/dynamic.buttons.service';
+import { IDynamicButtons } from '../../../models/dynamic.buttons.interface';
 import { IDynamicButtonsForm } from '../_interfaces/create.edit.interface';
-
-import { DynamicButtonsService } from '../../core/dynamic.buttons.service';
 
 @Component({
   selector: 'app-create',
@@ -80,7 +79,7 @@ export class CreateComponent implements OnInit, IDynamicButtonsForm {
       .create(newButton, { observe: 'response', responseType: 'json' })
       .subscribe((params: Params) => console.log(params));
 
-    this.router.navigateByUrl('/btn');
+    this.router.navigateByUrl('/admin/btn');
   }
 
   public chidchangeVisibility(): void {

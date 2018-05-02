@@ -10,8 +10,12 @@ import { JobListComponent } from './jobs/job-list.component';
 export const ROUTES: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
-    { path: 'users', loadChildren: './users/users.module#UsersModule' }, // Lazy loading
-    { path: 'btn', loadChildren: './dynamic-buttons/dynamic-buttons.module#DynamicButtonsModule' },
+    { path: 'users', loadChildren: './users/users.module#UsersModule' },
     { path: 'jobs', loadChildren: './jobs/jobs.module#JobsModule' },
-    { path: 'admin', loadChildren: './admin/jobs/jobs-admin.module#JobsAdminModule' },
-];
+    {
+        path: 'admin', children: [
+            { path: 'jobs', loadChildren: './admin/jobs/jobs-admin.module#JobsAdminModule' },
+            { path: 'btn', loadChildren: './admin/dynamic-buttons/dynamic-buttons.module#DynamicButtonsModule' },
+
+        ],
+    }];

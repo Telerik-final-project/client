@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
@@ -15,9 +15,13 @@ export class DynamicButtonsService {
         return this.httpClient.post(`${this.appConfig.apiUrl}/admin/buttons/create`, newButton, options);
     }
 
-    public edit(id: number, newButton: IDynamicButtons, options?: HttpOptions): Observable<object> {
-        console.log(id)
-        return this.httpClient.post(`${this.appConfig.apiUrl}/admin/buttons/edit/${id}`, newButton, options);
+    public edit(id: any, newButton: IDynamicButtons, options?: HttpOptions): Observable<object> {
+        const headers: HttpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+
+        console.log(id);
+        return this.httpClient.post(`${this.appConfig.apiUrl}/admin/buttons/edit/` + (id + ''), newButton, { headers });
     }
 
     public getAll(options?: HttpOptions): any {
