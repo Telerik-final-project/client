@@ -9,7 +9,7 @@ import { JobApplicationsAdminComponent } from '../job-applications-admin/job-app
 import { JobListAdminComponent } from '../job-list-admin/job-list-admin.component';
 
 export const ROUTES: Routes = [
-    { path: 'jobs', component: JobListAdminComponent, canActivate: [AdminAuthGuard] },
+    { path: '', component: JobListAdminComponent, canActivate: [AdminAuthGuard], pathMatch: 'full' },
     {
         path: ':jobId', canActivateChild: [AdminAuthGuard], children: [
             { path: '', component: JobDetailComponent, pathMatch: 'full'},
