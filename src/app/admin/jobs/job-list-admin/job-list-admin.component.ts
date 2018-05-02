@@ -29,7 +29,9 @@ export class JobListAdminComponent implements OnInit {
     horizontalPosition: 'center',
   } as MatSnackBarConfig;
 
-  constructor(private jobsService: JobsService, private snack: SharedSnackModule, private router: Router, private dialog: MatDialog) {}
+  constructor(private jobsService: JobsService, private snack: SharedSnackModule, private router: Router, private dialog: MatDialog) {
+    console.log('11111111')
+  }
 
   public initPaginator(): void {
     this.jobs.sort = this.sort;
