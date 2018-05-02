@@ -14,9 +14,6 @@ import { DynamicButtonsService } from '../../core/dynamic.buttons.service';
   styleUrls: ['./edit.component.css'],
 })
 export class EditComponent implements OnInit, IDynamicButtonsForm {
-  @Input()
-  public editID: string;
-
   public form: FormGroup;
   public name: AbstractControl;
   public targetUrl: AbstractControl;
@@ -35,7 +32,10 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
 
   public selected: string = 'Social Link';
 
+  private editID: number;
+
   constructor(
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private buttonsService: DynamicButtonsService,
   ) { }
@@ -68,19 +68,26 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
     this.selected = $event.toElement.innerHTML.trim();
   }
 
-  public edit(): void {
-    // const newButton: IDynamicButtons = {
-    //   name: this.form.value.name,
-    //   target: this.form.value.targetUrl,
-    //   link: this.form.value.iconUrl,
-    //   type: this.selected,
-    //   isHidden: this.isHidden,
-    //   isDeleted: 0,
-    // };
+  public edit(id: number, route: ActivatedRoute): void {
+    this.buttonsService
+      .getInfoPerID(id, { observe: 'response', responseType: 'json' })
+      .subscribe((params: Params) => console.log(params));
 
-    // this.buttonsService
-    //   .getInfoPerID(id, { observe: 'response', responseType: 'json' })
-    //   .subscribe((params: Params) => console.log(params));
+    this.editID = this.route.params.id;
+    console.log(this.editID);
+
+    const newButton: IDynamicButtons = {
+      name: this.form.value.name,
+      target: this.form.value.targetUrl,
+      link: this.form.value.iconUrl,
+      type: this.selected,
+      isHidden: this.isHidden,
+      isDeleted: 0,
+    };
+
+    this.buttonsService
+      .edit(this.editID, newButton, { observe: 'response', responseType: 'json' })
+      .subscribe((params: Params) => console.log(params));
   }
 
   public chidchangeVisibility(): void {

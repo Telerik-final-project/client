@@ -37,7 +37,7 @@ export class ListingComponent implements OnInit {
     this.dataSource.filter = newFilteredValue;
   }
 
-   private loadDBInfo(): void {
+  private loadDBInfo(): void {
     this.buttonsService
       .getAll({ observe: 'response', responseType: 'json' })
       .subscribe((x) => {
