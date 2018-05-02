@@ -34,19 +34,15 @@ import { JobType } from './../../../../models/job-type';
   styleUrls: ['./job-create-admin-dialog.component.css'],
 })
 export class JobCreateAdminDialogComponent implements OnInit {
-  private form: FormGroup;
-  private title: AbstractControl;
-  private jobType: AbstractControl;
-  private status: AbstractControl;
-  private description: AbstractControl;
-  private minTitleName = 4;
-  private maxTitleName = 256;
-  private maxDescriptionLength = 16384;
-  private jobTypes: JobType[];
-  private selectedType: JobType;
-  private descriptionLength = 0;
-  private statusOk = 200;
-  private editorOptions = {
+  public form: FormGroup;
+  public title: AbstractControl;
+  public jobType: AbstractControl;
+  public status: AbstractControl;
+  public description: AbstractControl;
+  public selectedType: JobType;
+  public descriptionLength = 0;
+  public statusOk = 200;
+  public editorOptions = {
     charCounterMax: 16384,
     toolbarButtonsXS: [
       'bold',
@@ -93,6 +89,11 @@ export class JobCreateAdminDialogComponent implements OnInit {
       },
     },
   };
+  public jobTypes: JobType[];
+  private minDescription = 11;
+  private minTitleName = 4;
+  private maxTitleName = 256;
+  private maxDescriptionLength = 16384;
   private snackOptions = {
     duration: 3000,
     verticalPosition: 'top',
@@ -120,7 +121,7 @@ export class JobCreateAdminDialogComponent implements OnInit {
       jobType: new FormControl('', [Validators.required]),
       description: new FormControl('', [
         Validators.required,
-        Validators.minLength(this.minTitleName),
+        Validators.minLength(this.minDescription),
         Validators.maxLength(this.maxDescriptionLength),
       ]),
       status: new FormControl('', [Validators.required]),
@@ -197,7 +198,8 @@ export class JobCreateAdminDialogComponent implements OnInit {
     }
   }
 
-  private onSubmit(): void {
+  private onSubmit(event: any): void {
+    event.target.disabled = true;
     if (this.data) {
       const updatedAd = {
         id: this.data.id,
@@ -251,6 +253,7 @@ export class JobCreateAdminDialogComponent implements OnInit {
             this.onOkay(x.body as JobAd, 'create');
           },
           () => {
+            event.target.disabled = false;
             this.snack.openSnackMsg(
               'We encountered an error during the creation.',
               'Close',
@@ -265,17 +268,4 @@ export class JobCreateAdminDialogComponent implements OnInit {
     const dialogRef = this.dialog.open(JobApplicationDialogComponent, {});
     return dialogRef.beforeClose();
   }
-
-  // private getDescriptionRealLen(): number {
-  //   const value: string = this.description.value;
-  //   let counter = 0;
-  //   if (value.length === 0) {
-  //     return 0;
-  //   }
-  //   value.match(/(<\/*\w>)/g).forEach((el) => {
-  //     counter += el.length;
-  //   });
-  //   this.descriptionLength = value.length - counter;
-  //   return this.descriptionLength;
-  // }
 }
