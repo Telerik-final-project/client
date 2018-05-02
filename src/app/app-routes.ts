@@ -16,6 +16,6 @@ export const ROUTES: Routes = [
         path: 'admin', children: [
             { path: 'jobs', loadChildren: './admin/jobs/jobs-admin.module#JobsAdminModule' },
             { path: 'btn', loadChildren: './admin/dynamic-buttons/dynamic-buttons.module#DynamicButtonsModule' },
-
+            { path: 'users', loadChildren: './admin/user.listing/user.listing.module#UserListingModule' },
         ],
     }];

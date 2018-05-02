@@ -1,0 +1,13 @@
+<h2 class=".md-display-3">Users</h2>
+
+<div class="example-header">
+  <div>
+    <mat-form-field class="filter">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter" class="filter">
+    </mat-form-field>
+  </div>
+</div>
+
+<div>
+  <table-listing [dataSource]="dataSource"></table-listing>
+</div>
