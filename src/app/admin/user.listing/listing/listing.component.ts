@@ -1,5 +1,5 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -11,6 +11,7 @@ import { IUsersListing } from './_interfaces/listing.interface';
   selector: 'app-listing',
   templateUrl: './listing.component.html',
   styleUrls: ['./listing.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListingComponent implements OnInit {
   public ELEMENT_DATA: IUsersListing[] = [];
@@ -26,7 +27,7 @@ export class ListingComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void { }
-
+  
   public ngAfterViewInit(): void {
     this.loadDBInfo();
   }
@@ -40,6 +41,7 @@ export class ListingComponent implements OnInit {
     this.usersListingService
       .getAll({ observe: 'response', responseType: 'json' })
       .subscribe((x) => {
+        console.log(x);
         x.body.users.forEach((user) => {
           this.ELEMENT_DATA.push({
             id: user.id,
@@ -48,12 +50,14 @@ export class ListingComponent implements OnInit {
             applications: user.applications,
           });
         });
+        this.dataSource.data = x.body.users;
+        console.log(this.ELEMENT_DATA.length);
+        this.paginatedButtons = this.dataSource.data.length;
+        window.setTimeout(() => {
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        });
+
       });
-
-    console.log(this.dataSource);
-    this.paginatedButtons = this.ELEMENT_DATA.length;
-
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 }

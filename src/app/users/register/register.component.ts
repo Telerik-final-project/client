@@ -94,15 +94,16 @@ export class RegisterComponent implements OnInit {
       password: this.registerForm.value.password,
     };
 
-    this.errors = this.authService.register(newUser).subscribe(
+    this.authService.register(newUser).subscribe(
       (x) => console.log(x),
-      (err: HttpErrorResponse) => this.errors = err.error.err);
+      (err: HttpErrorResponse) => {
+        console.log(err);
 
-    console.log(this.errors);
-
-    if (!this.errors) {
-      this.router.navigateByUrl('/users/login');
-    }
+        if (!err) {
+          this.router.navigateByUrl('/users/login');
+        }
+      },
+    );
   }
 
   private getErrorMessage(field: AbstractControl, fieldName?: string): string {
