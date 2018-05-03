@@ -21,14 +21,13 @@
           </mat-form-field>
 
           <mat-form-field>
-            <mat-select [(placeholder)]="selected" formControlName="dropdown">
-                <mat-option *ngFor="let item of dropdownValues" (click)="changeSelected($event)">
+            <mat-select [(value)]="selected" [placeholder]="selected" formControlName="dropdown">
+                <mat-option *ngFor="let item of dropdownValues" [value]="item.value">
                   {{ item.value }}
                 </mat-option>
             </mat-select>
           </mat-form-field>
-
-          <mat-checkbox (click)="chidchangeVisibility()">Do you want to hide the button from the UI?</mat-checkbox>
+          <mat-checkbox (click)="childchangeVisibility()">Do you want to hide the button from the UI?</mat-checkbox>
 
         </mat-card-content>
         <mat-card-actions fxFlexAlign="center">

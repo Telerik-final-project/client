@@ -30,13 +30,13 @@ import { JobsService } from './jobs.service';
     ApplicationsService,
     JobTypesService,
     AuthService,
-    // ConfigService,
-    // {
-    //   provide: APP_INITIALIZER,
-    //   useFactory: (config: ConfigService) => () => config.load(),
-    //   deps: [ConfigService],
-    //   multi: true,
-    // },
+    ConfigService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (config: ConfigService) => () => config.load(),
+      deps: [ConfigService],
+      multi: true,
+    },
   ],
 })
 export class CoreModule { }

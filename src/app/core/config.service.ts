@@ -4,10 +4,10 @@ import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class ConfigService {
-  private config: Object = null;
+  private config: { text: string; backgroundImg: string; social: string };
   constructor(private httpClient: HttpClient) {}
 
-  public getEnv(key: any): object {
+  public getEnv(key: any): string {
     return this.config[key];
   }
 
@@ -20,10 +20,12 @@ export class ConfigService {
           resolve(true);
           return Observable.throw(error.error || 'Server error');
         })
-        .subscribe((res) => {
-          this.config = res;
-          resolve(true);
-        });
+        .subscribe(
+          (res: { text: string; backgroundImg: string; social: string }) => {
+            this.config = res;
+            resolve(true);
+          },
+        );
     });
   }
 }

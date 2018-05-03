@@ -23,7 +23,7 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
   public hidden: AbstractControl;
 
   public isHidden: boolean = false;
-  public dropdownValues: object[] = [
+  public dropdownValues: {id: string; selected: boolean; value: string}[] = [
     { id: 'mat-option-0', selected: true, value: 'Social Link' },
     { id: 'mat-option-1', selected: false, value: 'Action Link' },
   ];
@@ -65,10 +65,6 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
     this.hidden = this.form.get('hidden');
   }
 
-  public changeSelected($event: MouseEvent): void {
-    this.selected = $event.toElement.innerHTML.trim();
-  }
-
   public edit(id: number): void {
     this.buttonsService
       .getInfoPerID(id, { observe: 'response', responseType: 'json' })
@@ -93,7 +89,7 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
       .subscribe((params: Params) => console.log(params));
   }
 
-  public chidchangeVisibility(): void {
+  public childchangeVisibility(): void {
     this.isHidden = !this.isHidden;
   }
 

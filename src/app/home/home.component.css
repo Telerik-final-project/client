@@ -1,0 +1,9 @@
+.video {
+  width: 100%;
+  object-fit: cover;
+  position: fixed;
+  left: 0px;
+  top: 60px;
+  z-index: -9999;
+  max-height: 400px;
+}

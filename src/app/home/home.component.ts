@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-// import { ConfigService } from '../core/config.service';
+import { ConfigService } from '../core/config.service';
 
 @Component({
   selector: 'app-home',
@@ -7,11 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-
-  // constructor(private configService: ConfigService) { }
-  constructor() { }
+  public text: string;
+  public backgroundImg: string;
+  constructor(private configService: ConfigService) {}
 
   public ngOnInit(): void {
-    // console.log(this.configService.getEnv('text'));
+    this.text = this.configService.getEnv('text');
+    this.backgroundImg = this.configService.getEnv('backgroundImg');
   }
 }

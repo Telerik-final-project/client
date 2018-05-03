@@ -21,7 +21,7 @@ export class CreateComponent implements OnInit, IDynamicButtonsForm {
   public hidden: AbstractControl;
 
   public isHidden: boolean = false;
-  public dropdownValues: object[] = [
+  public dropdownValues: {id: string; selected: boolean; value: string}[] = [
     { id: 'mat-option-0', selected: true, value: 'Social Link' },
     { id: 'mat-option-1', selected: false, value: 'Action Link' },
   ];
@@ -82,7 +82,7 @@ export class CreateComponent implements OnInit, IDynamicButtonsForm {
     this.router.navigateByUrl('/admin/btn');
   }
 
-  public chidchangeVisibility(): void {
+  public childchangeVisibility(): void {
     this.isHidden = !this.isHidden;
   }
 
