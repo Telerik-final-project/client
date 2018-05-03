@@ -13,21 +13,23 @@ import { ApplicationsService } from './applications.service';
 import { AuthService } from './auth.service';
 import { ConfigService } from './config.service';
 import { DynamicButtonsService } from './dynamic.buttons.service';
+import { AuthDisabledGuard } from './guards/auth-disabled-guard.sercice';
 import { JobTypesService } from './job-types.service';
 import { JobsService } from './jobs.service';
 
 @NgModule({
   providers: [
-    JobsService,
     AppConfig,
-    AuthService,
-    ApplicationsService,
-    ApplicationGuard,
     AuthGuard,
     AdminAuthGuard,
+    ApplicationGuard,
+    AuthDisabledGuard,
     ClosedApplicationGuard,
-    JobTypesService,
+    JobsService,
     DynamicButtonsService,
+    ApplicationsService,
+    JobTypesService,
+    AuthService,
     ConfigService,
     {
       provide: APP_INITIALIZER,

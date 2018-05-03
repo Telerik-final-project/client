@@ -5,7 +5,6 @@ import { LoginComponent } from './login/login.component';
 import { SharedModule } from '../shared/shared.module';
 import { RegisterComponent } from './register/register.component';
 import { RegisterMatch } from './register/validators/match-passwords';
-import { RegisterValidator } from './register/validators/passwords-validator';
 import { UsersRoutingModule } from './routing/users-routing.module';
 
 @NgModule({
@@ -20,6 +19,6 @@ import { UsersRoutingModule } from './routing/users-routing.module';
   ],
   providers: [
     { provide: 'IRegisterMatch', useClass: RegisterMatch },
-    { provide: 'IValidator', useClass: RegisterValidator }],
+  ],
 })
 export class UsersModule { }

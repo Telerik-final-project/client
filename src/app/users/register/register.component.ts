@@ -1,5 +1,9 @@
 
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpResponse,
+} from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,7 +23,6 @@ import { Router } from '@angular/router';
 
 import { AuthService } from '../../core/auth.service';
 import { IRegisterMatch } from './_interfaces/match.interface';
-import { IValidator } from './_interfaces/validator.interface';
 
 @Component({
   selector: 'app-register',
@@ -41,13 +44,13 @@ export class RegisterComponent implements OnInit {
 
   private errors: any = '';
   private validPass: string;
+  private pattern: string = '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}';
 
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private router: Router,
-    @Inject('IRegisterMatch') private passwordsMatch: IRegisterMatch,
-    @Inject('IValidator') private passwordsValidator: IValidator,
+    @Inject('IRegisterMatch') private passwordsValidator: IRegisterMatch,
   ) { }
 
   public ngOnInit(): void {
@@ -67,12 +70,13 @@ export class RegisterComponent implements OnInit {
         Validators.required],
       ],
       password2: ['', [
-        Validators.required],
+        Validators.required,
+        Validators.pattern(/${pattern}/g),
+      ],
       ],
     },                                         {
         validator: [
-          this.passwordsMatch.passwordsMatch,
-          this.passwordsValidator.validate,
+          this.passwordsValidator.passwordsMatch,
         ],
       });
 
@@ -83,11 +87,6 @@ export class RegisterComponent implements OnInit {
   }
 
   private register(): void {
-    if (this.password.value !== this.password2.value) {
-      this.validPass = 'Doesnt match';
-      return;
-    }
-
     const newUser = {
       username: this.registerForm.value.username,
       email: this.registerForm.value.email,
@@ -103,6 +102,21 @@ export class RegisterComponent implements OnInit {
           this.router.navigateByUrl('/users/login');
         }
       },
+      () => {
+        const userToLog = {
+          email: newUser.email,
+          password: newUser.password,
+        };
+
+        this.authService.login(userToLog, { observe: 'response', responseType: 'json' }).subscribe(
+          (x: HttpResponse<{ token: string }>) => {
+            localStorage.setItem('access_token', x.body.token);
+            this.router.navigateByUrl('/home');
+          },
+          (err: HttpErrorResponse) => {
+            console.log(err.error.err);
+          });
+      },
     );
   }
 
@@ -111,14 +125,14 @@ export class RegisterComponent implements OnInit {
       return `${fieldName} is required!`;
     } else if (field.hasError('email')) {
       return 'Invalid email!';
+    } else if (field.hasError('pattern')) {
+      return 'Plaese, write valid password!';
     } else if (field.hasError('minlength')) {
       const fieldLength = field.errors.minlength.requiredLength;
 
       return `Your ${fieldName} must be at least ${fieldLength} symbols!`;
     } else if (field.hasError('passwordMatch')) {
       return 'Passwords don`t match!';
-    } else if (field.hasError('passwordValidate')) {
-      return 'INVALID';
     }
     return null;
   }
