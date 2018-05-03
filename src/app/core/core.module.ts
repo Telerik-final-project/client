@@ -12,21 +12,23 @@ import { AppConfig } from '../config/app.config';
 import { ApplicationsService } from './applications.service';
 import { AuthService } from './auth.service';
 import { DynamicButtonsService } from './dynamic.buttons.service';
+import { AuthDisabledGuard } from './guards/auth-disabled-guard.sercice';
 import { JobTypesService } from './job-types.service';
 import { JobsService } from './jobs.service';
 
 @NgModule({
   providers: [
-    JobsService,
     AppConfig,
+    JobsService,
     AuthService,
+    JobTypesService,
     ApplicationsService,
-    ApplicationGuard,
+    DynamicButtonsService,
     AuthGuard,
     AdminAuthGuard,
+    ApplicationGuard,
+    AuthDisabledGuard,
     ClosedApplicationGuard,
-    JobTypesService,
-    DynamicButtonsService,
   ],
 })
 export class CoreModule { }
