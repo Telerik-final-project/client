@@ -14,11 +14,11 @@ export class ConfigService {
   public load(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.httpClient
-        .get(`http://localhost:3012/test/env.json`)
+        .get(`http://localhost:3012/config`)
         .catch((error: any): any => {
           console.log('Configuration file "env.json" could not be read');
           resolve(true);
-          return Observable.throw(error.json().error || 'Server error');
+          return Observable.throw(error.error || 'Server error');
         })
         .subscribe((res) => {
           this.config = res;

@@ -1,7 +1,8 @@
-import { JwtPayload } from './../models/jwt-payload';
 import { Component, Injectable, OnInit } from '@angular/core';
 
 import { AuthService } from './../core/auth.service';
+
+import { JwtPayload } from './../models/jwt-payload';
 
 @Component({
   selector: 'app-navbar',
