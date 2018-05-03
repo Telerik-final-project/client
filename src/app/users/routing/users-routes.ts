@@ -7,9 +7,13 @@ export const ROUTES: Routes = [
     {
         path: 'register',
         component: RegisterComponent,
-        // canDeactivate: [],
-        // canActivate: [AuthDisabledGuard],
+        canActivate: [AuthDisabledGuard],
         pathMatch: 'full',
     },
-    { path: 'login', component: LoginComponent },
+    {
+        path: 'login',
+        component: LoginComponent,
+        canActivate: [AuthDisabledGuard],
+        pathMatch: 'full',
+    },
 ];

@@ -14,12 +14,8 @@ export class AuthDisabledGuard implements CanActivate {
 
     public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
         if (this.authService.isAuthenticated()) {
-            console.log('true');
             this.router.navigate(['/home']);
-            return true;
         }
-        console.log('false');
-
-        return false;
+        return true;
     }
 }
