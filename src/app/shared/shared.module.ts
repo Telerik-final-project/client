@@ -8,7 +8,7 @@ import {
   MatDatepickerModule, MatFormFieldModule,
   MatInputModule, MatListModule, MatMenuModule,
   MatNativeDateModule, MatPaginatorModule, MatSelectModule,
-  MatSnackBarModule, MatSortModule, MatTableModule,
+  MatSnackBarModule, MatSortModule, MatTableModule, MatToolbarModule,
 } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -41,6 +41,7 @@ import { SharedDialogModule } from './material/shared-dialog.module';
     MatSortModule,
     RouterModule,
     SharedDialogModule,
+    MatToolbarModule,
   ],
   exports: [
     FormsModule,
@@ -61,6 +62,7 @@ import { SharedDialogModule } from './material/shared-dialog.module';
     MatCheckboxModule,
     MatTableModule,
     MatSortModule,
+    MatToolbarModule,
   ],
 })
 export class SharedModule { }

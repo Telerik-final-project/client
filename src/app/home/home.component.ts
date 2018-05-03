@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ConfigService } from '../core/config.service';
 
 @Component({
   selector: 'app-home',
@@ -8,8 +9,9 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
 
   // tslint:disable-next-line:no-empty
-  constructor() { }
+  constructor(private configService: ConfigService) { }
 
-  // tslint:disable-next-line:no-empty
-  public ngOnInit(): void { }
+  public ngOnInit(): void {
+    console.log(this.configService.getEnv('env'));
+  }
 }

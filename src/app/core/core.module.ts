@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { DateAdapter } from '@angular/material';
 
 import { AdminAuthGuard } from './guards/admin-guard.service';
@@ -11,6 +11,7 @@ import { AppConfig } from '../config/app.config';
 
 import { ApplicationsService } from './applications.service';
 import { AuthService } from './auth.service';
+import { ConfigService } from './config.service';
 import { DynamicButtonsService } from './dynamic.buttons.service';
 import { JobTypesService } from './job-types.service';
 import { JobsService } from './jobs.service';
@@ -27,6 +28,13 @@ import { JobsService } from './jobs.service';
     ClosedApplicationGuard,
     JobTypesService,
     DynamicButtonsService,
+    ConfigService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (config: ConfigService) => () => config.load(),
+      deps: [ConfigService],
+      multi: true,
+    },
   ],
 })
 export class CoreModule { }
