@@ -1,17 +1,10 @@
-<h2 class=".md-display-3">LINKS</h2>
-
 <div class="example-header">
-  <div>
-    <mat-form-field class="filter">
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter" class="filter">
-    </mat-form-field>
 
-    <div>
-      <button class="createBtn" mat-raised-button color="primary" [routerLink]="['create']">Create</button>
-    </div>
+  <h2 class=".md-display-3">LINKS</h2>
+
+  <div>
+    <button class="createBtn" mat-raised-button color="primary" [routerLink]="['create']">Create</button>
   </div>
 </div>
 
-<div *ngIf="paginatedButtons > 1">
-  <table-listing [dataSource]="dataSource"></table-listing>
-</div>
+<table-listing [dataSource]="rawDataSource"></table-listing>

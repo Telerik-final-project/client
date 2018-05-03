@@ -4,13 +4,11 @@ import { NgModule } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
 
 @NgModule({
-  imports: [
-      ],
-  exports: [
-  ],
+  imports: [],
+  exports: [],
 })
 export class SharedSnackModule {
-  constructor(private matSnackBar: MatSnackBar) {}
+  constructor(private matSnackBar: MatSnackBar) { }
 
   public openSnackMsg(msg: string, action?: string, options?: MatSnackBarConfig): MatSnackBarRef<SimpleSnackBar> {
     return this.matSnackBar.open(msg, action, options);

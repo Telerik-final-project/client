@@ -1,4 +1,6 @@
-<div class="example-container mat-elevation-z8">
+<app-filter [dataSource]="dataSource"></app-filter>
+
+<div class="example-container mat-elevation-z8" *ngIf="paginatedButtons > 1">
   <mat-table #table [dataSource]="dataSource" matSort>
     <ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
@@ -44,6 +46,10 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
-  <mat-paginator *ngIf="dataSource.length > 10" [length]="paginatedButtons" [pageSize]="10" [pageSizeOptions]="[10, 15, 25, 50, 100]"></mat-paginator>  
-  <!-- <mat-paginator *ngIf="ELEMENT_DATA.length? > 10" [length]="paginatedButtons" [pageSize]="10" [pageSizeOptions]="[10, 15, 25, 50, 100]"></mat-paginator>   -->
+
+  <mat-paginator [length]="paginatedButtons" [pageSize]="10" [pageSizeOptions]="[10, 25, 100]" [showFirstLastButtons]="true">
+  </mat-paginator>
+
+  <!-- <mat-paginator *ngIf="paginatedButtons > 10" [pageSize]="10" [pageSizeOptions]="[10, 20, 50]" >
+  </mat-paginator> -->
 </div>
