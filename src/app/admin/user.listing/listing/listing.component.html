@@ -9,5 +9,5 @@
 </div>
 
 <div>
-  <table-listing [dataSource]="dataSource"></table-listing>
+  <table-listing [dataSource]="dataSource"  (onChange)="ngOnChanges(dataSource)" [paginatedButtons]="paginatedButtons"></table-listing>
 </div>
