@@ -1,3 +1,14 @@
-<p>
-  home works!
-</p>
+<div class="container" fxFlexLayout="row">
+  <div fxFlex="20"></div>
+  <div class="content" fxFlexLayout="column">
+    <div class="action-buttons" fxFlex>
+      <video autoplay loop muted="true" poster="" class="video">
+        <source [src]="'assets/' + backgroundImg" type="video/mp4" />
+      </video>
+    </div>
+    <div class="social" fxFlex>
+      <p [innerHTML]="text"></p>
+    </div>
+  </div>
+  <div fxFlex="20"></div>
+</div>

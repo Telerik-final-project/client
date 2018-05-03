@@ -7,10 +7,12 @@ import { ConfigService } from '../core/config.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-
-  constructor(private configService: ConfigService) { }
+  public text: string;
+  public backgroundImg: string;
+  constructor(private configService: ConfigService) {}
 
   public ngOnInit(): void {
-    console.log(this.configService.getEnv('text'));
+    this.text = this.configService.getEnv('text');
+    this.backgroundImg = this.configService.getEnv('backgroundImg');
   }
 }
