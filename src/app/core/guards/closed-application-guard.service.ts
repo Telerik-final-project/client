@@ -14,7 +14,8 @@ export class ClosedApplicationGuard implements CanActivate {
     private authService: AuthService,
     private router: Router,
     private jobsService: JobsService,
-  ) {}
+  ) { }
+
   public canActivate(routeSnapshot: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return this.jobsService.getById(routeSnapshot.params.jobId).pipe(map((x) => {
       if (x.status === 'closed' && !this.authService.isAdmin()) {

@@ -27,7 +27,7 @@ export class ListingComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void { }
-  
+
   public ngAfterViewInit(): void {
     this.loadDBInfo();
   }
@@ -41,7 +41,6 @@ export class ListingComponent implements OnInit {
     this.usersListingService
       .getAll({ observe: 'response', responseType: 'json' })
       .subscribe((x) => {
-        console.log(x);
         x.body.users.forEach((user) => {
           this.ELEMENT_DATA.push({
             id: user.id,
@@ -51,13 +50,12 @@ export class ListingComponent implements OnInit {
           });
         });
         this.dataSource.data = x.body.users;
-        console.log(this.ELEMENT_DATA.length);
         this.paginatedButtons = this.dataSource.data.length;
+
         window.setTimeout(() => {
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         });
-
       });
   }
 }
