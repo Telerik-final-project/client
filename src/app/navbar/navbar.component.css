@@ -10,3 +10,8 @@
 button {
     margin: 0 5px;
 }
+
+.email {
+  align-self: center;
+  margin: 0;
+}
