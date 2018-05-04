@@ -44,7 +44,7 @@ export class RegisterComponent implements OnInit {
 
   private errors: any = '';
   private validPass: string;
-  private pattern: string = '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}';
+  private pattern: RegExp = new RegExp('(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}');
 
   constructor(
     private authService: AuthService,
@@ -71,7 +71,7 @@ export class RegisterComponent implements OnInit {
       ],
       password2: ['', [
         Validators.required,
-        Validators.pattern(/${pattern}/g),
+        Validators.pattern(this.pattern),
       ],
       ],
     },                                         {
