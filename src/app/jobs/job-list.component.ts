@@ -1,17 +1,5 @@
-import {
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import {
-  DateAdapter,
-  MatDatepickerInputEvent,
-  MatSnackBarConfig,
-  PageEvent,
-} from '@angular/material';
-
+import { Component, OnInit } from '@angular/core';
+import { DateAdapter, MatDatepickerInputEvent, MatSnackBarConfig, PageEvent } from '@angular/material';
 import { JobType } from '../models/job-type';
 import { AuthService } from './../core/auth.service';
 import { JobTypesService } from './../core/job-types.service';
@@ -36,7 +24,7 @@ export class JobListComponent implements OnInit {
   public startDateInput: string;
   public endDateInput: string;
   private startDate = '01/01/1970';
-  private endDate = '30/11/9999';
+  private endDate = '11/30/2070';
   private snackOptions = {
     duration: 2500,
     verticalPosition: 'top',
@@ -105,7 +93,7 @@ export class JobListComponent implements OnInit {
     this.selectedCategory = 'none';
     this.paginatedJobs = this.jobs.slice();
     this.startDate = '01/01/1970';
-    this.endDate = '30/11/9999';
+    this.endDate = '11/30/2070';
     this.startDateInput = '';
     this.endDateInput = '';
   }

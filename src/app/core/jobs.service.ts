@@ -34,7 +34,7 @@ export class JobsService {
 
   public filter(
     jobs: JobAd[], keyword: string = '',
-    type: string = '', startDate: string = '01/01/1970', endDate: string = '11/31/9999'): JobAd[] {
+    type: string = '', startDate: string = '01/01/1970', endDate: string = '30/11/2070'): JobAd[] {
       let jobType = type;
       if (jobType === 'none') {
         jobType = '';

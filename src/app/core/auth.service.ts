@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Rx';
 import { AppConfig } from '../config/app.config';
 import { User } from '../models/user';
 import { HttpOptions } from './../models/http-options';
@@ -10,6 +11,9 @@ import { JwtPayload } from './../models/jwt-payload';
 
 @Injectable()
 export class AuthService {
+
+  private user: User;
+  private userSubject = new Subject<User>();
 
   constructor(
     private httpClient: HttpClient, private appConfig: AppConfig,
@@ -36,10 +40,23 @@ export class AuthService {
 
   public logout(): void {
     localStorage.removeItem('access_token');
+    this.nullUser();
     this.router.navigate(['/home']);
   }
   public clearLocalStorage(): void {
     return localStorage.removeItem('access_token');
+  }
+
+  public sendUser(user: User): void {
+    this.userSubject.next(user);
+  }
+
+  public nullUser(): void {
+    this.userSubject.next();
+  }
+
+  public getUser(): Observable<User> {
+    return this.userSubject.asObservable();
   }
 
   public decodeToken(): JwtPayload {

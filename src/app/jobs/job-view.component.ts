@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { JobAd } from '../models/job-ad';
 
 @Component({
@@ -6,7 +6,7 @@ import { JobAd } from '../models/job-ad';
   templateUrl: './job-view.component.html',
   styleUrls: ['./job-view.component.css'],
 })
-export class JobViewComponent implements OnInit {
+export class JobViewComponent {
   @Input()
   public job: JobAd;
 
@@ -14,6 +14,4 @@ export class JobViewComponent implements OnInit {
   private showJob = new EventEmitter();
 
   constructor() {}
-  public ngOnInit(): void {}
-
 }
