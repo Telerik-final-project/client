@@ -15,7 +15,7 @@ import { SharedSnackModule } from './../../../shared/material/shared-snack.modul
   styleUrls: ['./job-applications-admin.component.css'],
 })
 export class JobApplicationsAdminComponent implements OnInit {
-  public displayedColumns = ['id', 'name', 'comment', 'createdAt', 'cv', 'coverLetter'];
+  public displayedColumns = ['id', 'name', 'email', 'comment', 'createdAt', 'cv', 'coverLetter'];
   public applications = new MatTableDataSource<JobApplication>();
   public length: number;
   @ViewChild(MatPaginator) private paginator: MatPaginator;

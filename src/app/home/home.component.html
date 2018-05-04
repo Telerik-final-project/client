@@ -5,9 +5,27 @@
       <video autoplay loop muted="true" poster="" class="video">
         <source [src]="'assets/' + backgroundImg" type="video/mp4" />
       </video>
+      <div fxFlexFill></div>
+      <div fxFlexLayout="row">
+        <button mat-button color="primary" *ngFor="let action of actionButtons" [hidden]="action.isHidden" (click)="onRedirect(action.target)">
+          <mat-icon>{{action.link}}</mat-icon>
+          {{ action.name }}</button>
+      </div>
     </div>
-    <div class="social" fxFlex>
-      <p [innerHTML]="text"></p>
+    <div class="social" fxFlex fxFlexLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
+      <div fxFlex="50" fxFlexLayout="column">
+        <div fxFlex class="social-buttons">
+          <span>Follow us: </span>
+          <button mat-button color="primary" *ngFor="let social of socialButtons" [hidden]="social.isHidden" (click)="onRedirect(social.target)">
+            <mat-icon>{{social.link}}</mat-icon>
+            {{ social.name }}
+          </button>
+        </div>
+        <p fxFlex [innerHTML]="text"></p>
+      </div>
+      <div fxFlex="50" fxFlexLayout="column">
+        Tweets
+      </div>
     </div>
   </div>
   <div fxFlex="20"></div>

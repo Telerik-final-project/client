@@ -16,15 +16,22 @@
           </mat-form-field>
 
           <mat-form-field>
-            <input type="text" matInput placeholder="Icon link" formControlName="iconUrl">
+            <mat-select [(ngModel)]="selectedIcon" placeholder="Link icon" formControlName="iconUrl" id="select-link-icons" class="link-icons">
+              <mat-select-trigger>
+                {{selectedIcon}}
+              </mat-select-trigger>
+              <mat-option *ngFor="let icon of icons" [value]="icon">
+                <mat-icon>{{icon}}</mat-icon> {{icon}}
+              </mat-option>
+            </mat-select>
             <mat-error>{{ getErrorMessage(iconUrl) }}</mat-error>
           </mat-form-field>
 
           <mat-form-field>
             <mat-select [(value)]="selected" [placeholder]="selected" formControlName="dropdown">
-                <mat-option *ngFor="let item of dropdownValues" [value]="item.value">
-                  {{ item.value }}
-                </mat-option>
+              <mat-option *ngFor="let item of dropdownValues" [value]="item.value">
+                {{ item.value }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
           <mat-checkbox (click)="childchangeVisibility()">Do you want to hide the button from the UI?</mat-checkbox>

@@ -10,18 +10,13 @@
     cursor: not-allowed
 }
 
-.mat-column-cv,
-.mat-column-coverLetter {
-  max-width: 64px;
-}
-
 .mat-column-id {
   max-width: 84px;
 }
 
 .mat-column-cv,
 .mat-column-coverLetter {
-  max-width: 64px;
+  max-width: 44px;
   text-align: center;
 }
 
@@ -31,6 +26,10 @@
 
 .mat-column-name {
   max-width: 164px;
+}
+
+.mat-column-email {
+  max-width: 184px;
 }
 
 .mat-row:hover {
