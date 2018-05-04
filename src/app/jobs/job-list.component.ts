@@ -66,10 +66,10 @@ export class JobListComponent implements OnInit {
     );
   }
 
-  private filterJobs(input: string, startDate: string, endDate: string): void {
+  private filterJobs(input: string): void {
     const copy = this.jobs.slice();
     this.userInput = input;
-    this.paginatedJobs = this.jobsService.filter(copy, input, this.selectedCategory, startDate, endDate);
+    this.paginatedJobs = this.jobsService.filter(copy, input, this.selectedCategory, this.startDate, this.endDate);
     if (this.paginatedJobs.length === 0) {
       this.snack.openSnackMsg('There are no open positions with these criteria', 'Close', this.snackOptions);
     } else {
@@ -80,12 +80,12 @@ export class JobListComponent implements OnInit {
   private onStartDateChanged(event: MatDatepickerInputEvent<Date>): void {
     const input = event.targetElement as HTMLInputElement;
     this.startDate = input.value;
-    this.filterJobs(this.userInput, this.startDate, this.endDate);
+    this.filterJobs(this.userInput);
   }
   private onEndDateChanged(event: MatDatepickerInputEvent<Date>): void {
     const input = event.targetElement as HTMLInputElement;
     this.endDate = input.value;
-    this.filterJobs(this.userInput, this.startDate, this.endDate);
+    this.filterJobs(this.userInput);
   }
 
   private clearFilters(): void {

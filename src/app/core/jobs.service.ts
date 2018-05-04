@@ -12,38 +12,55 @@ export class JobsService {
 
   constructor(private appConfig: AppConfig, private httpClient: HttpClient) {}
 
-  public getAll(): Observable <JobAd[]> {
-    return this.httpClient.get(`${this.appConfig.apiUrl}/jobs`).pipe(map((x) => x as JobAd[]));
+  public getAll(): Observable<JobAd[]> {
+    return this.httpClient
+      .get(`${this.appConfig.apiUrl}/jobs`)
+      .pipe(map((x) => x as JobAd[]));
   }
 
-  public getById(id: number): Observable <JobAd> {
+  public getById(id: number): Observable<JobAd> {
     return this.httpClient.get<JobAd>(`${this.appConfig.apiUrl}/jobs/${id}`);
   }
 
-  public create(job: JobAd, options?: HttpOptions): Observable <object> {
+  public create(job: JobAd, options?: HttpOptions): Observable<object> {
     return this.httpClient.post<JobAd>(`${this.appConfig.apiUrl}/jobs/create`, job, options);
   }
 
-  public update(job: JobAd, options?: HttpOptions): Observable <object> {
-    return this.httpClient.post<JobAd>(`${this.appConfig.apiUrl}/jobs/edit`, job, options);
+  public update(job: JobAd, options?: HttpOptions): Observable<object> {
+    return this.httpClient.post<JobAd>(
+      `${this.appConfig.apiUrl}/jobs/edit`,
+      job,
+      options,
+    );
   }
 
   public delete(id: number, options?: HttpOptions): Observable<object> {
-    return this.httpClient.post(`${this.appConfig.apiUrl}/jobs/delete/${id}`, {id}, options);
+    return this.httpClient.post(
+      `${this.appConfig.apiUrl}/jobs/delete/${id}`,
+      { id },
+      options,
+    );
   }
 
   public filter(
-    jobs: JobAd[], keyword: string = '',
-    type: string = '', startDate: string = '01/01/1970', endDate: string = '30/11/2070'): JobAd[] {
-      let jobType = type;
-      if (jobType === 'none') {
-        jobType = '';
-      }
-      console.log(keyword, jobType, startDate, endDate);
-      return jobs.filter((job) => (
-        job.descriptionUrl.toLowerCase().includes(keyword.toLowerCase()) ||
-          job.title.toLowerCase().includes(keyword.toLowerCase())) && (job.JobType.jobType.includes(jobType) &&
-          this.checkForEndDate(endDate, job.createdAt) && this.checkForStartDate(startDate, job.createdAt)));
+    jobs: JobAd[],
+    keyword: string = '',
+    type: string = '',
+    startDate: string = '01/01/1970',
+    endDate: string = '11/30/2070',
+  ): JobAd[] {
+    let jobType = type;
+    if (jobType === 'none') {
+      jobType = '';
+    }
+    return jobs.filter(
+      (job) =>
+        (job.description.toLowerCase().includes(keyword.toLowerCase()) ||
+          job.title.toLowerCase().includes(keyword.toLowerCase())) &&
+        (job.JobType.jobType.includes(jobType) &&
+          this.checkForEndDate(endDate, job.createdAt) &&
+          this.checkForStartDate(startDate, job.createdAt)),
+    );
   }
   private checkForStartDate(start: string, job: string): boolean {
     const beautifed = this.beautifyDate(job, start);
@@ -75,11 +92,11 @@ export class JobsService {
       if (beautifed.filterMonth > beautifed.jobMonth) {
         return true;
       } else if (beautifed.filterMonth === beautifed.jobMonth) {
-          if (beautifed.filterDay >= beautifed.jobDay) {
-            return true;
-          } else {
-            return false;
-          }
+        if (beautifed.filterDay >= beautifed.jobDay) {
+          return true;
+        } else {
+          return false;
+        }
       } else {
         return false;
       }
@@ -87,12 +104,22 @@ export class JobsService {
       return false;
     }
   }
-  private beautifyDate(job: string, filterDate: string): {
-    jobDay: number; jobMonth: number; jobYear: number;
-    filterDay: number; filterMonth: number; filterYear: number; } {
+  private beautifyDate(
+    job: string,
+    filterDate: string,
+  ): {
+    jobDay: number;
+    jobMonth: number;
+    jobYear: number;
+    filterDay: number;
+    filterMonth: number;
+    filterYear: number;
+  } {
+    const second = 2;
+
     const temp = filterDate.split('/');
     const jobDate = new Date(job);
-    const newFilterDate = new Date(`${temp[0]}/${+temp[1]}/${temp[2]}`);
+    const newFilterDate = new Date(`${temp[0]}/${temp[1]}/${temp[second]}`);
     const jobDay = +jobDate.getDate();
     const jobMonth = +jobDate.getMonth() + 1;
     const jobYear = +jobDate.getFullYear();
@@ -101,12 +128,12 @@ export class JobsService {
     const filterYear = +newFilterDate.getFullYear();
 
     return {
-        jobDay,
-        jobMonth,
-        jobYear,
-        filterDay,
-        filterMonth,
-        filterYear,
+      jobDay,
+      jobMonth,
+      jobYear,
+      filterDay,
+      filterMonth,
+      filterYear,
     };
   }
 }
