@@ -2,12 +2,13 @@
   cursor: pointer;
 }
 
-.icon-cv, .icon-coverLetter {
+.icon-cv,
+.icon-coverLetter {
   color: #3b74e5;
 }
 .icon-coverLetter.inactive {
-    color: #d32626;
-    cursor: not-allowed
+  color: #dcdcdc;
+  cursor: not-allowed;
 }
 
 .mat-column-id {

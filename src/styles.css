@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import '~dropzone/dist/min/dropzone.min.css';
 /* .cdk-global-overlay-wrapper {
     align-items: unset !important;
@@ -20,9 +20,17 @@
 }
 
 .admin-dialog {
-    width: 100%;
+  width: 100%;
 }
 
 .container {
-    margin-top: 10px;
+  margin-top: 10px;
+}
+
+.mat-menu-content {
+  width: 200px;
+}
+
+.mat-menu-content .mat-button {
+  text-align: left;
 }

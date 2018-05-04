@@ -1,10 +1,7 @@
 import { Component, Injectable, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
-
-import { AuthService } from './../core/auth.service';
-
 import { User } from '../models/user';
-import { JwtPayload } from './../models/jwt-payload';
+import { AuthService } from './../core/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -14,6 +11,7 @@ import { JwtPayload } from './../models/jwt-payload';
 
 @Injectable()
 export class NavbarComponent implements OnInit, OnDestroy {
+  public panelOpenState: boolean = false;
   public user: User;
   private subscription: Subscription;
   constructor(public authService: AuthService) { }

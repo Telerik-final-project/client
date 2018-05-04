@@ -1,10 +1,8 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { AuthService } from '../../core/auth.service';
-
 import { JwtPayload } from './../../models/jwt-payload';
 import { User } from './../../models/user';
 
@@ -14,11 +12,11 @@ import { User } from './../../models/user';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  private form: FormGroup;
-  private email: AbstractControl;
-  private password: AbstractControl;
-  private credentialsError: string;
-  private returnUrl: string;
+  public form: FormGroup;
+  public email: AbstractControl;
+  public password: AbstractControl;
+  public credentialsError: string;
+  public returnUrl: string;
 
   constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute) { }
 
