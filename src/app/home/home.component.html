@@ -1,32 +1,56 @@
-<div class="container" fxFlexLayout="row">
-  <div fxFlex="20"></div>
-  <div class="content" fxFlexLayout="column">
-    <div class="action-buttons" fxFlex>
-      <video autoplay loop muted="true" poster="" class="video">
-        <source [src]="'assets/' + backgroundImg" type="video/mp4" />
-      </video>
-      <div fxFlexFill></div>
-      <div fxFlexLayout="row">
-        <button mat-button color="primary" *ngFor="let action of actionButtons" [hidden]="action.isHidden" (click)="onRedirect(action.target)">
-          <mat-icon>{{action.link}}</mat-icon>
-          {{ action.name }}</button>
-      </div>
+<div class="container">
+  <video *ngIf="backgroundImg?.includes('.mp4'); else image" autoplay loop muted="true" poster="" class="video">
+    <source [src]="'assets/' + backgroundImg" type="video/mp4" />
+  </video>
+  <ng-template #image>
+    <div class="img" [ngStyle]="{'background': 'url(assets/' + backgroundImg + ') no-repeat center center fixed'}">
     </div>
-    <div class="social" fxFlex fxFlexLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
-      <div fxFlex="50" fxFlexLayout="column">
-        <div fxFlex class="social-buttons">
-          <span>Follow us: </span>
-          <button mat-button color="primary" *ngFor="let social of socialButtons" [hidden]="social.isHidden" (click)="onRedirect(social.target)">
-            <mat-icon>{{social.link}}</mat-icon>
-            {{ social.name }}
-          </button>
+  </ng-template>
+  <div fxLayout="row">
+    <div fxFlex="10"></div>
+    <div class="content" fxLayout="column" fxLayoutGap="20px">
+      <div class="buttons" fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-between start" fxLayoutGap="20px">
+        <div fxFlex class="action-buttons">
+          <div fxLayout="row">
+            <button mat-button color="primary" *ngFor="let action of actionButtons" [hidden]="action.isHidden" (click)="onRedirect(action.target)">
+              <mat-icon>{{action.link}}</mat-icon>
+              {{ action.name }}</button>
+          </div>
         </div>
-        <p fxFlex [innerHTML]="text"></p>
+        <div fxFlex class="social-buttons">
+          <div fxLayout="row">
+            <button mat-button color="primary" *ngFor="let social of socialButtons" [hidden]="social.isHidden" (click)="onRedirect(social.target)">
+              <mat-icon>{{social.link}}</mat-icon>
+              {{ social.name }}
+            </button>
+          </div>
+        </div>
       </div>
-      <div fxFlex="50" fxFlexLayout="column">
-        Tweets
+      <div class="social" fxFlex fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-between start" fxLayoutGap="20px">
+        <div fxFlex="70" fxLayout="column">
+          <mat-card fxFlex>
+            <mat-card-content>
+              <div>
+                <p class="text" [innerHTML]="textFirst"></p>
+              </div>
+              <mat-divider></mat-divider>
+              <div>
+                <p class="text" [innerHTML]="'<br>' + textSecond"></p>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+        </div>
+        <div fxFlex [ngStyle.sm]="{'width.%': 100}" [ngStyle.xs]="{'width.%': 100}" fxLayout="column" fxLayoutAlign="space-between center">
+          <mat-card fxFlex [ngStyle.sm]="{'width.%': 100}" [ngStyle.xs]="{'width.%': 100}">
+            <mat-card-content fxLayout="column" fxLayoutAlign="space-between center">
+              <iframe [src]="getSocialUrl()" width="340" height="400" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+                allowTransparency="true" allow="encrypted-media"></iframe>
+            </mat-card-content>
+          </mat-card>
+        </div>
       </div>
     </div>
+    <div fxFlex="10"></div>
   </div>
-  <div fxFlex="20"></div>
 </div>

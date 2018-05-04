@@ -7,3 +7,12 @@
   z-index: -9999;
   max-height: 400px;
 }
+
+.text {
+  text-align: justify;
+}
+
+.img {
+  height: 400px;
+  background-size: cover;
+}

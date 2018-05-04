@@ -1,7 +1,9 @@
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, Injectable, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs/Rx';
 
 import { AuthService } from './../core/auth.service';
 
+import { User } from '../models/user';
 import { JwtPayload } from './../models/jwt-payload';
 
 @Component({
@@ -11,16 +13,23 @@ import { JwtPayload } from './../models/jwt-payload';
 })
 
 @Injectable()
-export class NavbarComponent implements OnInit {
-  public user: JwtPayload;
+export class NavbarComponent implements OnInit, OnDestroy {
+  public user: User;
+  private subscription: Subscription;
   constructor(public authService: AuthService) { }
 
   public ngOnInit(): void {
-    this.user = this.authService.decodeToken();
+    this.subscription = this.authService.getUser().subscribe((user) => {
+      this.user = user;
+    });
   }
 
   public logout(): void {
     this.authService.logout();
-    this.user = this.authService.decodeToken();
+    this.authService.nullUser();
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

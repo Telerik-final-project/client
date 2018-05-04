@@ -5,6 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthService } from '../../core/auth.service';
 
+import { JwtPayload } from './../../models/jwt-payload';
+import { User } from './../../models/user';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -34,8 +37,11 @@ export class LoginComponent implements OnInit {
     this.auth.login(this.form.value, { observe: 'response', responseType: 'json' }).subscribe(
       (x: HttpResponse<{ token: string }>) => {
         localStorage.setItem('access_token', x.body.token);
-        this.credentialsError = undefined;
+        this.credentialsError = null;
         this.router.navigateByUrl(this.returnUrl);
+
+        const decoded: JwtPayload = this.auth.decodeToken();
+        this.auth.sendUser({email: decoded.email} as User);
       },
       (err: HttpErrorResponse) => {
         this.credentialsError = err.error.err;
