@@ -6,9 +6,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatButtonModule, MatCardModule, MatCheckbox,
   MatDatepickerModule, MatFormFieldModule,
-  MatInputModule, MatListModule, MatMenuModule,
-  MatNativeDateModule, MatPaginatorModule, MatSelectModule,
-  MatSnackBarModule, MatSortModule, MatTableModule, MatToolbarModule,
+  MatIconModule, MatInputModule, MatListModule,
+  MatMenuModule, MatNativeDateModule, MatPaginatorModule,
+  MatSelectModule, MatSnackBarModule, MatSortModule, MatTableModule, MatToolbarModule,
 } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -39,6 +39,7 @@ import { SharedDialogModule } from './material/shared-dialog.module';
     MatCheckboxModule,
     MatTableModule,
     MatSortModule,
+    MatIconModule,
     RouterModule,
     SharedDialogModule,
     MatToolbarModule,
@@ -59,6 +60,7 @@ import { SharedDialogModule } from './material/shared-dialog.module';
     MatSnackBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatIconModule,
     MatCheckboxModule,
     MatTableModule,
     MatSortModule,

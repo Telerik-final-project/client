@@ -7,6 +7,8 @@ import { DynamicButtonsService } from '../../../core/dynamic.buttons.service';
 import { IDynamicButtons } from '../../../models/dynamic.buttons.interface';
 import { IDynamicButtonsForm } from '../_interfaces/create.edit.interface';
 
+import { icons } from './../../../shared/material/shared-icon-names.module';
+
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
@@ -30,6 +32,8 @@ export class CreateComponent implements OnInit, IDynamicButtonsForm {
   public maxLength: number = 128;
 
   public selected: string = 'Social Link';
+  public selectedIcon: string;
+  public icons = icons;
 
   constructor(
     private formBuilder: FormBuilder,

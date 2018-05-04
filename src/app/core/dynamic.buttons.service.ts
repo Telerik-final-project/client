@@ -24,8 +24,8 @@ export class DynamicButtonsService {
         return this.httpClient.post(`${this.appConfig.apiUrl}/admin/buttons/edit/` + (id + ''), newButton, { headers });
     }
 
-    public getAll(options?: HttpOptions): any {
-        return this.httpClient.get(`${this.appConfig.apiUrl}/admin/buttons`, options);
+    public getAll(options?: HttpOptions): Observable<any> {
+        return this.httpClient.get<IDynamicButtons[]>(`${this.appConfig.apiUrl}/admin/buttons`, options);
     }
 
     public getInfoPerID(id: number, options?: HttpOptions): any {

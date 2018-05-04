@@ -9,6 +9,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { DynamicButtonsService } from '../../../core/dynamic.buttons.service';
 import { IDynamicButtons } from '../../../models/dynamic.buttons.interface';
 
+import { icons } from './../../../shared/material/shared-icon-names.module';
+
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
@@ -27,6 +29,9 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
     { id: 'mat-option-0', selected: true, value: 'Social Link' },
     { id: 'mat-option-1', selected: false, value: 'Action Link' },
   ];
+
+  public selectedIcon: string;
+  public icons = icons;
 
   public minLength: number = 3;
   public maxLength: number = 128;
