@@ -27,7 +27,7 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
     <div>
-      <mat-paginator [length]="paginatedButtons" [pageSize]="1" [pageSizeOptions]="[1, 15, 25, 50, 100]"></mat-paginator>
+      <mat-paginator [length]="paginatedButtons"  *ngIf="paginatedButtons > 10" [pageSize]="9" [pageSizeOptions]="[9, 15, 25, 50, 100]"></mat-paginator>
     </div>
   </div>
 

@@ -40,10 +40,8 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    if (this.paginatedButtons > 0) {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-    }
   }
 
   private loadDBInfo(): void {
