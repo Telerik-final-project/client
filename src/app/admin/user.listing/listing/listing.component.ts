@@ -14,48 +14,14 @@ import { IUsersListing } from './_interfaces/listing.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListingComponent implements OnInit {
-  public ELEMENT_DATA: IUsersListing[] = [];
-  public dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-  public paginatedButtons: number;
 
-  @ViewChild(MatPaginator) public paginator: MatPaginator;
-  @ViewChild(MatSort) public sort: MatSort;
 
-  constructor(
-    private usersListingService: UsersListingService,
-    private router: Router,
-  ) { }
+  constructor() { }
 
   public ngOnInit(): void { }
 
-  public ngAfterViewInit(): void {
-    this.loadDBInfo();
-  }
-
-  public applyFilter(filterValue: string): void {
-    const newFilteredValue = filterValue.trim().toLowerCase();
-    this.dataSource.filter = newFilteredValue;
-  }
-
-  private loadDBInfo(): void {
-    this.usersListingService
-      .getAll({ observe: 'response', responseType: 'json' })
-      .subscribe((x) => {
-        x.body.users.forEach((user) => {
-          this.ELEMENT_DATA.push({
-            id: user.id,
-            email: user.email,
-            createdAt: user.createdAt,
-            applications: user.applications,
-          });
-        });
-        this.dataSource.data = x.body.users;
-        this.paginatedButtons = this.dataSource.data.length;
-
-        window.setTimeout(() => {
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        });
-      });
-  }
+  // public applyFilter(filterValue: string): void {
+  //   const newFilteredValue = filterValue.trim().toLowerCase();
+  //   this.dataSource.filter = newFilteredValue;
+  // }
 }
