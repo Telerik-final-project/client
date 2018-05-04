@@ -14,8 +14,6 @@ import { IUsersListing } from './_interfaces/listing.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListingComponent implements OnInit {
-
-
   constructor() { }
 
   public ngOnInit(): void { }

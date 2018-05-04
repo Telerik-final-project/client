@@ -14,7 +14,7 @@ import { IUsersListing } from '../_interfaces/listing.interface';
 export class TableComponent implements OnInit, AfterViewInit {
   public displayedColumns = ['id', 'email', 'createdAt', 'applications'];
   public paginatedButtons: number;
-  public ds;
+  public ifInfo: boolean = true;
 
   public ELEMENT_DATA: IUsersListing[] = [];
   public dataSource = new MatTableDataSource(this.ELEMENT_DATA);
@@ -27,12 +27,11 @@ export class TableComponent implements OnInit, AfterViewInit {
     private router: Router,
   ) { }
 
-  // tslint:disable-next-line:no-empty
-  public ngOnInit(): void { }
+  public ngOnInit(): void {
+    this.loadDBInfo();
+  }
 
   public ngAfterViewInit(): void {
-    this.loadDBInfo();
-
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -51,9 +50,14 @@ export class TableComponent implements OnInit, AfterViewInit {
         });
 
         this.paginatedButtons = x.body.users.length;
-        this.dataSource.data = x.body.users;
+        if (this.paginatedButtons > 0) {
+          this.dataSource.data = x.body.users;
+          this.ifInfo = true;
 
-        console.log(this.dataSource);
+          return;
+        }
+
+        this.ifInfo = false;
       });
   }
 }

@@ -1,30 +1,34 @@
-<div class="example-container mat-elevation-z8">
-  <mat-table #table [dataSource]="dataSource" matSort>
+<div *ngIf="ifInfo == true">
 
-    <ng-container matColumnDef="id">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{ element.id }} </mat-cell>
-    </ng-container>
+  <div class="example-container mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource" matSort>
 
-    <ng-container matColumnDef="email">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{ element.email }} </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.id }} </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="createdAt">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Created at </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{ element.createdAt }} </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.email }} </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="applications">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Jobs applications count </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{ element.applications }} </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="createdAt">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Created at </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.createdAt }} </mat-cell>
+      </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
-  <div>
-    <mat-paginator *ngIf="paginatedButtons > 10" [length]="paginatedButtons" [pageSize]="10" [pageSizeOptions]="[10, 15, 25, 50, 100]"></mat-paginator>
+      <ng-container matColumnDef="applications">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Jobs applications count </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.applications }} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <div>
+      <mat-paginator [length]="paginatedButtons" [pageSize]="1" [pageSizeOptions]="[1, 15, 25, 50, 100]"></mat-paginator>
+    </div>
   </div>
+
 </div>
