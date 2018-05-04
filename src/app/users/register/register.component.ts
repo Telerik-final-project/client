@@ -23,6 +23,8 @@ import { Router } from '@angular/router';
 
 import { AuthService } from '../../core/auth.service';
 import { IRegisterMatch } from './_interfaces/match.interface';
+import { MatSnackBarConfig } from '@angular/material';
+import { SharedSnackModule } from '../../shared/material/shared-snack.module';
 
 @Component({
   selector: 'app-register',
@@ -46,10 +48,17 @@ export class RegisterComponent implements OnInit {
   private validPass: string;
   private pattern: RegExp = new RegExp('(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}');
 
+  private snackOptions = {
+    duration: 3700,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+  } as MatSnackBarConfig;
+
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private router: Router,
+    private snack: SharedSnackModule,
     @Inject('IRegisterMatch') private passwordsValidator: IRegisterMatch,
   ) { }
 
@@ -74,7 +83,7 @@ export class RegisterComponent implements OnInit {
         Validators.pattern(this.pattern),
       ],
       ],
-    },                                         {
+    }, {
         validator: [
           this.passwordsValidator.passwordsMatch,
         ],
@@ -96,7 +105,13 @@ export class RegisterComponent implements OnInit {
     this.authService.register(newUser).subscribe(
       (x) => console.log(x),
       (err: HttpErrorResponse) => {
-        console.log(err);
+        if (err.error.msd) {
+          this.snack.openSnackMsg(
+            'Email already exists!',
+            'Close',
+            this.snackOptions,
+          );
+        }
 
         if (!err) {
           this.router.navigateByUrl('/users/login');

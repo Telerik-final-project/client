@@ -1,8 +1,9 @@
 import { HttpHeaders } from '@angular/common/http';
 import { AfterViewInit, Component, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSnackBarConfig, MatSort, MatTableDataSource } from '@angular/material';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { SharedSnackModule } from '../../../../shared/material/shared-snack.module';
 import { UsersListingService } from '../../_services/users.listing.service';
 import { IUsersListing } from '../_interfaces/listing.interface';
 
@@ -22,8 +23,15 @@ export class TableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) public paginator: MatPaginator;
   @ViewChild(MatSort) public sort: MatSort;
 
+  private snackOptions = {
+    duration: 3700,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+  } as MatSnackBarConfig;
+
   constructor(
     private usersListingService: UsersListingService,
+    private snack: SharedSnackModule,
     private router: Router,
   ) { }
 
@@ -32,8 +40,10 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    if (this.paginatedButtons > 0) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
   }
 
   private loadDBInfo(): void {
@@ -51,11 +61,17 @@ export class TableComponent implements OnInit, AfterViewInit {
 
         this.paginatedButtons = x.body.users.length;
         if (this.paginatedButtons > 0) {
-          this.dataSource.data = x.body.users;
           this.ifInfo = true;
+          this.dataSource.data = x.body.users;
 
           return;
         }
+
+        this.snack.openSnackMsg(
+          'No users to list!',
+          'Close',
+          this.snackOptions,
+        );
 
         this.ifInfo = false;
       });
