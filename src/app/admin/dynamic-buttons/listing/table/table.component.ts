@@ -1,12 +1,12 @@
 import { HttpHeaders } from '@angular/common/http';
 import { AfterViewInit, Component, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatPaginator, MatSort, MatTableDataSource, MatSnackBarConfig } from '@angular/material';
+import { MatPaginator, MatSnackBarConfig, MatSort, MatTableDataSource } from '@angular/material';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { EventEmitter } from 'events';
 import { DynamicButtonsService } from '../../../../core/dynamic.buttons.service';
-import { IElements } from '../../_interfaces/listing.interface';
 import { SharedSnackModule } from '../../../../shared/material/shared-snack.module';
+import { IElements } from '../../_interfaces/listing.interface';
 
 @Component({
   selector: 'table-listing',
@@ -43,11 +43,14 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    if (this.paginatedButtons > 0) {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+    if (this.paginatedButtons <= 0) {
+      return;
     }
+
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
+
   private loadDBInfo(): void {
     this.buttonsService
       .getAll({ observe: 'response', responseType: 'json' })
@@ -65,9 +68,10 @@ export class TableComponent implements OnInit, AfterViewInit {
         });
 
         this.paginatedButtons = x.body.buttons.length;
+
         if (this.paginatedButtons > 0) {
-          this.ifInfo = true;
           this.dataSource.data = x.body.buttons;
+          this.ifInfo = true;
 
           return;
         }
