@@ -11,7 +11,7 @@
       </div>
       <div class="button-row" fxFlex.xs="100" fxLayout="column" fxLayout.xs="row" fxLayoutAlign.xs="start center" fxLayoutGap.xs="10px"
         fxFlex="50%" fxLayoutAlign="space-evenly end">
-        <button [routerLink]="['apply']" mat-raised-button color="primary">Apply</button>
+        <button [disabled]="isUserApplied" [routerLink]="['apply']" mat-raised-button color="primary">Apply</button>
         <button *ngIf="authService.isAdmin()" [routerLink]="['/admin', 'jobs', job?.id, 'applications']" mat-raised-button color="primary">Applications</button>
       </div>
     </div>
