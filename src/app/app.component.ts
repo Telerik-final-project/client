@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { AuthService } from './core/auth.service';
 import { User } from './models/user';
 
@@ -12,6 +13,9 @@ export class AppComponent implements OnInit {
 
   public ngOnInit(): void {
     const user = this.authService.decodeToken();
-    this.authService.sendUser({email: user.email} as User);
+
+    if (user) {
+      this.authService.sendUser({email: user.email} as User);
+    }
   }
 }

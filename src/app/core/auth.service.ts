@@ -11,10 +11,7 @@ import { JwtPayload } from './../models/jwt-payload';
 
 @Injectable()
 export class AuthService {
-
-  public loginDone: Observable<boolean>;
-  public userLoggedDone: Observable<User>;
-  private loginEvent: BehaviorSubject<boolean>;
+  public userLoggedObservable: Observable<User>;
   private userLoggedEvent: BehaviorSubject<User>;
 
   constructor(
@@ -23,11 +20,8 @@ export class AuthService {
     private jwtService: JwtHelperService,
     private router: Router,
   ) {
-    this.loginEvent = new BehaviorSubject<boolean>(this.isAuthenticated());
-    this.loginDone = this.loginEvent.asObservable();
-
     this.userLoggedEvent = new BehaviorSubject<User>(this.getUser());
-    this.userLoggedDone = this.userLoggedEvent.asObservable();
+    this.userLoggedObservable = this.userLoggedEvent.asObservable();
   }
 
   public login(user: User, options?: HttpOptions): Observable<object> {

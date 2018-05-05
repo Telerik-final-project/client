@@ -9,6 +9,7 @@ import { ApplicationGuard } from './guards/application-guard.service';
 import { AuthDisabledGuard } from './guards/auth-disabled-guard.sercice';
 import { AuthGuard } from './guards/auth-guard.service';
 import { ClosedApplicationGuard } from './guards/closed-application-guard.service';
+import { UserAlreadyAppliedGuard } from './guards/user-already-applied-guard.service';
 import { JobTypesService } from './job-types.service';
 import { JobsService } from './jobs.service';
 
@@ -20,6 +21,7 @@ import { JobsService } from './jobs.service';
     ApplicationGuard,
     AuthDisabledGuard,
     ClosedApplicationGuard,
+    UserAlreadyAppliedGuard,
     JobsService,
     DynamicButtonsService,
     ApplicationsService,

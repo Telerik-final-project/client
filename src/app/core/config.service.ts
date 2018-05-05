@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 @Injectable()
@@ -16,7 +16,6 @@ export class ConfigService {
       this.httpClient
         .get(`http://localhost:3012/config`)
         .catch((error: any): any => {
-          console.log('Configuration file "env.json" could not be read');
           resolve(true);
           return Observable.throw(error.error || 'Server error');
         })
