@@ -16,12 +16,11 @@ export class DynamicButtonsService {
     }
 
     public edit(id: any, newButton: IDynamicButtons, options?: HttpOptions): Observable<object> {
-        const headers: HttpHeaders = new HttpHeaders({
-            'Content-Type': 'application/json',
-        });
+        const customOptions = {
+            headers: { 'Content-Type': ['application/json'] },
+        };
 
-        console.log(id);
-        return this.httpClient.post(`${this.appConfig.apiUrl}/admin/buttons/edit/` + (id + ''), newButton, { headers });
+        return this.httpClient.post(`${this.appConfig.apiUrl}/admin/buttons/edit/${id}`, newButton);
     }
 
     public getAll(options?: HttpOptions): Observable<any> {

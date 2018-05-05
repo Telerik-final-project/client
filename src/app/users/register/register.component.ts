@@ -21,10 +21,10 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../../core/auth.service';
-import { IRegisterMatch } from './_interfaces/match.interface';
 import { MatSnackBarConfig } from '@angular/material';
+import { AuthService } from '../../core/auth.service';
 import { SharedSnackModule } from '../../shared/material/shared-snack.module';
+import { IRegisterMatch } from './_interfaces/match.interface';
 
 @Component({
   selector: 'app-register',
