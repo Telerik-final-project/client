@@ -1,4 +1,4 @@
-import { HttpHeaders } from '@angular/common/http';
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -10,6 +10,8 @@ import { DynamicButtonsService } from '../../../core/dynamic.buttons.service';
 import { IDynamicButtons } from '../../../models/dynamic.buttons.interface';
 
 import { icons } from './../../../shared/material/shared-icon-names.module';
+import { MatSnackBarConfig } from '@angular/material';
+import { SharedSnackModule } from '../../../shared/material/shared-snack.module';
 
 @Component({
   selector: 'app-edit',
@@ -38,12 +40,20 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
 
   public selected: string = 'Social Link';
 
-  public nameVal: any;
-  public targetUrlVal: any;
-  private editID: any;
+  public nameVal: string;
+  public targetUrlVal: string;
+  private editID: number;
+
+  private snackOptions = {
+    duration: 3700,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+  } as MatSnackBarConfig;
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
+    private snack: SharedSnackModule,
     private formBuilder: FormBuilder,
     private buttonsService: DynamicButtonsService,
   ) { }
@@ -59,17 +69,15 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
 
         this.nameVal = params.body.buttonInfoToDisplay.name;
         this.targetUrlVal = params.body.buttonInfoToDisplay.target;
-
-        console.log(params);
       });
 
     this.form = this.formBuilder.group({
-      name: ['sasassas', [
+      name: ['', [
         Validators.required,
         Validators.minLength(this.minLength),
         Validators.maxLength(this.maxLength),
       ]],
-      targetUrl: ['asasa', [
+      targetUrl: ['', [
         Validators.required,
       ]],
       iconUrl: ['', [
@@ -80,17 +88,13 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
     });
 
     this.name = this.form.get('name');
-
-    console.log(this.name);
     this.targetUrl = this.form.get('targetUrl');
     this.iconUrl = this.form.get('iconUrl');
     this.dropdown = this.form.get('dropdown');
     this.hidden = this.form.get('hidden');
   }
 
-  public edit(id: number): void {
-
-
+  public edit(): void {
     const newButton: IDynamicButtons = {
       name: this.form.value.name,
       target: this.form.value.targetUrl,
@@ -101,8 +105,22 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
     };
 
     this.buttonsService
-      .edit(this.editID, newButton, { observe: 'response', responseType: 'json' })
-      .subscribe((params: Params) => console.log(params));
+      .edit(this.editID, newButton)
+      .subscribe(
+        (params: Params) => {
+          console.log(params);
+          this.router.navigateByUrl('/admin/btn');
+        },
+        (err: HttpErrorResponse) => {
+          if (err.error.msd) {
+            this.snack.openSnackMsg(
+              'Server cannot responde!',
+              'Close',
+              this.snackOptions,
+            );
+          }
+        },
+    );
   }
 
   public childchangeVisibility(): void {

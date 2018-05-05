@@ -1,9 +1,10 @@
 export interface IElements {
     id: number;
     name: string;
-    targetUrl: number;
-    iconUrl: number;
+    targetUrl: string;
+    iconUrl: string;
     date: string;
-    buttons: string[];
+    edit: string;
+    delete: string,
     type: string;
 }

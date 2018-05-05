@@ -4,10 +4,10 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/cor
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBarConfig } from '@angular/material';
 import { Router } from '@angular/router';
+
 import { AuthService } from '../../core/auth.service';
 import { SharedSnackModule } from '../../shared/material/shared-snack.module';
 import { IRegisterMatch } from './_interfaces/match.interface';
-
 
 @Component({
   selector: 'app-register',

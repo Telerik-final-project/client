@@ -14,7 +14,16 @@ import { IElements } from '../../_interfaces/listing.interface';
   styleUrls: ['./table.component.css'],
 })
 export class TableComponent implements OnInit, AfterViewInit {
-  public displayedColumns = ['id', 'name', 'targetUrl', 'iconUrl', 'date', 'type', 'links'];
+  public displayedColumns = [
+    'id',
+    'name',
+    'targetUrl',
+    'iconUrl',
+    'date',
+    'type',
+    'edit',
+    'delete',
+  ];
 
   public ELEMENT_DATA: IElements[] = [];
   public dataSource = new MatTableDataSource(this.ELEMENT_DATA);
@@ -61,7 +70,8 @@ export class TableComponent implements OnInit, AfterViewInit {
             targetUrl: btn.target,
             iconUrl: btn.link,
             date: btn.createdAt,
-            buttons: ['edit', 'delete'],
+            edit: 'edit',
+            delete: 'delete',
             type: btn.type,
           });
         });
@@ -73,7 +83,7 @@ export class TableComponent implements OnInit, AfterViewInit {
             this.dataSource.paginator = this.paginator;
           });
 
-          this.dataSource.data = x.body.buttons;
+          this.dataSource.data = this.ELEMENT_DATA;
           this.ifInfo = true;
 
           return;
