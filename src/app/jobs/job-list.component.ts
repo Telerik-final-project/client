@@ -25,6 +25,7 @@ export class JobListComponent implements OnInit {
   public endDateInput: string;
   private startDate = '01/01/1970';
   private endDate = '11/30/2070';
+  private defaultPageSize = 10;
   private snackOptions = {
     duration: 2500,
     verticalPosition: 'top',
@@ -46,7 +47,7 @@ export class JobListComponent implements OnInit {
       if (this.length === 0) {
         this.snack.openSnackMsg('There are no open positions - please try later', 'Close', this.snackOptions);
       }
-      this.onChangePage({
+      this.onChangePage(this.jobs, {
         pageIndex: 0,
         length: this.length,
         pageSize: this.pageSize,
@@ -58,8 +59,10 @@ export class JobListComponent implements OnInit {
     });
   }
 
-  public onChangePage(event: PageEvent): void {
-    const copy = this.jobs.slice();
+  public onChangePage(jobs: JobAd[], event: PageEvent): void {
+    const copy = jobs.slice();
+    this.pageSize = copy.length > this.defaultPageSize ? this.defaultPageSize : copy.length;
+    this.length = copy.length;
     this.paginatedJobs = copy.slice(
       event.pageIndex * event.pageSize,
       event.pageIndex * event.pageSize + event.pageSize,
@@ -70,6 +73,7 @@ export class JobListComponent implements OnInit {
     const copy = this.jobs.slice();
     this.userInput = input;
     this.paginatedJobs = this.jobsService.filter(copy, input, this.selectedCategory, this.startDate, this.endDate);
+    this.onChangePage(this.paginatedJobs, {pageIndex: 0, pageSize: 10} as PageEvent);
     if (this.paginatedJobs.length === 0) {
       this.snack.openSnackMsg('There are no open positions with these criteria', 'Close', this.snackOptions);
     } else {
@@ -96,5 +100,7 @@ export class JobListComponent implements OnInit {
     this.endDate = '11/30/2070';
     this.startDateInput = '';
     this.endDateInput = '';
+    this.length = this.paginatedJobs.length;
+    this.pageSize = this.defaultPageSize;
   }
 }

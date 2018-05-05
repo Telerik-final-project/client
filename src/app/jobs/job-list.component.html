@@ -7,8 +7,8 @@
           <app-job-view [job]="job" *ngIf="authService.isAdmin() || job.status === 'open'"></app-job-view>
         </div>
       </mat-nav-list>
-      <mat-paginator *ngIf="paginatedJobs?.length > 10" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[10, 20, 50]"
-        (page)="onChangePage($event)" [showFirstLastButtons]="true"></mat-paginator>
+      <mat-paginator *ngIf="length >= 10" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[2,10, 20, 50]"
+        (page)="onChangePage(jobs, $event)" [showFirstLastButtons]="true"></mat-paginator>
     </div>
     <div fxFlex fxFlexOrder="3" class="filter" fxFlex.gt-sm fxFlexOrder="2" fxFlexOffset.gt-sm="20px" fxFlexOrder.sm="1" fxFlexOrder.xs="1" fxFlex.sm="100"
       fxFlex.xs="100">

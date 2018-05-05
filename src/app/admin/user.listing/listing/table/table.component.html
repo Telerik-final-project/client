@@ -15,11 +15,11 @@
 
       <ng-container matColumnDef="createdAt">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Created at </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{ element.createdAt }} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{ element.createdAt | date:'dd/MM/yyyy' }} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="applications">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Jobs applications count </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Applications </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{ element.applications }} </mat-cell>
       </ng-container>
 

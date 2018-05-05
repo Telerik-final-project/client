@@ -1,32 +1,17 @@
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import {
-  Component,
-  ElementRef,
-  Inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { Component, ElementRef, Inject, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBarConfig } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-
 import { JobApplicationDialogComponent } from '../../../../shared/jobs/job-application/job-application-dialog.component';
 import { SharedSnackModule } from '../../../../shared/material/shared-snack.module';
 import { JobTypesService } from './../../../../core/job-types.service';
 import { JobsService } from './../../../../core/jobs.service';
 import { JobAd } from './../../../../models/job-ad';
 import { JobType } from './../../../../models/job-type';
+
 
 @Component({
   selector: 'app-job-create-admin-dialog',
