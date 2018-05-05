@@ -5,6 +5,6 @@ export interface IElements {
     iconUrl: string;
     date: string;
     edit: string;
-    delete: string,
+    delete: string;
     type: string;
 }

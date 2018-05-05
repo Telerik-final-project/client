@@ -9,13 +9,13 @@ import { SharedPaginatorModule } from '../../shared/material/shared-paginator.mo
 import { SharedTableModule } from '../../shared/material/shared-table.module';
 import { SharedModule } from '../../shared/shared.module';
 import { SharedJobsModule } from './../../shared/jobs/shared-jobs.module';
+import { JobsAdminRoutingModule } from './routing/jobs-admin-routing.module';
 
 import { JobApplicationDialogComponent } from './../../shared/jobs/job-application/job-application-dialog.component';
 import { JobApplicationsAdminComponent } from './job-applications-admin/job-applications-admin.component';
 import { JobCreateAdminDialogComponent } from './job-list-admin/job-create-admin-dialog/job-create-admin-dialog.component';
 import { JobListAdminDialogComponent } from './job-list-admin/job-list-admin-dialog/job-list-admin-dialog.component';
 import { JobListAdminComponent } from './job-list-admin/job-list-admin.component';
-import { JobsAdminRoutingModule } from './routing/jobs-admin-routing.module';
 
 @NgModule({
   imports: [
@@ -27,7 +27,8 @@ import { JobsAdminRoutingModule } from './routing/jobs-admin-routing.module';
     SharedPaginatorModule,
     SharedTableModule,
     SharedIconModule,
-    FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
+    FroalaEditorModule.forRoot(),
+    FroalaViewModule.forRoot(),
     JobsAdminRoutingModule,
   ],
   declarations: [
@@ -37,7 +38,9 @@ import { JobsAdminRoutingModule } from './routing/jobs-admin-routing.module';
     JobApplicationsAdminComponent,
   ],
   entryComponents: [
-    JobApplicationDialogComponent, JobListAdminDialogComponent, JobCreateAdminDialogComponent,
+    JobApplicationDialogComponent,
+    JobListAdminDialogComponent,
+    JobCreateAdminDialogComponent,
   ],
 })
 export class JobsAdminModule { }

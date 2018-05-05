@@ -66,7 +66,7 @@ export class RegisterComponent implements OnInit {
         Validators.pattern(this.pattern),
       ],
       ],
-    }, {
+    },                                         {
         validator: [
           this.passwordsValidator.passwordsMatch,
         ],

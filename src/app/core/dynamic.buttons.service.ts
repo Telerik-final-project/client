@@ -11,11 +11,19 @@ import { HttpOptions } from '../models/http-options';
 export class DynamicButtonsService {
     constructor(private appConfig: AppConfig, private httpClient: HttpClient) { }
 
+    public getAll(options?: HttpOptions): Observable<any> {
+        return this.httpClient.get<IDynamicButtons[]>(`${this.appConfig.apiUrl}/admin/buttons`, options);
+    }
+
+    public getInfoPerID(id: number, options?: HttpOptions): any {
+        return this.httpClient.get<IDynamicButtons>(`${this.appConfig.apiUrl}/admin/buttons/edit/${id}`, options);
+    }
+
     public create(newButton: IDynamicButtons, options?: HttpOptions): Observable<object> {
         return this.httpClient.post(`${this.appConfig.apiUrl}/admin/buttons/create`, newButton, options);
     }
 
-    public edit(id: any, newButton: IDynamicButtons, options?: HttpOptions): Observable<object> {
+    public edit(id: number, newButton: IDynamicButtons, options?: HttpOptions): Observable<object> {
         const customOptions = {
             headers: { 'Content-Type': ['application/json'] },
         };
@@ -23,11 +31,7 @@ export class DynamicButtonsService {
         return this.httpClient.post(`${this.appConfig.apiUrl}/admin/buttons/edit/${id}`, newButton);
     }
 
-    public getAll(options?: HttpOptions): Observable<any> {
-        return this.httpClient.get<IDynamicButtons[]>(`${this.appConfig.apiUrl}/admin/buttons`, options);
-    }
-
-    public getInfoPerID(id: number, options?: HttpOptions): any {
-        return this.httpClient.get(`${this.appConfig.apiUrl}/admin/buttons/edit/${id}`, options);
+    public delete(id: number, options?: HttpOptions): Observable<object> {
+        return this.httpClient.post(`${this.appConfig.apiUrl}/admin/buttons/delete/${id}`, { id }, options);
     }
 }
