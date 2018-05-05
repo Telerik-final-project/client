@@ -1,10 +1,24 @@
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatCardModule, MatDatepickerModule, MatExpansionModule,
-  MatFormFieldModule, MatIconModule, MatInputModule, MatListModule,
-  MatMenuModule, MatNativeDateModule, MatPaginatorModule, MatSelectModule,
-  MatSnackBarModule, MatSortModule, MatTableModule, MatToolbarModule } from '@angular/material';
+import {
+  MatButtonModule,
+  MatCardModule,
+  MatDatepickerModule,
+  MatExpansionModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatNativeDateModule,
+  MatPaginatorModule,
+  MatSelectModule,
+  MatSnackBarModule,
+  MatSortModule,
+  MatTableModule,
+  MatToolbarModule,
+} from '@angular/material';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RouterModule } from '@angular/router';
 import { DropzoneModule } from 'ngx-dropzone-wrapper';

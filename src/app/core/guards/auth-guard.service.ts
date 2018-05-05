@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-} from '@angular/router';
-
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from './../auth.service';
 
 @Injectable()
@@ -14,7 +8,7 @@ export class AuthGuard implements CanActivate {
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (!this.authService.isAuthenticated()) {
-      this.authService.clearLocalStorage();
+      this.authService.clearStorage();
       this.authService.nullUser();
       this.router.navigate(['users/login'], {
         queryParams: { returnUrl: state.url },
