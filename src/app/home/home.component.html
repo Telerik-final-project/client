@@ -11,14 +11,14 @@
     <div class="content" fxLayout="column" fxLayoutGap="20px">
       <div class="buttons" fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-between start" fxLayoutGap="20px">
         <div fxFlex class="action-buttons">
-          <div fxLayout="row">
+          <div>
             <button mat-button color="primary" *ngFor="let action of actionButtons" [hidden]="action.isHidden" (click)="onRedirect(action.target)">
               <mat-icon>{{action.link}}</mat-icon>
               {{ action.name }}</button>
           </div>
         </div>
         <div fxFlex class="social-buttons">
-          <div fxLayout="row">
+          <div>
             <button mat-button color="primary" *ngFor="let social of socialButtons" [hidden]="social.isHidden" (click)="onRedirect(social.target)">
               <mat-icon>{{social.link}}</mat-icon>
               {{ social.name }}
@@ -33,8 +33,8 @@
               <div>
                 <p class="text" [innerHTML]="textFirst"></p>
               </div>
-              <mat-divider></mat-divider>
-              <div>
+              <mat-divider *ngIf="textSecond"></mat-divider>
+              <div *ngIf="textSecond">
                 <p class="text" [innerHTML]="'<br>' + textSecond"></p>
               </div>
             </mat-card-content>

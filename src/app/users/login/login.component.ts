@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   public form: FormGroup;
   public email: AbstractControl;
   public password: AbstractControl;
+  public rememberMe: AbstractControl;
   public credentialsError: string;
   public returnUrl: string;
 
@@ -24,17 +25,25 @@ export class LoginComponent implements OnInit {
     this.form = new FormGroup({
       email: new FormControl('', [Validators.email, Validators.required]),
       password: new FormControl('', [Validators.required]),
+      rememberMe: new FormControl(),
     });
 
     this.email = this.form.get('email');
     this.password = this.form.get('password');
+    this.rememberMe = this.form.get('rememberMe');
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/home';
   }
 
   private submit(form: FormGroup): void {
     this.auth.login(this.form.value, { observe: 'response', responseType: 'json' }).subscribe(
       (x: HttpResponse<{ token: string }>) => {
-        localStorage.setItem('access_token', x.body.token);
+
+        if (this.rememberMe.value) {
+          localStorage.setItem('access_token', x.body.token);
+        } else {
+          sessionStorage.setItem('access_token', x.body.token);
+        }
+
         this.credentialsError = null;
         this.router.navigateByUrl(this.returnUrl);
 

@@ -1,27 +1,10 @@
 
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpResponse,
-} from '@angular/common/http';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Inject,
-  OnInit,
-} from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  NgModel,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBarConfig } from '@angular/material';
 import { Router } from '@angular/router';
 
-import { MatSnackBarConfig } from '@angular/material';
 import { AuthService } from '../../core/auth.service';
 import { SharedSnackModule } from '../../shared/material/shared-snack.module';
 import { IRegisterMatch } from './_interfaces/match.interface';
