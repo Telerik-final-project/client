@@ -131,7 +131,7 @@ export class TableComponent implements OnInit, AfterViewInit {
       });
   }
 
-  private openDialog(component: DialogComponent, buttonData?: IElements): Observable<any> {
+  private openDialog(component: any, buttonData?: IElements): Observable<any> {
     let dialogRef: MatDialogRef<Component>;
 
     if (buttonData) {
