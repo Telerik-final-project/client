@@ -25,7 +25,7 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
   public hidden: AbstractControl;
 
   public isHidden: boolean = false;
-  public dropdownValues: {id: string; selected: boolean; value: string}[] = [
+  public dropdownValues: { id: string; selected: boolean; value: string }[] = [
     { id: 'mat-option-0', selected: true, value: 'Social Link' },
     { id: 'mat-option-1', selected: false, value: 'Action Link' },
   ];
@@ -38,6 +38,8 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
 
   public selected: string = 'Social Link';
 
+  public nameVal: any;
+  public targetUrlVal: any;
   private editID: any;
 
   constructor(
@@ -47,13 +49,27 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
   ) { }
 
   public ngOnInit(): void {
+    this.route.params.subscribe((param: Params) => {
+      this.editID = param.id;
+    });
+
+    this.buttonsService
+      .getInfoPerID(this.editID, { observe: 'response', responseType: 'json' })
+      .subscribe((params: Params) => {
+
+        this.nameVal = params.body.buttonInfoToDisplay.name;
+        this.targetUrlVal = params.body.buttonInfoToDisplay.target;
+
+        console.log(params);
+      });
+
     this.form = this.formBuilder.group({
-      name: ['', [
+      name: ['sasassas', [
         Validators.required,
         Validators.minLength(this.minLength),
         Validators.maxLength(this.maxLength),
       ]],
-      targetUrl: ['', [
+      targetUrl: ['asasa', [
         Validators.required,
       ]],
       iconUrl: ['', [
@@ -64,6 +80,8 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
     });
 
     this.name = this.form.get('name');
+
+    console.log(this.name);
     this.targetUrl = this.form.get('targetUrl');
     this.iconUrl = this.form.get('iconUrl');
     this.dropdown = this.form.get('dropdown');
@@ -71,9 +89,7 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
   }
 
   public edit(id: number): void {
-    this.buttonsService
-      .getInfoPerID(id, { observe: 'response', responseType: 'json' })
-      .subscribe((params: Params) => console.log(params));
+
 
     const newButton: IDynamicButtons = {
       name: this.form.value.name,
@@ -83,11 +99,6 @@ export class EditComponent implements OnInit, IDynamicButtonsForm {
       isHidden: this.isHidden,
       isDeleted: 0,
     };
-
-    this.route.params.subscribe((param: Params) => {
-      this.editID = param.id;
-    });
-    console.log(this.editID);
 
     this.buttonsService
       .edit(this.editID, newButton, { observe: 'response', responseType: 'json' })

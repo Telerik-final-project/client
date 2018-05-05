@@ -40,8 +40,11 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
+    window.setTimeout(() => {
       this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+    });
+
+    this.dataSource.sort = this.sort;
   }
 
   private loadDBInfo(): void {

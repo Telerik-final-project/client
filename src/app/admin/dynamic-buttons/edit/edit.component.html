@@ -6,12 +6,12 @@
         <mat-card-content fxLayout="column">
 
           <mat-form-field>
-            <input type="text" matInput placeholder="Name" formControlName="name" [(value)]="name">
+            <input type="text" matInput placeholder="Name" formControlName="name" [(value)]="nameVal">
             <mat-error>{{ getErrorMessage(name, 'name') }}</mat-error>
           </mat-form-field>
 
           <mat-form-field>
-            <input type="text" matInput placeholder="Link target" formControlName="targetUrl" [(value)]="targetUrl">
+            <input type="text" matInput placeholder="Link target" formControlName="targetUrl" [(value)]="targetUrlVal">
             <mat-error>{{ getErrorMessage(targetUrl) }}</mat-error>
           </mat-form-field>
 
