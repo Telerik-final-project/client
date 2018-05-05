@@ -34,22 +34,24 @@
       </ng-container>
 
       <ng-container matColumnDef="edit">
-        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-header-cell *matHeaderCellDef>Edit</mat-header-cell>
 
         <mat-cell *matCellDef="let element">
           <mat-card-actions fxFlexAlign="center">
-            <button id="{{ element.id }}" mat-raised-button color="primary" [routerLink]="['edit', element.id]">{{ element.edit }} </button>
-          </mat-card-actions>
+              <mat-icon class="icon icon-edit" [routerLink]="['edit', element.id]"> {{ element.edit }} </mat-icon>
+            </mat-card-actions>
         </mat-cell>
 
       </ng-container>
 
       <ng-container matColumnDef="delete">
-        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-header-cell *matHeaderCellDef>Delete</mat-header-cell>
 
         <mat-cell *matCellDef="let element">
           <mat-card-actions fxFlexAlign="center">
-            <button id="{{ element.id }}" mat-raised-button color="primary" [routerLink]="['delete']"> {{ element.delete }} </button>
+
+              <mat-icon class="icon icon-delete" (click)="delete(element.id)"> {{ element.delete }} </mat-icon>
+
           </mat-card-actions>
         </mat-cell>
 

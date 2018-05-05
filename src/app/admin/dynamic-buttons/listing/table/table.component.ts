@@ -1,12 +1,19 @@
-import { HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { AfterViewInit, Component, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatPaginator, MatSnackBarConfig, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSnackBarConfig, MatSort, MatTableDataSource, MatDialog, MatDialogRef } from '@angular/material';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { EventEmitter } from 'events';
-import { DynamicButtonsService } from '../../../../core/dynamic.buttons.service';
+
 import { SharedSnackModule } from '../../../../shared/material/shared-snack.module';
+
 import { IElements } from '../../_interfaces/listing.interface';
+
+import { DynamicButtonsService } from '../../../../core/dynamic.buttons.service';
+import { DialogComponent } from './dialog/dialog.component';
+import { ComponentType } from '@angular/core/src/render3';
+import { IButton } from 'selenium-webdriver';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'table-listing',
@@ -44,6 +51,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   constructor(
     private buttonsService: DynamicButtonsService,
     private snack: SharedSnackModule,
+    private dialog: MatDialog,
     private router: Router,
   ) { }
 
@@ -57,6 +65,30 @@ export class TableComponent implements OnInit, AfterViewInit {
     }
 
     this.dataSource.sort = this.sort;
+  }
+
+  public delete(id: number): void {
+    this.openDialog(DialogComponent).subscribe((isConfirmed: boolean) => {
+      if (isConfirmed) {
+        this.buttonsService.delete(id, { responseType: 'json', observe: 'response' })
+          .subscribe(
+            (params: Params) => {
+              console.log(params);
+            },
+            (err: HttpErrorResponse) => {
+              console.log(err);
+            },
+            () => {
+              this.router
+                .navigateByUrl('/home')
+                .then((val) => {
+                  this.router
+                    .navigateByUrl('/admin/btn');
+                });
+            },
+        );
+      }
+    });
   }
 
   private loadDBInfo(): void {
@@ -97,5 +129,35 @@ export class TableComponent implements OnInit, AfterViewInit {
 
         this.ifInfo = false;
       });
+  }
+
+  private openDialog(component: DialogComponent, buttonData?: IElements): Observable<any> {
+    let dialogRef: MatDialogRef<Component>;
+
+    if (buttonData) {
+      const dataToSend = {
+        id: buttonData.id,
+        name: buttonData.name,
+        targetUrl: buttonData.targetUrl,
+        iconUrl: buttonData.iconUrl,
+        date: buttonData.date,
+        edit: buttonData.edit,
+        delete: buttonData.delete,
+        type: buttonData.type,
+      };
+
+      dialogRef = this.dialog.open(component, {
+        data: dataToSend,
+        panelClass: ['admin-dialog'],
+        closeOnNavigation: true,
+        disableClose: true,
+      });
+    } else {
+      dialogRef = this.dialog.open(component, {
+        panelClass: ['admin-dialog'],
+        disableClose: true,
+      });
+    }
+    return dialogRef.beforeClose();
   }
 }
