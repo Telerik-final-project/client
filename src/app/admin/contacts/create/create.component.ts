@@ -3,12 +3,12 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { ContactsService } from '../../core/contacts.service';
+import { ContactsService } from '../../../core/contacts.service';
 
 import { IContact } from '../_interfaces/contact.interface';
 import { IContactForm } from '../_interfaces/create-edit-form.interface';
 
-import { icons } from './../../shared/material/shared-icon-names.module';
+import { icons } from './../../../shared/material/shared-icon-names.module';
 
 @Component({
   selector: 'app-create',

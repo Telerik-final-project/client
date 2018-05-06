@@ -73,5 +73,6 @@ import { SharedDialogModule } from './material/shared-dialog.module';
     MatToolbarModule,
     MatExpansionModule,
   ],
+  declarations: [],
 })
-export class SharedModule {}
+export class SharedModule { }

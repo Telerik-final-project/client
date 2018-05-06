@@ -4,8 +4,10 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { MatSnackBarConfig } from '@angular/material';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { ContactsService } from '../../core/contacts.service';
-import { SharedSnackModule } from '../../shared/material/shared-snack.module';
+
+import { ContactsService } from '../../../core/contacts.service';
+import { SharedSnackModule } from '../../../shared/material/shared-snack.module';
+
 import { IContact } from '../_interfaces/contact.interface';
 import { IContactForm } from '../_interfaces/create-edit-form.interface';
 
