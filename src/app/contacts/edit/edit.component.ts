@@ -18,7 +18,7 @@ export class EditComponent implements OnInit, IContactForm {
   public form: FormGroup;
   public name: AbstractControl;
   public address: AbstractControl;
-  public isMapAddess: AbstractControl;
+  public isNotMapAddess: AbstractControl;
 
   public minLength: number = 2;
   public nameMaxLength: number = 128;
@@ -28,7 +28,6 @@ export class EditComponent implements OnInit, IContactForm {
   public nameVal: string;
   public addressVal: string;
   private editID: number;
-  private status: number = 1;
 
   private snackOptions = {
     duration: 3700,
@@ -54,7 +53,6 @@ export class EditComponent implements OnInit, IContactForm {
       .subscribe((params: Params) => {
         this.nameVal = params.body.contactInfoToDisplay.name;
         this.addressVal = params.body.contactInfoToDisplay.address;
-        this.status = params.body.contactInfoToDisplay.status;
       });
 
     this.form = this.formBuilder.group({
@@ -68,26 +66,25 @@ export class EditComponent implements OnInit, IContactForm {
         Validators.minLength(this.minLength),
         Validators.maxLength(this.addressMaxLength),
       ]],
-      isMapAddess: [''],
+      isNotMapAddess: [''],
     });
 
     this.name = this.form.get('name');
     this.address = this.form.get('address');
-    this.isMapAddess = this.form.get('isMapAddess');
+    this.isNotMapAddess = this.form.get('isNotMapAddess');
   }
 
   public edit(): void {
     const newContact: IContact = {
       name: this.form.value.name,
       address: this.form.value.address,
-      status: this.form.value.isMapAddess || this.status,
+      status: this.form.value.isMapAddess ? 0 : 1,
     };
 
     this.contactsService
       .edit(this.editID, newContact)
       .subscribe(
         (params: Params) => {
-          console.log(params);
           this.router.navigateByUrl('/home'); // will be changed when there is listing
         },
         (err: HttpErrorResponse) => {

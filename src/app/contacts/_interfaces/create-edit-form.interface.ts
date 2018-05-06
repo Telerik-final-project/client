@@ -4,5 +4,6 @@ export interface IContactForm {
     form: FormGroup;
     name: AbstractControl;
     address: AbstractControl;
-    isMapAddess: AbstractControl;
+    isMapAddess?: AbstractControl;
+    isNotMapAddess?: AbstractControl;
 }
