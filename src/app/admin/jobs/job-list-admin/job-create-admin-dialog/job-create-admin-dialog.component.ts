@@ -12,7 +12,6 @@ import { JobsService } from './../../../../core/jobs.service';
 import { JobAd } from './../../../../models/job-ad';
 import { JobType } from './../../../../models/job-type';
 
-
 @Component({
   selector: 'app-job-create-admin-dialog',
   templateUrl: './job-create-admin-dialog.component.html',
