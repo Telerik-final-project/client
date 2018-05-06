@@ -1,3 +1,4 @@
+import { AgmCoreModule } from '@agm/core';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -11,12 +12,12 @@ import { HomeComponent } from './home/home.component';
 
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { AppRoutingModule } from './app-routing.module';
+import { ContactsComponent } from './contacts/contacts.component';
 import { CoreModule } from './core/core.module';
 import { JobsModule } from './jobs/jobs.module';
 import { NavbarModule } from './navbar/navbar.module';
 import { SharedSnackModule } from './shared/material/shared-snack.module';
 import { SharedModule } from './shared/shared.module';
-import { ContactsComponent } from './contacts/contacts.component';
 
 export const tokenGetter = () => {
   const token = localStorage.getItem('access_token');
@@ -43,6 +44,7 @@ export const tokenGetter = () => {
     HttpClientModule,
     JobsModule,
     BrowserAnimationsModule,
+    AgmCoreModule.forRoot(),
     SlimLoadingBarModule.forRoot(),
     JwtModule.forRoot({
       config: {
