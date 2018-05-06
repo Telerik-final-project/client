@@ -100,7 +100,10 @@ export class JobListComponent implements OnInit {
     this.endDate = '11/30/2070';
     this.startDateInput = '';
     this.endDateInput = '';
-    this.length = this.paginatedJobs.length;
-    this.pageSize = this.defaultPageSize;
+    this.onChangePage(this.paginatedJobs, {
+      pageIndex: 0,
+      length: this.length,
+      pageSize: this.pageSize,
+    })
   }
 }
