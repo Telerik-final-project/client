@@ -35,6 +35,11 @@
   text-align: left;
 }
 
+.slim-loading-bar-progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
 
 body{
   /* overflow: hidden; */

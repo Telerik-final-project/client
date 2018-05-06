@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+
 import { ConfigService } from '../core/config.service';
 import { DynamicButtonsService } from './../core/dynamic.buttons.service';
 import { IDynamicButtons } from './../models/dynamic.buttons.interface';
@@ -20,6 +22,7 @@ export class HomeComponent implements OnInit {
     private configService: ConfigService,
     private btnService: DynamicButtonsService,
     private sanitizer: DomSanitizer,
+    private route: ActivatedRoute,
   ) {}
 
   public onRedirect(link: string): void {
@@ -38,8 +41,9 @@ export class HomeComponent implements OnInit {
     this.textSecond = this.configService.getEnv('textSecond');
     this.backgroundImg = this.configService.getEnv('backgroundImg');
     this.socialPage = this.configService.getEnv('social');
-    this.btnService.getAll().subscribe((res) => {
-      res.buttons.forEach((button: IDynamicButtons) => {
+
+    this.route.data.subscribe((data) => {
+      data.buttons.buttons.forEach((button: IDynamicButtons) => {
         if (button.type === 'Action Link') {
           this.actionButtons.push(button);
         } else if (button.type === 'Social Link') {
