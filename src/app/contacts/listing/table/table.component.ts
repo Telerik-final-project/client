@@ -64,29 +64,29 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  // public delete(id: number): void {
-  //   this.openDialog(DialogComponent).subscribe((isConfirmed: boolean) => {
-  //     if (isConfirmed) {
-  //       this.contactsService.delete(id, { responseType: 'json', observe: 'response' })
-  //         .subscribe(
-  //           (params: Params) => {
-  //             console.log(params);
-  //           },
-  //           (err: HttpErrorResponse) => {
-  //             console.log(err);
-  //           },
-  //           () => {
-  //             this.router
-  //               .navigateByUrl('/home')
-  //               .then((val) => {
-  //                 this.router
-  //                   .navigateByUrl('/admin/contacts');
-  //               });
-  //           },
-  //       );
-  //     }
-  //   });
-  // }
+  public delete(id: number): void {
+    this.openDialog(DialogComponent).subscribe((isConfirmed: boolean) => {
+      if (isConfirmed) {
+        this.contactsService.delete(id, { responseType: 'json', observe: 'response' })
+          .subscribe(
+            (params: Params) => {
+              console.log(params);
+            },
+            (err: HttpErrorResponse) => {
+              console.log(err);
+            },
+            () => {
+              this.router
+                .navigateByUrl('/home')
+                .then((val) => {
+                  this.router
+                    .navigateByUrl('/admin/contacts');
+                });
+            },
+        );
+      }
+    });
+  }
 
   private loadDBInfo(): void {
     this.contactsService
@@ -128,33 +128,29 @@ export class TableComponent implements OnInit, AfterViewInit {
       });
   }
 
-  // private openDialog(component: any, buttonData?: IElements): Observable<any> {
-  //   let dialogRef: MatDialogRef<Component>;
+  private openDialog(component: any, contactsData?: IListing): Observable<any> {
+    let dialogRef: MatDialogRef<Component>;
 
-  //   if (buttonData) {
-  //     const dataToSend = {
-  //       id: buttonData.id,
-  //       name: buttonData.name,
-  //       targetUrl: buttonData.targetUrl,
-  //       iconUrl: buttonData.iconUrl,
-  //       date: buttonData.date,
-  //       edit: buttonData.edit,
-  //       delete: buttonData.delete,
-  //       type: buttonData.type,
-  //     };
+    if (contactsData) {
+      const dataToSend: IListing = {
+        id: contactsData.id,
+        name: contactsData.name,
+        address: contactsData.address,
+        status: contactsData.status,
+      };
 
-  //     dialogRef = this.dialog.open(component, {
-  //       data: dataToSend,
-  //       panelClass: ['admin-dialog'],
-  //       closeOnNavigation: true,
-  //       disableClose: true,
-  //     });
-  //   } else {
-  //     dialogRef = this.dialog.open(component, {
-  //       panelClass: ['admin-dialog'],
-  //       disableClose: true,
-  //     });
-  //   }
-  //   return dialogRef.beforeClose();
-  // }
+      dialogRef = this.dialog.open(component, {
+        data: dataToSend,
+        panelClass: ['admin-dialog'],
+        closeOnNavigation: true,
+        disableClose: true,
+      });
+    } else {
+      dialogRef = this.dialog.open(component, {
+        panelClass: ['admin-dialog'],
+        disableClose: true,
+      });
+    }
+    return dialogRef.beforeClose();
+  }
 }

@@ -3,7 +3,7 @@ export interface IListing {
     name: string;
     address: string;
     status: string;
-    createdAt: string;
-    edit: string;
-    delete: string;
+    createdAt?: string;
+    edit?: string;
+    delete?: string;
 }
