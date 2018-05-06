@@ -16,6 +16,7 @@ import { JobsModule } from './jobs/jobs.module';
 import { NavbarModule } from './navbar/navbar.module';
 import { SharedSnackModule } from './shared/material/shared-snack.module';
 import { SharedModule } from './shared/shared.module';
+import { ContactsComponent } from './contacts/contacts.component';
 
 export const tokenGetter = () => {
   const token = localStorage.getItem('access_token');
@@ -30,6 +31,7 @@ export const tokenGetter = () => {
   declarations: [
     AppComponent,
     HomeComponent,
+    ContactsComponent,
   ],
   imports: [
     BrowserModule,

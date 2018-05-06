@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatDialogModule } from '@angular/material';
 
-import { ContactsService } from '../core/contacts.service';
+import { ContactsService } from '../../core/contacts.service';
 
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 import { ContactsRoutingModule } from './routing/contacts.routing.module';
 
 import { CreateComponent } from './create/create.component';

@@ -4,8 +4,10 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { MatSnackBarConfig } from '@angular/material';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { ContactsService } from '../../core/contacts.service';
-import { SharedSnackModule } from '../../shared/material/shared-snack.module';
+
+import { ContactsService } from '../../../core/contacts.service';
+import { SharedSnackModule } from '../../../shared/material/shared-snack.module';
+
 import { IContact } from '../_interfaces/contact.interface';
 import { IContactForm } from '../_interfaces/create-edit-form.interface';
 
@@ -19,14 +21,19 @@ export class EditComponent implements OnInit, IContactForm {
   public name: AbstractControl;
   public address: AbstractControl;
   public isNotMapAddess: AbstractControl;
+  public longtitude: AbstractControl;
+  public latitude: AbstractControl;
 
   public minLength: number = 2;
   public nameMaxLength: number = 128;
   public addressMaxLength: number = 1024;
 
-  public isHidden: boolean;
   public nameVal: string;
   public addressVal: string;
+  public longtitudeVal: string;
+  public latitudeVal: string;
+
+  public isHidden: boolean;
   private editID: number;
 
   private snackOptions = {
@@ -51,8 +58,11 @@ export class EditComponent implements OnInit, IContactForm {
     this.contactsService
       .getInfoPerID(this.editID, { observe: 'response', responseType: 'json' })
       .subscribe((params: Params) => {
+        console.log(params);
         this.nameVal = params.body.contactInfoToDisplay.name;
         this.addressVal = params.body.contactInfoToDisplay.address;
+        this.longtitudeVal = params.body.contactInfoToDisplay.longtitude;
+        this.latitudeVal = params.body.contactInfoToDisplay.latitude;
       });
 
     this.form = this.formBuilder.group({
@@ -67,11 +77,15 @@ export class EditComponent implements OnInit, IContactForm {
         Validators.maxLength(this.addressMaxLength),
       ]],
       isNotMapAddess: [''],
+      longtitude: [''],
+      latitude: [''],
     });
 
     this.name = this.form.get('name');
     this.address = this.form.get('address');
     this.isNotMapAddess = this.form.get('isNotMapAddess');
+    this.longtitude = this.form.get('longtitude');
+    this.latitude = this.form.get('latitude');
   }
 
   public edit(): void {
@@ -80,6 +94,20 @@ export class EditComponent implements OnInit, IContactForm {
       address: this.form.value.address,
       status: this.form.value.isNotMapAddess ? 0 : 1,
     };
+
+    if (!this.isHidden) {
+      newContact.longtitude = this.form.value.longtitude || 0;
+      newContact.latitude = this.form.value.latitude || 0;
+
+      if ((newContact.latitude === 0 || newContact.longtitude === 0)) {
+        this.snack.openSnackMsg(
+          'Longtitude or latitude fields cannot be empty!',
+          'Close',
+          this.snackOptions,
+        );
+        return;
+      }
+    }
 
     this.contactsService
       .edit(this.editID, newContact)

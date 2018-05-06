@@ -7,8 +7,8 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { EventEmitter } from 'events';
 import { Observable } from 'rxjs/Observable';
 
-import { ContactsService } from '../../../core/contacts.service';
-import { SharedSnackModule } from '../../../shared/material/shared-snack.module';
+import { ContactsService } from '../../../../core/contacts.service';
+import { SharedSnackModule } from '../../../../shared/material/shared-snack.module';
 import { DialogComponent } from './dialog/dialog.component';
 
 import { IContact } from '../../_interfaces/contact.interface';

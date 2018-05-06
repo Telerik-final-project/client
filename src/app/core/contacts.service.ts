@@ -4,8 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 import { HttpOptions } from '../models/http-options';
 
-import { IContact } from '../contacts/_interfaces/contact.interface';
-import { IListing } from '../contacts/_interfaces/listing.interface';
+import { IContact } from '../admin/contacts/_interfaces/contact.interface';
+import { IListing } from '../admin/contacts/_interfaces/listing.interface';
 import { AppConfig } from './../config/app.config';
 
 @Injectable()

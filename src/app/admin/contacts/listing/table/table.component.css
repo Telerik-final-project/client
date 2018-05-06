@@ -51,8 +51,8 @@ h3 {
   cursor: pointer;
 }
 
-.mat-column-type {
-  max-width: 94px;
+.mat-column-status {
+  max-width: 124px;
 }
 
 .mat-column-iconUrl {
