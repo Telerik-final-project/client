@@ -26,3 +26,45 @@ h3 {
   width: 100%;
   text-align: center;
 }
+
+
+.icon-delete:hover {
+  color: #d32626;
+}
+
+.icon-edit:hover {
+  color: #e2b614;
+}
+
+
+.mat-column-id {
+  max-width: 84px;
+}
+
+.mat-column-edit,
+.mat-column-delete {
+  max-width: 64px;
+  text-align: center;
+}
+
+.icon:hover {
+  cursor: pointer;
+}
+
+.mat-column-type {
+  max-width: 94px;
+}
+
+.mat-column-iconUrl {
+  max-width:  84px;
+  text-align: center;
+}
+
+.mat-column-date {
+  max-width:  104px;
+  text-align: center;
+}
+
+.mat-column-date .mat-sort-header-button {
+  margin: 0 auto !important;
+}
