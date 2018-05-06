@@ -25,12 +25,9 @@ export class JobDetailComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.route.params.subscribe(
-      (params: Params) => {
-        this.jobId = +params.jobId;
-        this.jobService.getById(this.jobId).subscribe((data) => {
-          this.job = data;
-        });
+    this.route.data.subscribe(
+      (data) => {
+        this.job = data.job;
       },
       (err) => {
         console.log(err);
@@ -41,13 +38,13 @@ export class JobDetailComponent implements OnInit {
 
     if (user.role === 'user') {
       this.applicationService
-      .isUserAppliedForJob(user.sub, this.jobId, {
-        observe: 'response',
-        responseType: 'json',
-      })
-      .subscribe((res) => {
-        this.isUserApplied = res;
-      });
+        .isUserAppliedForJob(user.sub, this.jobId, {
+          observe: 'response',
+          responseType: 'json',
+        })
+        .subscribe((res) => {
+          this.isUserApplied = res;
+        });
     }
   }
 

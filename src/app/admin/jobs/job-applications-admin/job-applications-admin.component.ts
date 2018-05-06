@@ -15,14 +15,24 @@ import { SharedSnackModule } from './../../../shared/material/shared-snack.modul
   styleUrls: ['./job-applications-admin.component.css'],
 })
 export class JobApplicationsAdminComponent implements OnInit {
-  public displayedColumns = ['id', 'name', 'email', 'comment', 'createdAt', 'cv', 'coverLetter'];
+  public displayedColumns = [
+    'id',
+    'name',
+    'email',
+    'comment',
+    'createdAt',
+    'cv',
+    'coverLetter',
+  ];
   public applications = new MatTableDataSource<JobApplication>();
   public length: number;
   @ViewChild(MatPaginator) private paginator: MatPaginator;
   @ViewChild(MatSort) private sort: MatSort;
   constructor(
-    private route: ActivatedRoute, private applicationService: ApplicationsService,
-    private snack: SharedSnackModule) { }
+    private route: ActivatedRoute,
+    private applicationService: ApplicationsService,
+    private snack: SharedSnackModule,
+  ) {}
 
   public initPaginator(): void {
     this.applications.sort = this.sort;
@@ -30,23 +40,21 @@ export class JobApplicationsAdminComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.route.params.subscribe((param: Params) => {
-      this.applicationService.getJobApplications(param.jobId).subscribe((response) => {
-        window.setTimeout(() => {
-          this.initPaginator();
-        });
-
-        this.applications.data = response;
-        this.length = this.applications.data.length;
-
-        if (this.length === 0) {
-          this.snack.openSnackMsg('No data available', 'Close', {
-            duration: 2500,
-            verticalPosition: 'top',
-            horizontalPosition: 'center',
-          });
-        }
+    this.route.data.subscribe((data) => {
+      window.setTimeout(() => {
+        this.initPaginator();
       });
+
+      this.applications.data = data.applications;
+      this.length = this.applications.data.length;
+
+      if (this.length === 0) {
+        this.snack.openSnackMsg('No data available', 'Close', {
+          duration: 2500,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+        });
+      }
     });
   }
 
@@ -54,10 +62,11 @@ export class JobApplicationsAdminComponent implements OnInit {
     if (url) {
       const fileArray = url.split('/');
       const file = fileArray[fileArray.length - 1];
-      this.applicationService.downloadFile(file).subscribe((response: HttpResponse<string>) => {
-        saveAs(response.body, file);
-      });
+      this.applicationService
+        .downloadFile(file)
+        .subscribe((response: HttpResponse<string>) => {
+          saveAs(response.body, file);
+        });
     }
   }
-
 }

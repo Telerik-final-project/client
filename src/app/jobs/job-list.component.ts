@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { DateAdapter, MatDatepickerInputEvent, MatSnackBarConfig, PageEvent } from '@angular/material';
+import { MatDatepickerInputEvent, MatSnackBarConfig, PageEvent } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
+
 import { JobType } from '../models/job-type';
 import { AuthService } from './../core/auth.service';
 import { JobTypesService } from './../core/job-types.service';
 import { JobsService } from './../core/jobs.service';
+
 import { JobAd } from './../models/job-ad';
+
 import { SharedSnackModule } from './../shared/material/shared-snack.module';
 
 @Component({
@@ -37,12 +41,12 @@ export class JobListComponent implements OnInit {
     public snack: SharedSnackModule,
     public authService: AuthService,
     public jobTypesService: JobTypesService,
-    public adapter: DateAdapter<any>,
+    public activatedRoute: ActivatedRoute,
   ) {}
 
   public ngOnInit(): void {
-    this.jobsService.getAll().subscribe((data) => {
-      this.jobs = data;
+    this.activatedRoute.data.subscribe((data) => {
+      this.jobs = data.jobs;
       this.length = this.jobs.length;
       if (this.length === 0) {
         this.snack.openSnackMsg('There are no open positions - please try later', 'Close', this.snackOptions);
@@ -104,6 +108,6 @@ export class JobListComponent implements OnInit {
       pageIndex: 0,
       length: this.length,
       pageSize: this.pageSize,
-    })
+    });
   }
 }

@@ -1,8 +1,8 @@
 import { ComponentType } from '@angular/cdk/portal';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSnackBarConfig, MatSort, MatTableDataSource } from '@angular/material';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { JobsService } from '../../../core/jobs.service';
@@ -17,7 +17,14 @@ import { JobListAdminDialogComponent } from './job-list-admin-dialog/job-list-ad
   styleUrls: ['./job-list-admin.component.css'],
 })
 export class JobListAdminComponent implements OnInit {
-  public displayedColumns = ['id', 'title', 'createdAt', 'view', 'edit', 'delete'];
+  public displayedColumns = [
+    'id',
+    'title',
+    'createdAt',
+    'view',
+    'edit',
+    'delete',
+  ];
   public jobs = new MatTableDataSource<JobAd>();
   public length: number;
   @ViewChild(MatPaginator) private paginator: MatPaginator;
@@ -29,7 +36,13 @@ export class JobListAdminComponent implements OnInit {
     horizontalPosition: 'center',
   } as MatSnackBarConfig;
 
-  constructor(private jobsService: JobsService, private snack: SharedSnackModule, private router: Router, private dialog: MatDialog) {}
+  constructor(
+    private jobsService: JobsService,
+    private snack: SharedSnackModule,
+    private router: Router,
+    private dialog: MatDialog,
+    public activatedRoute: ActivatedRoute,
+  ) {}
 
   public initPaginator(): void {
     this.jobs.sort = this.sort;
@@ -37,38 +50,51 @@ export class JobListAdminComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.jobsService.getAll().subscribe((data) => {
+    this.activatedRoute.data.subscribe((data) => {
       window.setTimeout(() => {
         this.initPaginator();
       });
 
-      this.jobs.data = data;
+      this.jobs.data = data.jobs;
       this.length = this.jobs.data.length;
 
       if (this.length === 0) {
-        this.snack.openSnackMsg('No data available', 'Close', this.snackOptions);
+        this.snack.openSnackMsg(
+          'No data available',
+          'Close',
+          this.snackOptions,
+        );
       }
     });
   }
 
   private onDelete(id: number): void {
-    this.openDialog(JobListAdminDialogComponent).subscribe((isConfirmed: boolean) => {
-      if (isConfirmed) {
-        this.jobsService.delete(id, { responseType: 'json', observe: 'response'}).subscribe(
-          () => {
-            let index = 0;
-            const found = this.jobs.data.find((job, i) => {
-              index = i;
-              return job.id === id;
-            });
-            this.jobs.data.splice(index, 1);
-            this.jobs.paginator = this.paginator;
-          },
-          () => {
-            this.snack.openSnackMsg('Oops, we encountered a server error! :(', 'Close', this.snackOptions);
-          });
-      }
-    });
+    this.openDialog(JobListAdminDialogComponent).subscribe(
+      (isConfirmed: boolean) => {
+        if (isConfirmed) {
+          this.jobsService
+            .delete(id, { responseType: 'json', observe: 'response' })
+            .subscribe(
+              () => {
+                let index = 0;
+                const found = this.jobs.data.find((job, i) => {
+                  index = i;
+                  return job.id === id;
+                });
+                this.jobs.data.splice(index, 1);
+                this.jobs.paginator = this.paginator;
+              },
+              () => {
+                this.snack.openSnackMsg(
+                  'Oops, we encountered a server error! :(',
+                  'Close',
+                  this.snackOptions,
+                );
+              },
+            );
+        }
+      },
+    );
   }
 
   private onCreateAd(): void {
@@ -92,7 +118,10 @@ export class JobListAdminComponent implements OnInit {
     });
   }
 
-  private openDialog(component: ComponentType<any>, jobData?: JobAd): Observable<any> {
+  private openDialog(
+    component: ComponentType<any>,
+    jobData?: JobAd,
+  ): Observable<any> {
     let dialogRef: MatDialogRef<Component>;
 
     if (jobData) {
