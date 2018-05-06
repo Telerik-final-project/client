@@ -1,0 +1,8 @@
+.careers-bgn {
+  background-image: url('/assets/careers.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top left;
+  padding: 150px;
+  margin-bottom: 20px;
+}

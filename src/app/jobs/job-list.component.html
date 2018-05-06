@@ -1,17 +1,21 @@
 <div class="container">
+  <div fxFlexLayout="row">
+    <div fxFlex class="careers-bgn"></div>
+  </div>
   <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
     <div fxFlexOrder="1" fxFlex="10" fx></div>
-    <div fxFlexOrder="2" fxFlex class="positions" fxFlex.gt-sm="60" fxFlexOrder="1" fxFlexOrder.sm="2" fxFlexOrder.xs="2" fxFlex.sm="100" fxFlex.xs="100">
+    <div fxFlexOrder="2" fxFlex class="positions" fxFlex.gt-sm="60" fxFlexOrder="1" fxFlexOrder.sm="2" fxFlexOrder.xs="2" fxFlex.sm="100"
+      fxFlex.xs="100">
       <mat-nav-list>
         <div *ngFor="let job of paginatedJobs">
           <app-job-view [job]="job" *ngIf="authService.isAdmin() || job.status === 'open'"></app-job-view>
         </div>
       </mat-nav-list>
-      <mat-paginator *ngIf="length >= 10" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[2,10, 20, 50]"
-        (page)="onChangePage(jobs, $event)" [showFirstLastButtons]="true"></mat-paginator>
+      <mat-paginator *ngIf="length >= 10" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[10, 20, 50]" (page)="onChangePage(jobs, $event)"
+        [showFirstLastButtons]="true"></mat-paginator>
     </div>
-    <div fxFlex fxFlexOrder="3" class="filter" fxFlex.gt-sm fxFlexOrder="2" fxFlexOffset.gt-sm="20px" fxFlexOrder.sm="1" fxFlexOrder.xs="1" fxFlex.sm="100"
-      fxFlex.xs="100">
+    <div fxFlex fxFlexOrder="3" class="filter" fxFlex.gt-sm fxFlexOrder="2" fxFlexOffset.gt-sm="20px" fxFlexOrder.sm="1" fxFlexOrder.xs="1"
+      fxFlex.sm="100" fxFlex.xs="100">
       <div fxLayout="row" fxLayoutGap="10px">
         <mat-form-field fxFlex="50">
           <input [(ngModel)]="keyword" (keyup)="filterJobs(keyword)" matInput placeholder="Key word">

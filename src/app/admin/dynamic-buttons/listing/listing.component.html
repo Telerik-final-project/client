@@ -1,15 +1,21 @@
-<h2 class=".md-display-3">LINKS</h2>
 
-<div class="example-header">
-  <div>
-    <!-- <mat-form-field class="filter">
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter" class="filter">
-    </mat-form-field> -->
 
-    <div>
-      <button class="createBtn" mat-raised-button color="primary" [routerLink]="['create']">Create</button>
-    </div>
+<div fxLayout="row">
+  <div fxFlex="10" fxFlex.sm="0" fxFlex.xs="0"></div>
+  <div fxFlex fxLayout="column" fxFlex.sm="100" fxFlex.xs="100">
+    <h2 class=".md-display-3">LINKS</h2>
+    <div class="example-header">
+        <div>
+          <!-- <mat-form-field class="filter">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter" class="filter">
+          </mat-form-field> -->
+
+          <div>
+            <button class="createBtn" mat-raised-button color="primary" [routerLink]="['create']">Create</button>
+          </div>
+        </div>
+      </div>
+    <table-listing></table-listing>
   </div>
+  <div fxFlex="10" fxFlex.sm="0" fxFlex.xs="0"></div>
 </div>
-
-<table-listing></table-listing>
