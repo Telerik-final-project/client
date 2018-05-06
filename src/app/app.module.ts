@@ -23,7 +23,10 @@ export const tokenGetter = () => {
 };
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+  ],
   imports: [
     BrowserModule,
     SharedModule,
@@ -45,4 +48,4 @@ export const tokenGetter = () => {
   providers: [AppConfig],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

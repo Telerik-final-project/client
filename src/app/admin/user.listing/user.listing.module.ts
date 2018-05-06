@@ -12,7 +12,10 @@ import { UsersListingRoutingModule } from './routing/user.listing.routing.module
     UsersListingRoutingModule,
     SharedModule,
   ],
-  declarations: [ListingComponent, TableComponent],
+  declarations: [
+    ListingComponent,
+    TableComponent,
+  ],
   exports: [],
   providers: [UsersListingService],
 })

@@ -1,0 +1,28 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+  <div fxLayout="row" fxFlexFill fxFlexOffset="20px">
+    <div fxFlex="30"></div>
+    <mat-card fxFlex>
+      <form [formGroup]="form" (ngSubmit)="create()">
+        <mat-card-content fxLayout="column">
+
+          <mat-form-field>
+            <input type="text" matInput placeholder="Name" formControlName="name">
+            <mat-error>{{ getErrorMessage(name, 'name') }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input type="text" matInput placeholder="Map address" formControlName="address">
+            <mat-error>{{ getErrorMessage(address, 'address') }}</mat-error>
+          </mat-form-field>
+
+          <mat-checkbox formControlName="isMapAddess" (click)="childchangeVisibility()">Do you want to make visible this contact's map address?</mat-checkbox>
+
+        </mat-card-content>
+        <mat-card-actions fxFlexAlign="center">
+          <button [disabled]="form.status === 'INVALID'" mat-raised-button color="primary">Create</button>
+        </mat-card-actions>
+      </form>
+    </mat-card>
+    <div fxFlex="30"></div>
+  </div>
+</div>
