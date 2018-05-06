@@ -17,6 +17,28 @@
 
           <mat-checkbox formControlName="isMapAddess" (click)="childchangeVisibility()">Do you want to make visible this contact's map address?</mat-checkbox>
 
+          <mat-expansion-panel *ngIf="!isHidden" hideToggle="true">
+            <mat-expansion-panel-header>
+
+              <mat-panel-title> Address </mat-panel-title>
+              <mat-panel-description> Open map inputs
+                <br>
+                <mat-icon>map</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <mat-form-field>
+              <input type="text" matInput placeholder="Longtitude" formControlName="longtitude" value=" ">
+              <mat-error *ngIf="form.controls['longtitude'].touched">This field is required!</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input type="text" matInput placeholder="Latitude" formControlName="latitude" value=" ">
+              <mat-error *ngIf="form.controls.latitude.dirty">This field is required!</mat-error>
+            </mat-form-field>
+
+          </mat-expansion-panel>
+
         </mat-card-content>
         <mat-card-actions fxFlexAlign="center">
           <button [disabled]="form.status === 'INVALID'" mat-raised-button color="primary">Create</button>

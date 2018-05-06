@@ -8,6 +8,8 @@ import { ContactsService } from '../../../core/contacts.service';
 import { IContact } from '../_interfaces/contact.interface';
 import { IContactForm } from '../_interfaces/create-edit-form.interface';
 
+import { MatSnackBarConfig } from '@angular/material';
+import { SharedSnackModule } from '../../../shared/material/shared-snack.module';
 import { icons } from './../../../shared/material/shared-icon-names.module';
 
 @Component({
@@ -20,17 +22,26 @@ export class CreateComponent implements OnInit, IContactForm {
   public name: AbstractControl;
   public address: AbstractControl;
   public isMapAddess: AbstractControl;
+  public longtitude: AbstractControl;
+  public latitude: AbstractControl;
 
-  public isHidden: boolean = false;
+  public isHidden: boolean = true;
 
   public minLength: number = 2;
   public nameMaxLength: number = 128;
   public addressMaxLength: number = 1024;
 
+  private snackOptions = {
+    duration: 4500,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+  } as MatSnackBarConfig;
+
   constructor(
-    private formBuilder: FormBuilder,
-    private contactsService: ContactsService,
     private router: Router,
+    private formBuilder: FormBuilder,
+    private snack: SharedSnackModule,
+    private contactsService: ContactsService,
   ) { }
 
   public ngOnInit(): void {
@@ -46,11 +57,15 @@ export class CreateComponent implements OnInit, IContactForm {
         Validators.maxLength(this.addressMaxLength),
       ]],
       isMapAddess: [''],
+      longtitude: [''],
+      latitude: [''],
     });
 
     this.name = this.form.get('name');
     this.address = this.form.get('address');
     this.isMapAddess = this.form.get('isMapAddess');
+    this.longtitude = this.form.get('longtitude');
+    this.latitude = this.form.get('latitude');
   }
 
   public create(): void {
@@ -60,7 +75,21 @@ export class CreateComponent implements OnInit, IContactForm {
       status: this.form.value.isMapAddess || 0,
     };
 
-    console.log(newConatct);
+    console.log(this.isHidden);
+    if (!this.isHidden  ) {
+      newConatct.longtitude = this.form.value.longtitude || 0;
+      newConatct.latitude = this.form.value.latitude || 0;
+
+      if ((newConatct.latitude === 0 || newConatct.longtitude === 0)) {
+        this.snack.openSnackMsg(
+          'Longtitude or latitude fields cannot be empty!',
+          'Close',
+          this.snackOptions,
+        );
+        return;
+      }
+    }
+
     this.contactsService
       .create(newConatct, { observe: 'response', responseType: 'json' })
       .subscribe((params: Params) => console.log(params));
@@ -74,7 +103,7 @@ export class CreateComponent implements OnInit, IContactForm {
 
   public getErrorMessage(field: AbstractControl, fieldName?: string): string {
     if (field.hasError('required')) {
-      return 'The field is required!';
+      return `The ${fieldName} field is required!`;
     }
 
     if (!field.errors) {
