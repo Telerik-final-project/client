@@ -20,6 +20,10 @@ export class ContactsService {
             .pipe(map((x) => x as IContact[]));
     }
 
+    public getInfoPerID(id: number, options?: HttpOptions): any {
+        return this.httpClient.get<IContact>(`${this.appConfig.apiUrl}/admin/contacts/edit/${id}`, options);
+    }
+
     public create(newButton: IContact, options?: HttpOptions): Observable<object> {
         return this.httpClient.post(`${this.appConfig.apiUrl}/admin/contacts/create`, newButton, options);
     }
