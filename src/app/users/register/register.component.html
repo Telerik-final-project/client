@@ -1,6 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="center center">
   <div fxLayout="row" fxFlexFill fxFlexOffset="20px">
-    <div fxFlex="30"></div>
+    <div fxFlex="30" fxHide.xs="true"></div>
     <mat-card fxFlex>
       <form [formGroup]="registerForm" (ngSubmit)="register()">
         <mat-card-content fxLayout="column">
@@ -26,6 +26,6 @@
         </mat-card-actions>
       </form>
     </mat-card>
-    <div fxFlex="30"></div>
+    <div fxFlex="30" fxHide.xs="true"></div>
   </div>
 </div>

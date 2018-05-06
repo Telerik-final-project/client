@@ -30,3 +30,8 @@ button {
 mat-panel-title {
   padding-top: 10px;
 }
+
+.btn button {
+  margin: 0;
+  padding: 0 10px;
+}
