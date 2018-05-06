@@ -78,14 +78,14 @@ export class EditComponent implements OnInit, IContactForm {
     const newContact: IContact = {
       name: this.form.value.name,
       address: this.form.value.address,
-      status: this.form.value.isMapAddess ? 0 : 1,
+      status: this.form.value.isNotMapAddess ? 0 : 1,
     };
 
     this.contactsService
       .edit(this.editID, newContact)
       .subscribe(
         (params: Params) => {
-          this.router.navigateByUrl('/home'); // will be changed when there is listing
+          this.router.navigateByUrl('/admin/contacts');
         },
         (err: HttpErrorResponse) => {
           if (err.error.msd) {

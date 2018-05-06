@@ -65,7 +65,7 @@ export class CreateComponent implements OnInit, IContactForm {
       .create(newConatct, { observe: 'response', responseType: 'json' })
       .subscribe((params: Params) => console.log(params));
 
-    this.router.navigateByUrl('/home'); // will be changed, when there is listing component
+    this.router.navigateByUrl('/admin/contacts');
   }
 
   public childchangeVisibility(): void {
