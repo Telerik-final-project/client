@@ -8,15 +8,19 @@ import { ContactsRoutingModule } from './routing/contacts.routing.module';
 
 import { CreateComponent } from './create/create.component';
 import { EditComponent } from './edit/edit.component';
+import { ListingComponent } from './listing/listing.component';
+import { TableComponent } from './listing/table/table.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    ContactsRoutingModule,
     SharedModule,
+    ContactsRoutingModule,
   ],
   declarations: [
+    ListingComponent,
     CreateComponent,
+    TableComponent,
     EditComponent,
   ],
   exports: [],

@@ -1,0 +1,70 @@
+.example-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
+
+.mat-header-cell.mat-sort-header-sorted {
+  color: black;
+}
+
+.createBtn, .filter {
+  width: 100%;
+  margin-bottom: 8.9px;
+}
+
+.filter {
+  text-align: center;
+}
+
+h3 {
+  width: 100%;
+  text-align: center;
+}
+
+
+.icon-delete:hover {
+  color: #d32626;
+}
+
+.icon-edit:hover {
+  color: #e2b614;
+}
+
+
+.mat-column-id {
+  max-width: 84px;
+}
+
+.mat-column-edit,
+.mat-column-delete {
+  max-width: 64px;
+  text-align: center;
+}
+
+.icon:hover {
+  cursor: pointer;
+}
+
+.mat-column-type {
+  max-width: 94px;
+}
+
+.mat-column-iconUrl {
+  max-width:  84px;
+  text-align: center;
+}
+
+.mat-column-date {
+  max-width:  104px;
+  text-align: center;
+}
+
+.mat-column-date .mat-sort-header-button {
+  margin: 0 auto !important;
+}
