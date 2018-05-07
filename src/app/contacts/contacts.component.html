@@ -6,35 +6,41 @@
   </agm-map>
 </div>
 <div fxLayout="column" fxLayoutAlign="center center">
-  <div fxLayout="row" fxFlexFill fxFlexOffset="20px">
+  <div fxLayout="column" fxFlexFill fxFlexOffset="5px">
     <div fxFlex="2"></div>
-    <mat-card fxFlex>
-      <form>
-        <mat-card-content fxLayout="column">
-          <div *ngFor="let contact of contacts">
-            <mat-expansion-panel>
+    <div *ngFor="let contact of contacts">
+      <mat-card fxFlex>
+        <form>
+          <mat-card-content fxLayout="column">
+            <div>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
 
-              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <mat-icon *ngIf="isMapAddress">map</mat-icon>
+                  </mat-panel-title>
+                  <mat-panel-description> {{contact.name}} </mat-panel-description>
 
-                <mat-panel-title>
-                  <mat-icon *ngIf="isMapAddress">map</mat-icon>
-                </mat-panel-title>
-                <mat-panel-description> {{contact.name}} </mat-panel-description>
+                </mat-expansion-panel-header>
 
-              </mat-expansion-panel-header>
+                <div *ngIf="contact.status == 1">
+                  <p>{{contact.address}}</p>
+                  <p *ngIf="isMapAddress">Longtidue: {{contact.longtitude}}</p>
+                  <p *ngIf="isMapAddress">Latitude: {{contact.latitude}}</p>
+                  <button *ngIf="isMapAddress" mat-raised-button (click)="changeMap(contact.longtitude, contact.latitude)">View address</button>
+                </div>
 
-              <div *ngIf="contact.status == 1">
-                <p>{{contact.address}}</p>
-                <p *ngIf="isMapAddress">Longtidue: {{contact.longtitude}}</p>
-                <p *ngIf="isMapAddress">Latitude: {{contact.latitude}}</p>
-                <button *ngIf="isMapAddress" mat-raised-button (click)="changeMap(contact.longtitude, contact.latitude)">View address</button>
-              </div>
+              </mat-expansion-panel>
+            </div>
 
-            </mat-expansion-panel>
-          </div>
-
-        </mat-card-content>
-      </form>
-    </mat-card>
+          </mat-card-content>
+        </form>
+      </mat-card>
+    </div>
+    <mat-paginator [length]="contacts.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
+    <!-- <div *ngIf="paginatedContacts >= 10">
+      <mat-paginator [length]="paginatedContacts" [pageSize]="10" [pageSizeOptions]="[10, 15, 25, 50, 100]"></mat-paginator>
+    </div> -->
   </div>
 </div>

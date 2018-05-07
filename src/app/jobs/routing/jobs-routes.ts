@@ -16,7 +16,7 @@ export const ROUTES: Routes = [
   {
     path: '',
     component: JobListComponent,
-    resolve: { jobs: JobListResolver },
+    // resolve: { jobs: JobListResolver },
     pathMatch: 'full',
   },
   {
@@ -25,7 +25,7 @@ export const ROUTES: Routes = [
       {
         path: '',
         component: JobDetailComponent,
-        resolve: {job: JobDetailResolver},
+        // resolve: {job: JobDetailResolver},
         canActivate: [ClosedApplicationGuard],
         pathMatch: 'full',
       },

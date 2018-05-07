@@ -102,7 +102,6 @@ export class TableComponent implements OnInit, AfterViewInit {
             edit: 'edit',
             delete: 'delete',
           });
-          console.log(this.ELEMENT_DATA[i].status);
         });
 
         this.paginatedButtons = this.ELEMENT_DATA.length;

@@ -40,9 +40,9 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    window.setTimeout(() => {
-      this.dataSource.paginator = this.paginator;
-    });
+    if (this.paginatedButtons <= 0) {
+      return;
+    }
 
     this.dataSource.sort = this.sort;
   }
@@ -62,6 +62,10 @@ export class TableComponent implements OnInit, AfterViewInit {
 
         this.paginatedButtons = x.body.users.length;
         if (this.paginatedButtons > 0) {
+          window.setTimeout(() => {
+            this.dataSource.paginator = this.paginator;
+          });
+
           this.ifInfo = true;
           this.dataSource.data = x.body.users;
 
