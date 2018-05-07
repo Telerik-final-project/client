@@ -41,7 +41,7 @@
   left: 0;
   top: 0;
 }
-
+/*
 button {
   background-color: white !important;
   text-transform: uppercase;
@@ -71,9 +71,9 @@ button:after {
   bottom: 0;
   height: 3px;
   background: #f7f7f7;
-}
+} */
 
-mat-card {
+/* mat-card {
   background-color: white !important;
 }
-
+ */

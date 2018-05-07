@@ -1,48 +1,42 @@
 <div class="container navbar">
-  <div fxLayout="row" fxShow fxHide.xs="true" fxLayoutAlign="start">
+  <div fxLayout="row" fxShow fxHide.xs="true" fxLayoutAlign="start stretch">
     <img class="logo" src="assets/logo.png" [routerLink]="['/home']">
-    <button mat-raised-button [routerLink]="['/jobs']" routerLinkActive="active" fxFlexAlign="start">Careers</button>
-    <button mat-raised-button [routerLink]="['/contacts']" routerLinkActive="active" fxFlexAlign="start">Contacts</button>
+    <button mat-button color="primary" [routerLink]="['/jobs']" routerLinkActive="active">Careers</button>
+    <button mat-button color="primary" [routerLink]="['/contacts']" routerLinkActive="active">Contacts</button>
     <div class="separator" *ngIf="authService.isAdmin()"></div>
 
-    <button mat-raised-button fxFlexAlign="start" *ngIf="authService.isAdmin()" [matMenuTriggerFor]="menuWide">
+    <button mat-button *ngIf="authService.isAdmin()" color="primary" [matMenuTriggerFor]="menuWide">
       <mat-icon>reorder</mat-icon>
       <span>Admin Menu</span>
     </button>
-    <mat-menu #menuWide="matMenu" fxLayout="column">
-      <button mat-raised-button [routerLink]="['/admin/jobs']" routerLinkActive="active">
+    <mat-menu #menuWide="matMenu" fxLayout="column" fxLayoutAlign="stretch">
+      <button fxFlexFill mat-button color="primary" [routerLink]="['/admin/jobs']" routerLinkActive="active">
         <mat-icon>work</mat-icon>
         <span>Job Ads</span>
       </button>
-
-      <button mat-raised-button [routerLink]="['admin/users']">
+      <button fxFlexFill mat-button color="primary" [routerLink]="['admin/users']" routerLinkActive="active">
         <mat-icon>people</mat-icon>
         <span>Users</span>
       </button>
-
-      <button mat-raised-button [routerLink]="['admin/btn']">
+      <button fxFlexFill mat-button color="primary" [routerLink]="['admin/btn']" routerLinkActive="active">
         <mat-icon>link</mat-icon>
         <span>Dynamic Links</span>
       </button>
-
-      <button mat-raised-button [routerLink]="['admin/contacts']">
+      <button fxFlexFill mat-button color="primary" [routerLink]="['admin/contacts']" routerLinkActive="active">
         <mat-icon>room</mat-icon>
         <span>Contacts</span>
       </button>
-
     </mat-menu>
 
     <div fxFlex fxHide.sm="true"></div>
-    <button  mat-button color="primary" *ngIf="user?.email" [matMenuTriggerFor]="userMenu">
+    <button mat-button color="primary" *ngIf="user?.email" [matMenuTriggerFor]="userMenu">
       <span fxFlexFill class="email">{{user?.email}}</span>
     </button>
-    <mat-menu #userMenu="matMenu" fxLayout="column">
+    <mat-menu #userMenu="matMenu" fxLayout="row" fxLayoutAlign="center stretch" >
       <button mat-button color="primary" *ngIf="authService.isAuthenticated()" (click)="logout()" fxFlexFill>Logout</button>
     </mat-menu>
-    <button mat-button color="primary" *ngIf="!authService.isAuthenticated()" [routerLink]="['/users/register']" routerLinkActive="active"
-      fxFlexAlign="end">Register</button>
-    <button mat-raised-button *ngIf="!authService.isAuthenticated()" [routerLink]="['/users/login']" routerLinkActive="active"
-      fxFlexAlign="end">Login</button>
+    <button mat-button color="primary" *ngIf="!authService.isAuthenticated()" [routerLink]="['/users/register']" routerLinkActive="active">Register</button>
+    <button mat-button color="primary" *ngIf="!authService.isAuthenticated()" [routerLink]="['/users/login']" routerLinkActive="active">Login</button>
   </div>
   <mat-accordion fxHide fxShow.xs="true">
     <mat-expansion-panel>
@@ -54,36 +48,40 @@
       </mat-expansion-panel-header>
 
       <div fxLayout="column" fxLayoutAlign="start">
-        <button fxFlex mat-raised-button [routerLink]="['/jobs']" routerLinkActive="active" fxFlexAlign="start">Careers</button>
-        <button fxFlex mat-raised-button [routerLink]="['/contacts']" routerLinkActive="active" fxFlexAlign="start">Contacts</button>
+        <button fxFlexFill mat-button color="primary" [routerLink]="['/jobs']" routerLinkActive="active">Careers</button>
+        <button fxFlexFill mat-button color="primary" [routerLink]="['/contacts']" routerLinkActive="active">Contacts</button>
         <div class="separator" *ngIf="authService.isAdmin()"></div>
 
-        <button fxFlex mat-raised-button *ngIf="authService.isAdmin()" [matMenuTriggerFor]="menuAccordion">
+        <button fxFlex mat-button color="primary" *ngIf="authService.isAdmin()" [matMenuTriggerFor]="menuAccordion">
           <mat-icon>reorder</mat-icon>
           <span>Admin Menu</span>
         </button>
         <mat-menu #menuAccordion="matMenu" fxLayout="column">
-          <button fxFlex mat-raised-button [routerLink]="['/admin/jobs']" routerLinkActive="active">
+          <button fxFlex mat-button color="primary" [routerLink]="['/admin/jobs']" routerLinkActive="active">
             <mat-icon>work</mat-icon>
             <span>Job Ads</span>
           </button>
-          <button fxFlex mat-raised-button [routerLink]="['admin/users']">
+          <button fxFlex mat-button color="primary" [routerLink]="['admin/users']" routerLinkActive="active">
             <mat-icon>people</mat-icon>
             <span>Users</span>
           </button>
-          <button fxFlex mat-raised-button [routerLink]="['admin/btn']">
+          <button fxFlex mat-button color="primary" [routerLink]="['admin/btn']" routerLinkActive="active">
             <mat-icon>link</mat-icon>
             <span>Dynamic Links</span>
+          </button>
+          <button mat-button color="primary" [routerLink]="['admin/contacts']" routerLinkActive="active">
+            <mat-icon>room</mat-icon>
+            <span>Contacts</span>
           </button>
         </mat-menu>
 
         <div fxLayout="row">
-            <p fxFlex class="email" *ngIf="authService.isAuthenticated()">{{user?.email}}</p>
-            <button fxFlex mat-button *ngIf="!authService.isAuthenticated()" [routerLink]="['/users/register']" routerLinkActive="active"
-              fxFlex="50">Register</button>
-            <button fxFlex mat-button color="primary" *ngIf="!authService.isAuthenticated()" [routerLink]="['/users/login']" routerLinkActive="active"
-              fxFlex="50">Login</button>
-            <button fxFlex mat-button color="primary" *ngIf="authService.isAuthenticated()" (click)="logout()" fxFlexAlign="start">Logout</button>
+          <p fxFlex class="email" *ngIf="authService.isAuthenticated()">{{user?.email}}</p>
+          <button fxFlex mat-button color="primary" *ngIf="!authService.isAuthenticated()" [routerLink]="['/users/register']" routerLinkActive="active"
+            fxFlex="50">Register</button>
+          <button fxFlex mat-button color="primary" *ngIf="!authService.isAuthenticated()" [routerLink]="['/users/login']" routerLinkActive="active"
+            fxFlex="50">Login</button>
+          <button fxFlex mat-button color="primary" *ngIf="authService.isAuthenticated()" (click)="logout()" fxFlexAlign="start">Logout</button>
         </div>
       </div>
 
