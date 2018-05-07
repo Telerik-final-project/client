@@ -21,6 +21,8 @@ import { DialogComponent } from './dialog/dialog.component';
   styleUrls: ['./table.component.css'],
 })
 export class TableComponent implements OnInit, AfterViewInit {
+  public filterValue: string;
+
   public displayedColumns = [
     'id',
     'name',
@@ -65,6 +67,10 @@ export class TableComponent implements OnInit, AfterViewInit {
     }
 
     this.dataSource.sort = this.sort;
+  }
+  public applyFilter(filterValue: string): void {
+    this.filterValue = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
   }
 
   public delete(id: number): void {

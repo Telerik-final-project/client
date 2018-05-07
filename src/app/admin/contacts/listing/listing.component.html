@@ -1,20 +1,12 @@
 <div fxLayout="row">
   <div fxFlex="10" fxFlex.sm="0" fxFlex.xs="0"></div>
   <div fxFlex fxLayout="column" fxFlex.sm="100" fxFlex.xs="100">
-    <h2 class=".md-display-3">CONTACTS</h2>
-    <div class="example-header">
-      <div>
-        <!-- <mat-form-field class="filter">
-            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter" class="filter">
-          </mat-form-field> -->
-
-        <div>
-          <button class="createBtn" mat-raised-button color="primary" [routerLink]="['create']">Create</button>
-        </div>
-
-      </div>
+    <div>
+      <h2 class=".md-display-3">CONTACTS
+        <mat-icon class="icon icon-add" [routerLink]="['create']">add_circle</mat-icon>
+      </h2>
     </div>
-
+    <div fxFlex="10" fxFlex.sm="0" fxFlex.xs="0"></div>
     <div class="listing">
       <table-listing-contacts></table-listing-contacts>
     </div>

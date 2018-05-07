@@ -7,8 +7,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 
 import { IContact } from '../admin/contacts/_interfaces/contact.interface';
 import { IListing } from '../admin/contacts/_interfaces/listing.interface';
-import { ContactsService } from '../core/contacts.service';
 import { IElements } from '../admin/dynamic-buttons/_interfaces/listing.interface';
+import { ContactsService } from '../core/contacts.service';
 // import { MatPaginator } from '@angular/material';
 @Component({
   selector: 'app-contacts',
@@ -25,7 +25,7 @@ export class ContactsComponent implements OnInit, IContact {
   public isMapAddress: boolean = true;
   public isMainAddress: boolean;
   public isMainAddressUsed: boolean = false;
-
+  public position: string = 'left';
   public contacts: IListing[];
 
   public primaryAddress: IListing;
@@ -49,9 +49,11 @@ export class ContactsComponent implements OnInit, IContact {
         this.contacts = data;
 
         this.primaryAddress = this.contacts.find((c) => c.status === !!1);
+        if (this.primaryAddress) {
+          this.changeMap(this.primaryAddress.longtitude, this.primaryAddress.latitude);
+        }
       },
     );
-
   }
 
   public changeMap(longtitude: number, latitude: number): void {

@@ -20,6 +20,7 @@ import { IListing } from '../../_interfaces/listing.interface';
   styleUrls: ['./table.component.css'],
 })
 export class TableComponent implements OnInit, AfterViewInit {
+  public filterValue: string;
   public displayedColumns = [
     'id',
     'name',
@@ -86,6 +87,11 @@ export class TableComponent implements OnInit, AfterViewInit {
         );
       }
     });
+  }
+
+  public applyFilter(filterValue: string): void {
+    this.filterValue = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
   }
 
   private loadDBInfo(): void {

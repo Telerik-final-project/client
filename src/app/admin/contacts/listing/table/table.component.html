@@ -1,5 +1,9 @@
 <div *ngIf="ifInfo == true">
 
+  <mat-form-field class="filter">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter" class="filter">
+  </mat-form-field>
+
   <div class="example-container mat-elevation-z8">
     <mat-table #table [dataSource]="dataSource" matSort>
 
@@ -19,7 +23,7 @@
       </ng-container>
 
       <ng-container matColumnDef="status">
-        <mat-header-cell *matHeaderCellDef  mat-sort-header> Is map link </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Is map link </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{ element.status }} </mat-cell>
       </ng-container>
 

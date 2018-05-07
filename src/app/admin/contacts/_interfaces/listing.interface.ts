@@ -10,4 +10,6 @@ export interface IListing {
     contacts?: IContact;
     edit?: string;
     delete?: string;
+    longtitude?: number;
+    latitude?: number;
 }
