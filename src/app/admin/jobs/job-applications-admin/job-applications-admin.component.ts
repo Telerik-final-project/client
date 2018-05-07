@@ -1,7 +1,8 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { ActivatedRoute, Params } from '@angular/router';
 
 import { saveAs } from 'file-saver';
 
@@ -40,21 +41,23 @@ export class JobApplicationsAdminComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.route.data.subscribe((data) => {
-      window.setTimeout(() => {
-        this.initPaginator();
-      });
-
-      this.applications.data = data.applications;
-      this.length = this.applications.data.length;
-
-      if (this.length === 0) {
-        this.snack.openSnackMsg('No data available', 'Close', {
-          duration: 2500,
-          verticalPosition: 'top',
-          horizontalPosition: 'center',
+    const jobId = this.route.params.subscribe((x) => {
+      this.applicationService.getJobApplications(x.jobId).subscribe((data) => {
+        window.setTimeout(() => {
+          this.initPaginator();
         });
-      }
+
+        this.applications.data = data;
+        this.length = this.applications.data.length;
+
+        if (this.length === 0) {
+          this.snack.openSnackMsg('No data available', 'Close', {
+            duration: 2500,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+          });
+        }
+      });
     });
   }
 

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-
+import { IElements } from '../admin/dynamic-buttons/_interfaces/listing.interface';
 import { ConfigService } from '../core/config.service';
 import { DynamicButtonsService } from './../core/dynamic.buttons.service';
-import { IDynamicButtons } from './../models/dynamic.buttons.interface';
+
+
 
 @Component({
   selector: 'app-home',
@@ -16,8 +17,8 @@ export class HomeComponent implements OnInit {
   public textSecond: string;
   public backgroundImg: string;
   public socialPage: string;
-  public actionButtons: IDynamicButtons[] = [];
-  public socialButtons: IDynamicButtons[] = [];
+  public actionButtons: IElements[] = [];
+  public socialButtons: IElements[] = [];
   constructor(
     private configService: ConfigService,
     private btnService: DynamicButtonsService,
@@ -42,8 +43,10 @@ export class HomeComponent implements OnInit {
     this.backgroundImg = this.configService.getEnv('backgroundImg');
     this.socialPage = this.configService.getEnv('social');
 
-    this.route.data.subscribe((data) => {
-      data.buttons.forEach((button: IDynamicButtons) => {
+    this.btnService
+      .getAll({ observe: 'response', responseType: 'json' })
+      .subscribe((data) => {
+      data.body.forEach((button: IElements) => {
         if (button.type === 'Action Link') {
           this.actionButtons.push(button);
         } else if (button.type === 'Social Link') {

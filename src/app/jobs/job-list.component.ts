@@ -47,14 +47,14 @@ export class JobListComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.activatedRoute.data.subscribe((data: {jobs: JobAd[]}) => {
+    this.jobsService.getAll().subscribe((data) => {
       if (this.authService.isAdmin()) {
-        this.jobs = data.jobs;
+        this.jobs = data;
         this.length = this.jobs.length;
       } else {
-        data.jobs = data.jobs.filter((job: JobAd) => job.status === 'open');
-        this.jobs = data.jobs;
-        this.length = data.jobs.length;
+        const filtered =  data.filter((job: JobAd) => job.status === 'open');
+        this.jobs = filtered;
+        this.length = filtered.length;
       }
 
       if (this.length === 0) {
