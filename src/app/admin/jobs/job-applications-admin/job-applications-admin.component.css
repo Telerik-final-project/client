@@ -40,3 +40,13 @@
 mat-table {
   min-height: inherit !important;
 }
+
+.mail-link {
+  text-decoration: none;
+  color: inherit;
+
+}
+
+.mail-link:hover {
+  color: #673ab7;
+}

@@ -27,6 +27,10 @@ button {
   margin-right: 0px;
 }
 
+.logo:hover {
+  cursor: pointer;
+}
+
 mat-panel-title {
   padding-top: 10px;
 }

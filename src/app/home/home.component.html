@@ -11,18 +11,22 @@
     <div class="content" fxLayout="column" fxLayoutGap="20px">
       <div class="buttons" fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-between start" fxLayoutGap="20px">
         <div fxFlex class="action-buttons">
-          <div>
-            <button mat-button color="primary" *ngFor="let action of actionButtons" [hidden]="action.isHidden" (click)="onRedirect(action.target)">
-              <mat-icon>{{action.link}}</mat-icon>
-              {{ action.name }}</button>
+          <div fxLayout="row">
+            <div *ngFor="let action of actionButtons">
+              <button mat-button color="primary" *ngIf="!action.isHidden" (click)="onRedirect(action.target)">
+                <mat-icon>{{action.link}}</mat-icon>
+                {{ action.name }}</button>
+            </div>
           </div>
         </div>
         <div fxFlex class="social-buttons">
-          <div>
-            <button mat-button color="primary" *ngFor="let social of socialButtons" [hidden]="social.isHidden" (click)="onRedirect(social.target)">
-              <mat-icon>{{social.link}}</mat-icon>
-              {{ social.name }}
-            </button>
+          <div fxLayout="row">
+            <div *ngFor="let social of socialButtons">
+              <button mat-button color="primary" *ngIf="!social.isHidden" (click)="onRedirect(social.target)">
+                <mat-icon>{{social.link}}</mat-icon>
+                {{ social.name }}
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -39,6 +39,11 @@ export class AuthService {
   public isAuthenticated(): boolean {
     const token = this.jwtService.tokenGetter();
     const decoded = this.jwtService.decodeToken(token);
+
+    if (this.jwtService.isTokenExpired(token)) {
+      this.clearStorage();
+    }
+
     return (
       !!token &&
       !this.jwtService.isTokenExpired(token) &&
@@ -58,6 +63,7 @@ export class AuthService {
   public clearStorage(): void {
     localStorage.removeItem('access_token');
     sessionStorage.removeItem('access_token');
+    this.nullUser();
   }
 
   public sendUser(user: User): void {

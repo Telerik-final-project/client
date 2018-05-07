@@ -8,18 +8,17 @@ import { AuthService } from './../core/auth.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
 })
-
 @Injectable()
 export class NavbarComponent implements OnInit, OnDestroy {
   public panelOpenState: boolean = false;
   public user: User;
   private subscription: Subscription;
-  constructor(public authService: AuthService) { }
+  constructor(public authService: AuthService) {}
 
   public ngOnInit(): void {
-    this.authService.userLoggedObservable
-      .subscribe((user) => this.user = user);
-
+    this.authService.userLoggedObservable.subscribe((user) => {
+      this.user = user;
+    });
   }
 
   public logout(): void {

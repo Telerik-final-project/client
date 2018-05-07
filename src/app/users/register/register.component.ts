@@ -1,12 +1,25 @@
-
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnInit,
+} from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatSnackBarConfig } from '@angular/material';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../core/auth.service';
 import { SharedSnackModule } from '../../shared/material/shared-snack.module';
+
+import { JwtPayload } from '../../models/jwt-payload';
+import { User } from '../../models/user';
 import { IRegisterMatch } from './_interfaces/match.interface';
 
 @Component({
@@ -15,7 +28,6 @@ import { IRegisterMatch } from './_interfaces/match.interface';
   styleUrls: ['./register.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class RegisterComponent implements OnInit {
   public registerForm: FormGroup;
   public username: AbstractControl;
@@ -27,7 +39,9 @@ export class RegisterComponent implements OnInit {
   public minLength = 6;
   public passMaxLength = 256;
 
-  private pattern: RegExp = new RegExp('(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}');
+  private pattern: RegExp = new RegExp(
+    '(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}',
+  );
 
   private snackOptions = {
     duration: 3700,
@@ -40,35 +54,42 @@ export class RegisterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private snack: SharedSnackModule,
+    private jwtService: JwtHelperService,
     @Inject('IRegisterMatch') private passwordsValidator: IRegisterMatch,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
-    this.registerForm = this.formBuilder.group({
-      username: ['', [
-        Validators.minLength(this.minLength),
-        Validators.required],
-      ],
-      email: ['', [
-        Validators.maxLength(this.emailMaxLength),
-        Validators.email,
-        Validators.required],
-      ],
-      password: ['', [
-        Validators.minLength(this.minLength),
-        Validators.maxLength(this.passMaxLength),
-        Validators.required],
-      ],
-      password2: ['', [
-        Validators.required,
-        Validators.pattern(this.pattern),
-      ],
-      ],
-    },                                         {
-        validator: [
-          this.passwordsValidator.passwordsMatch,
+    this.registerForm = this.formBuilder.group(
+      {
+        username: [
+          '',
+          [Validators.minLength(this.minLength), Validators.required],
         ],
-      });
+        email: [
+          '',
+          [
+            Validators.maxLength(this.emailMaxLength),
+            Validators.email,
+            Validators.required,
+          ],
+        ],
+        password: [
+          '',
+          [
+            Validators.minLength(this.minLength),
+            Validators.maxLength(this.passMaxLength),
+            Validators.required,
+          ],
+        ],
+        password2: [
+          '',
+          [Validators.required, Validators.pattern(this.pattern)],
+        ],
+      },
+      {
+        validator: [this.passwordsValidator.passwordsMatch],
+      },
+    );
 
     this.username = this.registerForm.get('username');
     this.email = this.registerForm.get('email');
@@ -104,14 +125,21 @@ export class RegisterComponent implements OnInit {
           password: newUser.password,
         };
 
-        this.authService.login(userToLog, { observe: 'response', responseType: 'json' }).subscribe(
-          (x: HttpResponse<{ token: string }>) => {
-            localStorage.setItem('access_token', x.body.token);
-            this.router.navigateByUrl('/home');
-          },
-          (err: HttpErrorResponse) => {
-            console.log(err.error.err);
-          });
+        this.authService
+          .login(userToLog, { observe: 'response', responseType: 'json' })
+          .subscribe(
+            (x: HttpResponse<{ token: string }>) => {
+              const decoded: JwtPayload = this.jwtService.decodeToken(
+                x.body.token,
+              );
+              localStorage.setItem('access_token', x.body.token);
+              this.authService.sendUser({ email: decoded.email } as User);
+              this.router.navigate(['/home']);
+            },
+            (err: HttpErrorResponse) => {
+              console.log(err.error.err);
+            },
+          );
       },
     );
   }

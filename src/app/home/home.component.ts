@@ -5,8 +5,6 @@ import { IElements } from '../admin/dynamic-buttons/_interfaces/listing.interfac
 import { ConfigService } from '../core/config.service';
 import { DynamicButtonsService } from './../core/dynamic.buttons.service';
 
-
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -24,7 +22,7 @@ export class HomeComponent implements OnInit {
     private btnService: DynamicButtonsService,
     private sanitizer: DomSanitizer,
     private route: ActivatedRoute,
-  ) { }
+  ) {}
 
   public onRedirect(link: string): void {
     window.location.href = link;
@@ -32,7 +30,9 @@ export class HomeComponent implements OnInit {
 
   public getSocialUrl(): SafeUrl {
     const sanitizedUrl = this.sanitizer
-      .bypassSecurityTrustResourceUrl(`https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2F${this.socialPage}&
+      .bypassSecurityTrustResourceUrl(`https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2F${
+      this.socialPage
+    }&
       tabs=timeline%2C%20event&width=340&height=500&s
       mall_header=true&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=228863411217407`);
     return sanitizedUrl;
@@ -46,13 +46,13 @@ export class HomeComponent implements OnInit {
     this.btnService
       .getAll({ observe: 'response', responseType: 'json' })
       .subscribe((data) => {
-      data.body.forEach((button: IElements) => {
-        if (button.type === 'Action Link') {
-          this.actionButtons.push(button);
-        } else if (button.type === 'Social Link') {
-          this.socialButtons.push(button);
-        }
+        data.body.forEach((button: IElements) => {
+          if (button.type === 'Action Link') {
+            this.actionButtons.push(button);
+          } else if (button.type === 'Social Link') {
+            this.socialButtons.push(button);
+          }
+        });
       });
-    });
   }
 }

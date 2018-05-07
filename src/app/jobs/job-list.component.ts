@@ -120,6 +120,9 @@ export class JobListComponent implements OnInit {
       length: this.length,
       pageSize: this.pageSize,
     } as PageEvent);
-    this.paginator.firstPage();
+
+    if (this.paginator) {
+      this.paginator.firstPage();
+    }
   }
 }
