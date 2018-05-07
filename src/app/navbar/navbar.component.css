@@ -21,9 +21,8 @@ button {
 }
 
 .logo {
-  width: 94px;
-  height: 48px;
-  margin-right: 0px;
+  width: 75px;
+  margin-right: 10px;
 }
 
 mat-panel-title {
