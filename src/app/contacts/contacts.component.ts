@@ -6,8 +6,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatGridListModule } from '@angular/material/grid-list';
 
 import { IContact } from '../admin/contacts/_interfaces/contact.interface';
+import { IListing } from '../admin/contacts/_interfaces/listing.interface';
 import { ContactsService } from '../core/contacts.service';
-import { MatPaginator } from '@angular/material';
+// import { MatPaginator } from '@angular/material';
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
@@ -21,17 +22,18 @@ export class ContactsComponent implements OnInit, IContact {
   public latitude?: number;
 
   public isMapAddress: boolean = true;
-  public contacts: IContact;
+  public isMainAddress: boolean;
+  public isMainAddressUsed: boolean = false;
+
+  public contacts: IListing[];
 
   public lat: number = 42.697708;
   public lng: number = 23.321868;
+
   public paginatedContacts: number;
   public panelOpenState: boolean = false;
-  // @ViewChild(MatPaginator) public paginator: MatPaginator;
 
-  constructor(
-    private contactsService: ContactsService,
-  ) { }
+  constructor(private contactsService: ContactsService) { }
 
   public ngAfterViewInit(): void {
     if (this.paginatedContacts <= 0) {
@@ -41,11 +43,18 @@ export class ContactsComponent implements OnInit, IContact {
 
   public ngOnInit(): void {
     this.contactsService.getAll().subscribe(
-      (params: Params) => {
-        this.contacts = params.contacts;
-        console.log(this.contacts);
-        this.lat = this.contacts.latitude;
-        this.lng = this.contacts.longtitude;
+      (data: IListing[]) => {
+        this.contacts = data;
+
+        const a = this.contacts.find((c) => c.status === 1);
+console.log(a)
+
+        // this.contacts.isMainAddress = false;
+
+        // if (this.contacts.latitude || this.contacts.longtitude) {
+        //   this.lat = this.contacts.latitude;
+        //   this.lng = this.contacts.longtitude;
+        // }
       },
     );
 

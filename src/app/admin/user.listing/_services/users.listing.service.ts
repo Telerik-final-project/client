@@ -11,8 +11,7 @@ import { IUsersListing } from '../listing/_interfaces/listing.interface';
 export class UsersListingService {
     constructor(private appConfig: AppConfig, private httpClient: HttpClient) { }
 
-    public getAll(options?: HttpOptions): Observable<any> {
-        return this.httpClient.get(`${this.appConfig.apiUrl}/admin/users`, options)
-            .pipe(map((x) => x as IUsersListing[]));
+    public getAll(options?: HttpOptions): Observable<{ body: IUsersListing[] }> {
+        return this.httpClient.get<{ body: IUsersListing[] }>(`${this.appConfig.apiUrl}/admin/users`, options);
     }
 }
