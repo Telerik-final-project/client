@@ -13,7 +13,7 @@ import { User } from './models/user';
 export class AppComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router, private slimLoadingBarService: SlimLoadingBarService) {
     this.router.events.subscribe((event: RouterEvent) => {
-      this.RoutesEventHandler(event);
+      // this.RoutesEventHandler(event);
     });
 
   }

@@ -11,8 +11,9 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
+import { ContactsModule } from './admin/contacts/contacts.module';
+import { ContactsRoutingModule } from './admin/contacts/routing/contacts.routing.module';
 import { AppRoutingModule } from './app-routing.module';
-import { ContactsComponent } from './contacts/contacts.component';
 import { CoreModule } from './core/core.module';
 import { JobsModule } from './jobs/jobs.module';
 import { NavbarModule } from './navbar/navbar.module';
@@ -32,13 +33,14 @@ export const tokenGetter = () => {
   declarations: [
     AppComponent,
     HomeComponent,
-    ContactsComponent,
   ],
   imports: [
     BrowserModule,
     SharedModule,
     SharedSnackModule,
     AppRoutingModule,
+    ContactsRoutingModule,
+    ContactsModule,
     CoreModule,
     NavbarModule,
     HttpClientModule,

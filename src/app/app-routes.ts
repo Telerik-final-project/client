@@ -13,7 +13,7 @@ export const ROUTES: Routes = [
   { path: 'home', component: HomeComponent, resolve: { buttons: ButtonsResolver } },
   { path: 'users', loadChildren: './users/users.module#UsersModule' },
   { path: 'jobs', loadChildren: './jobs/jobs.module#JobsModule' },
-  // { path: 'contacts', loadChildren: './contacts/contacts.module#ContactsModule' },
+  { path: 'contacts', loadChildren: './contacts/contacts.module#ContactsModule' },
   {
     path: 'admin', children: [
       { path: 'jobs', loadChildren: './admin/jobs/jobs-admin.module#JobsAdminModule' },

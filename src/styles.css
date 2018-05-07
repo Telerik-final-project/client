@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import '~dropzone/dist/min/dropzone.min.css';
 /* .cdk-global-overlay-wrapper {
@@ -15,7 +16,7 @@
   overflow-y: scroll;
 }
 
-.cdk-global-overlay-wrapper > div {
+.cdk-global-overlay-wrapper>div {
   max-height: 100%;
 }
 
@@ -41,6 +42,38 @@
   top: 0;
 }
 
-body{
-  /* overflow: hidden; */
+button {
+  background-color: white !important;
+  text-transform: uppercase;
+  border-bottom: 0.9px solid rgb(51, 35, 35);
+  background-color: transparent;
+  flex: 1 1 auto;
+  margin: 10px;
+  padding: 20px;
+  border: 2px solid #f7f7f7;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: .9s;
 }
+
+button:hover {
+  cursor: pointer;
+  border-bottom: 0.9px solid black;
+}
+
+button:after {
+  position: absolute;
+  transition: .3s;
+  content: '';
+  width: 0;
+  left: 50%;
+  bottom: 0;
+  height: 3px;
+  background: #f7f7f7;
+}
+
+mat-card {
+  background-color: white !important;
+}
+

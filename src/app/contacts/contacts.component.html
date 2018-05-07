@@ -1,3 +1,40 @@
-<agm-map [latitude]="lat" [longitude]="lng">
-  <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-</agm-map>
+<h2 class="chrome shiny" style="margin-top:50px;">CONTACTS</h2>
+
+<div class="map" fxFlex="100%">
+  <agm-map [(latitude)]="lat" [(longitude)]="lng">
+    <agm-marker [(latitude)]="lat" [(longitude)]="lng"></agm-marker>
+  </agm-map>
+</div>
+<div fxLayout="column" fxLayoutAlign="center center">
+  <div fxLayout="row" fxFlexFill fxFlexOffset="20px">
+    <div fxFlex="2"></div>
+    <mat-card fxFlex>
+      <form>
+        <mat-card-content fxLayout="column">
+          <div *ngFor="let contact of contacts">
+            <mat-expansion-panel>
+
+              <mat-expansion-panel-header>
+
+                <mat-panel-title>
+                  <mat-icon *ngIf="isMapAddress">map</mat-icon>
+                </mat-panel-title>
+                <mat-panel-description> {{contact.name}} </mat-panel-description>
+
+              </mat-expansion-panel-header>
+
+              <div *ngIf="contact.status == 1">
+                <p>{{contact.address}}</p>
+                <p *ngIf="isMapAddress">Longtidue: {{contact.longtitude}}</p>
+                <p *ngIf="isMapAddress">Latitude: {{contact.latitude}}</p>
+                <button *ngIf="isMapAddress" mat-raised-button (click)="changeMap(contact.longtitude, contact.latitude)">View address</button>
+              </div>
+
+            </mat-expansion-panel>
+          </div>
+
+        </mat-card-content>
+      </form>
+    </mat-card>
+  </div>
+</div>
