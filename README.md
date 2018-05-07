@@ -1,27 +1,28 @@
 # Client
+## The Chocolate Company
+![logo](./src/assets/logo.png) 
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.4.
+## About
+The Chocolate Company is a single-page application based on Angular 5. It's purpose is to introduce a company's mission as well as to provide career opportunities. А user is able to see the company's careers and apply for them. Then the administrator could review the application, download the applicant's CV or send him an email. Also we have provided a job filtering - filter by **keyword, career category and creation date**.
+We have three user roles - **anonymous, logged in user, admin**. The admin is able to create, update or delete the dynamic buttons, shown on the Home Page. Also the admin could manage the Job Ads as well as the Contacts. This makes the app highly flexible.
+We have provided a configuration through the server so a developer could configure the Facebook integration, the home page background image and the text there.
 
-## Development server
+## Installation & Running
+### Installation
+Download/clone the repo in you local storage.
+```
+run:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+cd choco-compnay-client
+npm install
+```
 
-## Code scaffolding
+### Running the app
+```
+run:
+ng serve
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Server repo
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+To get a better inside of our server check out the [server repo](https://github.com/Telerik-final-project/server).
