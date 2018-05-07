@@ -16,7 +16,7 @@ import { ClosedApplicationGuard } from './guards/closed-application-guard.servic
 import { UserAlreadyAppliedGuard } from './guards/user-already-applied-guard.service';
 
 import { ApplicationsResolver } from './resolvers/applications.resolver';
-import { ButtonsResolver } from './resolvers/buttons.resolver';
+// import { ButtonsResolver } from './resolvers/buttons.resolver';
 import { JobDetailResolver } from './resolvers/job-detail.resolver';
 import { JobListResolver } from './resolvers/job-list.resolver';
 
@@ -38,7 +38,7 @@ import { JobListResolver } from './resolvers/job-list.resolver';
     JobListResolver,
     ApplicationsResolver,
     JobDetailResolver,
-    ButtonsResolver,
+    // ButtonsResolver,
     {
       provide: APP_INITIALIZER,
       useFactory: (config: ConfigService) => () => config.load(),

@@ -27,8 +27,6 @@ export class RegisterComponent implements OnInit {
   public minLength = 6;
   public passMaxLength = 256;
 
-  private errors: any = '';
-  private validPass: string;
   private pattern: RegExp = new RegExp('(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}');
 
   private snackOptions = {

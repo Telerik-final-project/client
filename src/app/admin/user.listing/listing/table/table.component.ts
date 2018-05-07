@@ -40,9 +40,9 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    window.setTimeout(() => {
-      this.dataSource.paginator = this.paginator;
-    });
+    if (this.paginatedButtons <= 0) {
+      return;
+    }
 
     this.dataSource.sort = this.sort;
   }
@@ -51,7 +51,8 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.usersListingService
       .getAll({ observe: 'response', responseType: 'json' })
       .subscribe((x) => {
-        x.body.users.forEach((user) => {
+        console.log(x.body);
+        x.body.forEach((user) => {
           this.ELEMENT_DATA.push({
             id: user.id,
             email: user.email,
@@ -60,10 +61,14 @@ export class TableComponent implements OnInit, AfterViewInit {
           });
         });
 
-        this.paginatedButtons = x.body.users.length;
+        this.paginatedButtons = x.body.length;
         if (this.paginatedButtons > 0) {
+          window.setTimeout(() => {
+            this.dataSource.paginator = this.paginator;
+          });
+
           this.ifInfo = true;
-          this.dataSource.data = x.body.users;
+          this.dataSource.data = x.body;
 
           return;
         }

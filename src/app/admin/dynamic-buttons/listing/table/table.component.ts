@@ -1,19 +1,19 @@
-import { HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { AfterViewInit, Component, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { AfterViewInit, Component, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { ComponentType } from '@angular/core/src/render3';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatPaginator, MatSnackBarConfig, MatSort, MatTableDataSource, MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatPaginator, MatSnackBarConfig, MatSort, MatDialogRef, MatTableDataSource } from '@angular/material';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { EventEmitter } from 'events';
+import { Observable } from 'rxjs/Observable';
 
 import { SharedSnackModule } from '../../../../shared/material/shared-snack.module';
 
 import { IElements } from '../../_interfaces/listing.interface';
 
 import { DynamicButtonsService } from '../../../../core/dynamic.buttons.service';
+import { IDynamicButtons } from '../../../../models/dynamic.buttons.interface';
 import { DialogComponent } from './dialog/dialog.component';
-import { ComponentType } from '@angular/core/src/render3';
-import { IButton } from 'selenium-webdriver';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'table-listing',
@@ -95,20 +95,20 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.buttonsService
       .getAll({ observe: 'response', responseType: 'json' })
       .subscribe((x) => {
-        x.body.buttons.forEach((btn) => {
+        x.body.forEach((btn) => {
           this.ELEMENT_DATA.push({
             id: btn.id,
             name: btn.name,
-            targetUrl: btn.target,
-            iconUrl: btn.link,
-            date: btn.createdAt,
+            targetUrl: btn.targetUrl,
+            iconUrl: btn.iconUrl,
+            date: btn.date,
             edit: 'edit',
             delete: 'delete',
             type: btn.type,
           });
         });
 
-        this.paginatedButtons = x.body.buttons.length;
+        this.paginatedButtons = x.body.length;
 
         if (this.paginatedButtons > 0) {
           window.setTimeout(() => {

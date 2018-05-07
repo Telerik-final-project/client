@@ -6,16 +6,17 @@ import { map } from 'rxjs/operators';
 import { AppConfig } from '../config/app.config';
 import { IDynamicButtons } from '../models/dynamic.buttons.interface';
 import { HttpOptions } from '../models/http-options';
+import { IElements } from '../admin/dynamic-buttons/_interfaces/listing.interface';
 
 @Injectable()
 export class DynamicButtonsService {
     constructor(private appConfig: AppConfig, private httpClient: HttpClient) { }
 
-    public getAll(options?: HttpOptions): Observable<any> {
-        return this.httpClient.get<IDynamicButtons[]>(`${this.appConfig.apiUrl}/admin/buttons`, options);
+    public getAll(options?: HttpOptions): Observable<{ body: IElements[] }> {
+        return this.httpClient.get<{ body: IElements[] }>(`${this.appConfig.apiUrl}/admin/buttons`, options);
     }
 
-    public getInfoPerID(id: number, options?: HttpOptions): any {
+    public getInfoPerID(id: number, options?: HttpOptions): Observable<IDynamicButtons> {
         return this.httpClient.get<IDynamicButtons>(`${this.appConfig.apiUrl}/admin/buttons/edit/${id}`, options);
     }
 

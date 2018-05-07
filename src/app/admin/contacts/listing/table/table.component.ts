@@ -1,5 +1,5 @@
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { AfterViewInit, Component, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, Output, ViewChild, TemplateRef } from '@angular/core';
 import { ComponentType } from '@angular/core/src/render3';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MatPaginator, MatSnackBarConfig, MatSort, MatTableDataSource } from '@angular/material';
@@ -29,7 +29,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     'delete',
   ];
 
-  public ELEMENT_DATA: IListing[] = [];
+  public ELEMENT_DATA: any = [];
   public dataSource = new MatTableDataSource(this.ELEMENT_DATA);
   public paginatedButtons: number;
   public ifInfo: boolean = true;
@@ -65,7 +65,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   public delete(id: number): void {
-    this.openDialog(DialogComponent).subscribe((isConfirmed: boolean) => {
+    this.openDialog(DialogComponent).subscribe((isConfirmed: Component) => {
       if (isConfirmed) {
         this.contactsService.delete(id, { responseType: 'json', observe: 'response' })
           .subscribe(
@@ -92,7 +92,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.contactsService
       .getAll({ observe: 'response', responseType: 'json' })
       .subscribe((x) => {
-        x.contacts.forEach((contact, i) => {
+        x.forEach((contact, i) => {
           this.ELEMENT_DATA.push({
             id: contact.id,
             name: contact.name,
@@ -102,7 +102,6 @@ export class TableComponent implements OnInit, AfterViewInit {
             edit: 'edit',
             delete: 'delete',
           });
-          console.log(this.ELEMENT_DATA[i].status);
         });
 
         this.paginatedButtons = this.ELEMENT_DATA.length;
@@ -128,7 +127,7 @@ export class TableComponent implements OnInit, AfterViewInit {
       });
   }
 
-  private openDialog(component: any, contactsData?: IListing): Observable<any> {
+  private openDialog(component: any, contactsData?: IListing): Observable<Component> {
     let dialogRef: MatDialogRef<Component>;
 
     if (contactsData) {

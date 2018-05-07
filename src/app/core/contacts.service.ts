@@ -15,13 +15,13 @@ export class ContactsService {
         private httpClient: HttpClient,
     ) { }
 
-    public getAll(options?: HttpOptions): Observable<any> {
+    public getAll(options?: HttpOptions): Observable<IListing[]> {
         return this.httpClient
             .get(`${this.appConfig.apiUrl}/admin/contacts`)
             .pipe(map((x) => x as IListing[]));
     }
 
-    public getInfoPerID(id: number, options?: HttpOptions): any {
+    public getInfoPerID(id: number, options?: HttpOptions): Observable<IContact> {
         return this.httpClient
             .get<IContact>(`${this.appConfig.apiUrl}/admin/contacts/edit/${id}`, options);
     }

@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
     this.socialPage = this.configService.getEnv('social');
 
     this.route.data.subscribe((data) => {
-      data.buttons.buttons.forEach((button: IDynamicButtons) => {
+      data.buttons.forEach((button: IDynamicButtons) => {
         if (button.type === 'Action Link') {
           this.actionButtons.push(button);
         } else if (button.type === 'Social Link') {
