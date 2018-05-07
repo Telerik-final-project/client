@@ -7,4 +7,7 @@ export interface IElements {
     edit: string;
     delete: string;
     type: string;
+    link?: string;
+    createdAt?: string;
+    target?: string;
 }

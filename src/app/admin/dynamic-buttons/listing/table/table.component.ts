@@ -99,9 +99,9 @@ export class TableComponent implements OnInit, AfterViewInit {
           this.ELEMENT_DATA.push({
             id: btn.id,
             name: btn.name,
-            targetUrl: btn.targetUrl,
-            iconUrl: btn.iconUrl,
-            date: btn.date,
+            targetUrl: btn.target,
+            iconUrl: btn.link,
+            date: btn.createdAt,
             edit: 'edit',
             delete: 'delete',
             type: btn.type,
