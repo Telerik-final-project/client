@@ -4,7 +4,7 @@ export interface IListing {
     id: number;
     name: string;
     address: string;
-    status: number;
+    status: number | boolean;
     createdAt?: string;
     isMainAddressUsed?: boolean;
     contacts?: IContact;

@@ -51,7 +51,6 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.usersListingService
       .getAll({ observe: 'response', responseType: 'json' })
       .subscribe((x) => {
-        console.log(x.body);
         x.body.forEach((user) => {
           this.ELEMENT_DATA.push({
             id: user.id,

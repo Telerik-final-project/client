@@ -82,7 +82,6 @@ export class JobApplicationComponent implements OnInit {
 
     if (!this.job) {
       this.route.params.subscribe((params: Params) => {
-        console.log(params);
         this.jobId = +params.jobId;
         this.jobsService.getById(this.jobId).subscribe((data) => {
           this.job = data;
@@ -93,8 +92,6 @@ export class JobApplicationComponent implements OnInit {
     this.firstName = this.form.get('firstName');
     this.lastName = this.form.get('lastName');
     this.comment = this.form.get('comment');
-
-    console.log(this.authService.decodeToken());
   }
 
   public openDialog(): Observable<boolean> {

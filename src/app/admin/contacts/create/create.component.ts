@@ -75,7 +75,6 @@ export class CreateComponent implements OnInit, IContactForm {
       status: this.form.value.isMapAddess || 0,
     };
 
-    console.log(this.isHidden);
     if (!this.isHidden  ) {
       newConatct.longtitude = this.form.value.longtitude || 0;
       newConatct.latitude = this.form.value.latitude || 0;
