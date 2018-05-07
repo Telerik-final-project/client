@@ -7,6 +7,7 @@ import { ClosedApplicationGuard } from './core/guards/closed-application-guard.s
 import { HomeComponent } from './home/home.component';
 
 import { Routes } from '@angular/router';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 export const ROUTES: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -21,4 +22,6 @@ export const ROUTES: Routes = [
       { path: 'users', loadChildren: './admin/user.listing/user.listing.module#UserListingModule' },
       { path: 'contacts', loadChildren: './admin/contacts/contacts.module#ContactsModule' },
     ],
-  }];
+  },
+  { path: '**', component: NotFoundComponent },
+];
