@@ -20,7 +20,7 @@ export class ContactsComponent implements OnInit, IContact {
   public latitude?: number;
 
   public isMapAddress: boolean = true;
-  public contacts: IContact[] = [];
+  public contacts: IContact;
 
   public lat: number = 42.697708;
   public lng: number = 23.321868;
@@ -36,8 +36,8 @@ export class ContactsComponent implements OnInit, IContact {
       (params: Params) => {
         this.contacts = params.contacts;
         console.log(this.contacts);
-        this.lat = this.contacts.latitude || this.lat;
-        this.lng = this.contacts.longtitude || this.lng;
+        this.lat = this.contacts.latitude;
+        this.lng = this.contacts.longtitude;
       },
     );
   }

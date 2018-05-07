@@ -9,7 +9,7 @@ import { IDynamicButtons } from './../models/dynamic.buttons.interface';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  styleUrls: ['./home.component.css', './video.css'],
 })
 export class HomeComponent implements OnInit {
   public textFirst: string;
@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
     private btnService: DynamicButtonsService,
     private sanitizer: DomSanitizer,
     private route: ActivatedRoute,
-  ) {}
+  ) { }
 
   public onRedirect(link: string): void {
     window.location.href = link;

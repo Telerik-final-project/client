@@ -16,3 +16,8 @@
   height: 300px;
   background-size: cover;
 }
+
+.home-video {
+  padding: 0px !important;
+  margin-bottom: 50px;
+}

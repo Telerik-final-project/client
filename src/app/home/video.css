@@ -1,0 +1,30 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial;
+    font-size: 17px;
+}
+
+#myVideo {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 10 !important;
+    margin-top: 20px !important;
+    min-width: 100%; 
+    min-height: 40%;
+    max-height: 39%;
+}
+
+.content {
+    max-height: 39% !important;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: #f1f1f1;
+    width: 100%;
+    padding: 20px;
+}
