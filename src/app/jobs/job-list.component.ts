@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDatepickerInputEvent, MatSnackBarConfig, PageEvent } from '@angular/material';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDatepickerInputEvent, MatPaginator, MatSnackBarConfig, PageEvent } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 
 import { JobType } from '../models/job-type';
+import { JobAd } from './../models/job-ad';
+
 import { AuthService } from './../core/auth.service';
 import { JobTypesService } from './../core/job-types.service';
 import { JobsService } from './../core/jobs.service';
-
-import { JobAd } from './../models/job-ad';
 
 import { SharedSnackModule } from './../shared/material/shared-snack.module';
 
@@ -35,6 +35,8 @@ export class JobListComponent implements OnInit {
     verticalPosition: 'top',
     horizontalPosition: 'center',
   } as MatSnackBarConfig;
+  @ViewChild(MatPaginator) private paginator: MatPaginator;
+  private pageEvent: PageEvent;
 
   constructor(
     public jobsService: JobsService,
@@ -45,9 +47,16 @@ export class JobListComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.activatedRoute.data.subscribe((data) => {
-      this.jobs = data.jobs;
-      this.length = this.jobs.length;
+    this.activatedRoute.data.subscribe((data: {jobs: JobAd[]}) => {
+      if (this.authService.isAdmin()) {
+        this.jobs = data.jobs;
+        this.length = this.jobs.length;
+      } else {
+        data.jobs = data.jobs.filter((job: JobAd) => job.status === 'open');
+        this.jobs = data.jobs;
+        this.length = data.jobs.length;
+      }
+
       if (this.length === 0) {
         this.snack.openSnackMsg('There are no open positions - please try later', 'Close', this.snackOptions);
       }
@@ -58,7 +67,7 @@ export class JobListComponent implements OnInit {
       });
     });
 
-    this.jobTypesService.getAll().subscribe((jobTypes) => {
+    this.jobTypesService.getAll().subscribe((jobTypes: JobType[]) => {
       this.jobTypes = jobTypes;
     });
   }
@@ -67,10 +76,11 @@ export class JobListComponent implements OnInit {
     const copy = jobs.slice();
     this.pageSize = copy.length > this.defaultPageSize ? this.defaultPageSize : copy.length;
     this.length = copy.length;
-    this.paginatedJobs = copy.slice(
-      event.pageIndex * event.pageSize,
-      event.pageIndex * event.pageSize + event.pageSize,
-    );
+
+    const sliceStart = event.pageIndex > 0 ? event.pageIndex * event.pageSize + 1 : event.pageIndex * event.pageSize;
+    const sliceEnd = event.pageIndex * event.pageSize + event.pageSize + 1;
+
+    this.paginatedJobs = copy.slice(sliceStart, sliceEnd);
   }
 
   private filterJobs(input: string): void {
@@ -104,10 +114,12 @@ export class JobListComponent implements OnInit {
     this.endDate = '11/30/2070';
     this.startDateInput = '';
     this.endDateInput = '';
-    this.onChangePage(this.paginatedJobs, {
+    this.length = this.paginatedJobs.length;
+    this.onChangePage(this.jobs, {
       pageIndex: 0,
       length: this.length,
       pageSize: this.pageSize,
-    });
+    } as PageEvent);
+    this.paginator.firstPage();
   }
 }

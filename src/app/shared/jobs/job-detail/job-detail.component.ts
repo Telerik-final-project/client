@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-
 import { ApplicationsService } from '../../../core/applications.service';
 import { JobsService } from '../../../core/jobs.service';
 import { JobAd } from '../../../models/job-ad';
@@ -25,9 +24,12 @@ export class JobDetailComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.route.data.subscribe(
-      (data) => {
-        this.job = data.job;
+    this.route.params.subscribe(
+      (params: Params) => {
+        this.jobId = +params.jobId;
+        this.jobService.getById(this.jobId).subscribe((data) => {
+          this.job = data;
+        });
       },
       (err) => {
         console.log(err);
@@ -36,15 +38,17 @@ export class JobDetailComponent implements OnInit {
 
     const user = this.authService.decodeToken();
 
-    if (user.role === 'user') {
-      this.applicationService
-        .isUserAppliedForJob(user.sub, this.jobId, {
-          observe: 'response',
-          responseType: 'json',
-        })
-        .subscribe((res) => {
-          this.isUserApplied = res;
-        });
+    if (user) {
+      if (user.role === 'user') {
+        this.applicationService
+          .isUserAppliedForJob(user.sub, this.jobId, {
+            observe: 'response',
+            responseType: 'json',
+          })
+          .subscribe((res) => {
+            this.isUserApplied = res;
+          });
+      }
     }
   }
 
