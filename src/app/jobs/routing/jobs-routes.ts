@@ -1,16 +1,13 @@
 import { Routes } from '@angular/router';
-
 import { ApplicationGuard } from '../../core/guards/application-guard.service';
 import { AuthGuard } from '../../core/guards/auth-guard.service';
 import { ClosedApplicationGuard } from '../../core/guards/closed-application-guard.service';
-import { UserAlreadyAppliedGuard } from '../../core/guards/user-already-applied-guard.service';
-
 import { JobApplicationComponent } from '../../shared/jobs/job-application/job-application.component';
 import { JobDetailComponent } from '../../shared/jobs/job-detail/job-detail.component';
 import { JobListComponent } from '../job-list.component';
 
-import { JobDetailResolver } from './../../core/resolvers/job-detail.resolver';
-import { JobListResolver } from './../../core/resolvers/job-list.resolver';
+
+
 
 export const ROUTES: Routes = [
   {
@@ -36,7 +33,7 @@ export const ROUTES: Routes = [
         canActivate: [
           AuthGuard,
           ClosedApplicationGuard,
-          UserAlreadyAppliedGuard,
+          // UserAlreadyAppliedGuard,
         ],
       },
     ],

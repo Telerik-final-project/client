@@ -1,17 +1,17 @@
 import { Routes } from '@angular/router';
-
 import { AdminAuthGuard } from '../../../core/guards/admin-guard.service';
 import { ApplicationGuard } from '../../../core/guards/application-guard.service';
 import { AuthGuard } from '../../../core/guards/auth-guard.service';
 import { ClosedApplicationGuard } from '../../../core/guards/closed-application-guard.service';
-
 import { JobListResolver } from '../../../core/resolvers/job-list.resolver';
-import { ApplicationsResolver } from './../../../core/resolvers/applications.resolver';
-
 import { JobApplicationComponent } from '../../../shared/jobs/job-application/job-application.component';
 import { JobDetailComponent } from '../../../shared/jobs/job-detail/job-detail.component';
 import { JobApplicationsAdminComponent } from '../job-applications-admin/job-applications-admin.component';
 import { JobListAdminComponent } from '../job-list-admin/job-list-admin.component';
+import { ApplicationsResolver } from './../../../core/resolvers/applications.resolver';
+
+
+
 
 export const ROUTES: Routes = [
   {
