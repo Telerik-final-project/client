@@ -45,7 +45,7 @@ export class JobDetailComponent implements OnInit {
             observe: 'response',
             responseType: 'json',
           })
-          .subscribe((res) => {
+          .subscribe((res: {body: boolean}) => {
             this.isUserApplied = res.body;
           });
       }

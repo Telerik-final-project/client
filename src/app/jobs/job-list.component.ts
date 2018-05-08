@@ -5,11 +5,11 @@ import { ActivatedRoute } from '@angular/router';
 import { JobType } from '../models/job-type';
 import { JobAd } from './../models/job-ad';
 
+import { SharedSnackModule } from './../shared/material/shared-snack.module';
+
 import { AuthService } from './../core/auth.service';
 import { JobTypesService } from './../core/job-types.service';
 import { JobsService } from './../core/jobs.service';
-
-import { SharedSnackModule } from './../shared/material/shared-snack.module';
 
 @Component({
   selector: 'app-job-list',
@@ -76,10 +76,8 @@ export class JobListComponent implements OnInit {
     const copy = jobs.slice();
     this.pageSize = copy.length > this.defaultPageSize ? this.defaultPageSize : copy.length;
     this.length = copy.length;
-
     const sliceStart = event.pageIndex > 0 ? event.pageIndex * event.pageSize + 1 : event.pageIndex * event.pageSize;
-    const sliceEnd = event.pageIndex * event.pageSize + event.pageSize + 1;
-
+    const sliceEnd = event.pageIndex * event.pageSize + this.pageSize + 1;
     this.paginatedJobs = copy.slice(sliceStart, sliceEnd);
   }
 

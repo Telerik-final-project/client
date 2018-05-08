@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import { ApplicationsService } from '../applications.service';
 import { AuthService } from './../auth.service';
 
-
 @Injectable()
 export class UserAlreadyAppliedGuard implements CanActivate {
   constructor(
@@ -28,9 +27,9 @@ export class UserAlreadyAppliedGuard implements CanActivate {
       .subscribe((res) => {
         if (res) {
 
-          return true;
+          return false;
         }
-        return false;
+        return true;
       });
   }
 }
