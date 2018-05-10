@@ -42,7 +42,7 @@ export class ApplicationsService {
     );
   }
 
-  public isUserAppliedForJob(userId: number, jobId: number, options?: HttpOptions): Observable<object> {
-    return this.httpClient.post<object>(`${this.appConfig.apiUrl}/applications/check`, {userId, jobId}, options);
+  public isUserAppliedForJob(userId: number, jobId: number, options?: HttpOptions): Observable<{body: boolean}> {
+    return this.httpClient.post<{body: boolean}>(`${this.appConfig.apiUrl}/applications/check`, {userId, jobId}, options);
   }
 }

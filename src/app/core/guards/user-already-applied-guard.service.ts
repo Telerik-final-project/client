@@ -19,17 +19,12 @@ export class UserAlreadyAppliedGuard implements CanActivate {
       return true;
     }
 
-    this.applicationService
+    return this.applicationService
       .isUserAppliedForJob(user.sub, jobId, {
         observe: 'response',
         responseType: 'json',
-      })
-      .subscribe((res) => {
-        if (res) {
-
-          return false;
-        }
-        return true;
+      }).toPromise().then((x) => {
+       return !x.body;
       });
   }
 }

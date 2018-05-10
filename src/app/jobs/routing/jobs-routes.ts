@@ -31,9 +31,9 @@ export const ROUTES: Routes = [
         component: JobApplicationComponent,
         canDeactivate: [ApplicationGuard],
         canActivate: [
+          UserAlreadyAppliedGuard,
           AuthGuard,
           ClosedApplicationGuard,
-          UserAlreadyAppliedGuard,
         ],
       },
     ],

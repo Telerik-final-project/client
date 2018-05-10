@@ -60,6 +60,7 @@ export class AuthService {
     this.nullUser();
     this.router.navigate(['/home']);
   }
+
   public clearStorage(): void {
     localStorage.removeItem('access_token');
     sessionStorage.removeItem('access_token');
