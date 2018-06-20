@@ -77,6 +77,7 @@ export class AuthService {
 
   public getUser(): User {
     const decoded = this.decodeToken();
+
     if (decoded) {
       return {
         email: decoded.email,
