@@ -2,9 +2,10 @@ import { Observable } from 'rxjs';
 import { AuthService } from '../app/core/auth.service';
 
 describe('Service: AuthService', () => {
-    let service: AuthService;
-    let jwtService;
     let user: { email: string; password: string };
+    let service: AuthService;
+    const router = {};
+    let jwtService;
     let httpClient;
     let appConfig;
 
@@ -29,7 +30,7 @@ describe('Service: AuthService', () => {
             password: 'userPassword',
         };
 
-        service = new AuthService(httpClient, appConfig, jwtService as any, router);
+        service = new AuthService(httpClient, appConfig, jwtService as any, router as any);
     });
 
     describe('-login', () => {
