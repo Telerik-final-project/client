@@ -1,9 +1,7 @@
-import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { AfterViewInit, Component, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
-import { ComponentType } from '@angular/core/src/render3';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
+import { AfterViewInit, Component, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MatPaginator, MatSnackBarConfig, MatSort, MatTableDataSource } from '@angular/material';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Params, Router } from '@angular/router';
 import { EventEmitter } from 'events';
 import { Observable } from 'rxjs/Observable';
 
@@ -12,7 +10,6 @@ import { SharedSnackModule } from '../../../../shared/material/shared-snack.modu
 import { IElements } from '../../_interfaces/listing.interface';
 
 import { DynamicButtonsService } from '../../../../core/dynamic.buttons.service';
-import { IDynamicButtons } from '../../../../models/dynamic.buttons.interface';
 import { DialogComponent } from './dialog/dialog.component';
 
 @Component({
@@ -23,7 +20,7 @@ import { DialogComponent } from './dialog/dialog.component';
 export class TableComponent implements OnInit, AfterViewInit {
   public filterValue: string;
 
-  public displayedColumns = [
+  public displayedColumns: string[] = [
     'id',
     'name',
     'targetUrl',
@@ -76,71 +73,70 @@ export class TableComponent implements OnInit, AfterViewInit {
   public delete(id: number): void {
     this.openDialog(DialogComponent).subscribe((isConfirmed: boolean) => {
       if (isConfirmed) {
+
+        const navigateByUrl = (path) => this.router.navigateByUrl(path);
+
+        const refreshBtnsPage = () => navigateByUrl('/home').then(() => navigateByUrl('/admin/btn'));
+
         this.buttonsService.delete(id, { responseType: 'json', observe: 'response' })
           .subscribe(
-            (params: Params) => {
-              console.log(params);
-            },
-            (err: HttpErrorResponse) => {
-              console.log(err);
-            },
-            () => {
-              this.router
-                .navigateByUrl('/home')
-                .then((val) => {
-                  this.router
-                    .navigateByUrl('/admin/btn');
-                });
-            },
+            (params: Params) => console.log(params),
+            (err: HttpErrorResponse) => console.log(err),
+            refreshBtnsPage,
         );
       }
     });
   }
 
   private loadDBInfo(): void {
-    this.buttonsService
-      .getAll({ observe: 'response', responseType: 'json' })
-      .subscribe((x) => {
-        x.body.forEach((btn) => {
-          this.ELEMENT_DATA.push({
-            id: btn.id,
-            name: btn.name,
-            targetUrl: btn.target,
-            iconUrl: btn.link,
-            date: btn.createdAt,
-            edit: 'edit',
-            delete: 'delete',
-            type: btn.type,
-          });
-        });
 
-        this.paginatedButtons = x.body.length;
+    const saveButtonsData = (btn): void => {
 
-        if (this.paginatedButtons > 0) {
-          window.setTimeout(() => {
-            this.dataSource.paginator = this.paginator;
-          });
+      const buttonInfo = {
+        id: btn.id,
+        name: btn.name,
+        targetUrl: btn.target,
+        iconUrl: btn.link,
+        date: btn.createdAt,
+        edit: 'edit',
+        delete: 'delete',
+        type: btn.type,
+      };
 
-          this.dataSource.data = this.ELEMENT_DATA;
-          this.ifInfo = true;
+      this.ELEMENT_DATA.push(buttonInfo);
+    };
 
-          return;
-        }
+    const allButtons = this.buttonsService.getAll({ observe: 'response', responseType: 'json' });
 
-        this.snack.openSnackMsg(
-          'No buttons to list!',
-          'Close',
-          this.snackOptions,
-        );
+    allButtons.subscribe((recievedData) => {
+      recievedData.body.forEach(saveButtonsData);
 
-        this.ifInfo = false;
-      });
+      this.paginatedButtons = recievedData.body.length;
+
+      if (this.paginatedButtons > 0) {
+        window.setTimeout(() => this.dataSource.paginator = this.paginator);
+
+        this.dataSource.data = this.ELEMENT_DATA;
+        this.ifInfo = true;
+
+        return;
+      }
+
+      this.snack.openSnackMsg(
+        'No buttons to list!',
+        'Close',
+        this.snackOptions,
+      );
+
+      this.ifInfo = false;
+    });
   }
 
   private openDialog(component: any, buttonData?: IElements): Observable<any> {
     let dialogRef: MatDialogRef<Component>;
 
     if (buttonData) {
+
       const dataToSend = {
         id: buttonData.id,
         name: buttonData.name,
@@ -152,18 +148,25 @@ export class TableComponent implements OnInit, AfterViewInit {
         type: buttonData.type,
       };
 
-      dialogRef = this.dialog.open(component, {
+      const dialogConfig = {
         data: dataToSend,
         panelClass: ['admin-dialog'],
         closeOnNavigation: true,
         disableClose: true,
-      });
+      };
+
+      dialogRef = this.dialog.open(component, dialogConfig);
+
     } else {
-      dialogRef = this.dialog.open(component, {
+
+      const dialogConfig = {
         panelClass: ['admin-dialog'],
         disableClose: true,
-      });
+      };
+
+      dialogRef = this.dialog.open(component, dialogConfig);
     }
+
     return dialogRef.beforeClose();
   }
 }

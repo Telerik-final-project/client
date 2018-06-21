@@ -36,7 +36,7 @@ describe('Service: AuthService', () => {
     describe('-login', () => {
 
         it('if http.post has been called with correct parameters', () => {
-            service = new AuthService(httpClient, appConfig, <any>jwtService, router);
+            service = new AuthService(httpClient, appConfig, jwtService as any, router as any);
 
             // act
             let urlCalled;
@@ -48,8 +48,7 @@ describe('Service: AuthService', () => {
                 return Observable.of({});
             });
 
-
-            service.login(user, <any>{});
+            service.login(user, {} as any);
 
             expect(httpClient.post).toHaveBeenCalledWith(urlCalled, userCalled, {});
         });
@@ -64,7 +63,6 @@ describe('Service: AuthService', () => {
             spyOn(localStorage, 'removeItem');
             spyOn(sessionStorage, 'removeItem');
 
-
             service.isAuthenticated();
 
             expect(localStorage.removeItem).toHaveBeenCalled();
@@ -76,7 +74,6 @@ describe('Service: AuthService', () => {
 
             spyOn(localStorage, 'removeItem');
             spyOn(sessionStorage, 'removeItem');
-
 
             service.isAuthenticated();
 

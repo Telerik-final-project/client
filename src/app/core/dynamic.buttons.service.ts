@@ -1,12 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operators';
 
+import { IElements } from '../admin/dynamic-buttons/_interfaces/listing.interface';
 import { AppConfig } from '../config/app.config';
 import { IDynamicButtons } from '../models/dynamic.buttons.interface';
 import { HttpOptions } from '../models/http-options';
-import { IElements } from '../admin/dynamic-buttons/_interfaces/listing.interface';
 
 @Injectable()
 export class DynamicButtonsService {
