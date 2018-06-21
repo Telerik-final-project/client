@@ -97,6 +97,10 @@ describe('component: TableComponent -> dynamic buttons', () => {
             expect((component as any).loadDBInfo).toHaveBeenCalled();
         });
 
+    });
+
+    describe('ngAfterViewInit', () => {
+
         it('dataSource should be undefined if there is no paginatedButtons', () => {
             paginatedButtons = 0;
 
@@ -110,5 +114,6 @@ describe('component: TableComponent -> dynamic buttons', () => {
             paginatedButtons = 'asdasd';
             expect(dataSource).toBeUndefined();
         });
+
     });
 });
