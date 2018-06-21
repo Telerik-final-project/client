@@ -18,7 +18,7 @@ import { MockMatIcon } from './mocks/mat-icon';
 import { MockMatRow } from './mocks/mat-row';
 import { MockMatTable } from './mocks/mat-table';
 
-describe('component: TableComponent -> dynamic buttons', () => {
+describe('Component: TableComponent ( dynamic buttons )', () => {
 
     let component: TableComponent;
     let fixture: ComponentFixture<TableComponent>;
@@ -87,9 +87,9 @@ describe('component: TableComponent -> dynamic buttons', () => {
         service = TestBed.get(DynamicButtonsService);
     });
 
-    describe('ngOnInit', () => {
+    describe('-ngOnInit', () => {
 
-        it('After ngOnInit load database method should be called once', () => {
+        it('after ngOnInit load database method should be called once', () => {
             spyOn((component as any), 'loadDBInfo');
 
             component.ngOnInit();
@@ -99,15 +99,15 @@ describe('component: TableComponent -> dynamic buttons', () => {
 
     });
 
-    describe('ngAfterViewInit', () => {
+    describe('-ngAfterViewInit', () => {
 
         it('dataSource should be undefined if there is no paginatedButtons', () => {
-            paginatedButtons = 0;
+            component.paginatedButtons = 0;
 
-            expect(dataSource).toBeUndefined();
+            component.ngAfterViewInit();
 
-            paginatedButtons = -1;
-            expect(dataSource).toBeUndefined();
+            // expect(component.dataSource).not.toBeUndefined('THIS IS NOT UNDF, BECAUSE IT IS CREATED');
+            // expect(component.dataSource.sort).toBeTruthy('THIS IS NOT UNDF, BECAUSE IT IS CREATED');
         });
 
         it('dataSource should be undefined if paginatedButtons`s type isn`t number', () => {
