@@ -4,10 +4,9 @@ import { AuthService } from '../app/core/auth.service';
 describe('Service: AuthService', () => {
     let service: AuthService;
     let jwtService;
-    let user: { email: string, password: string };
+    let user: { email: string; password: string };
     let httpClient;
     let appConfig;
-    let router;
 
     beforeEach(() => {
         jwtService = {
@@ -17,7 +16,7 @@ describe('Service: AuthService', () => {
         };
 
         httpClient = {
-            post: jasmine.createSpy('post')
+            post: jasmine.createSpy('post'),
         };
 
         appConfig = {
@@ -30,7 +29,7 @@ describe('Service: AuthService', () => {
             password: 'userPassword',
         };
 
-        service = new AuthService(httpClient, appConfig, <any>jwtService, router);
+        service = new AuthService(httpClient, appConfig, jwtService as any, router);
     });
 
     describe('-login', () => {
@@ -54,7 +53,6 @@ describe('Service: AuthService', () => {
             expect(httpClient.post).toHaveBeenCalledWith(urlCalled, userCalled, {});
         });
     });
-
 
     describe('-isAuthenticated', () => {
         let isAuthenticated;
@@ -94,7 +92,6 @@ describe('Service: AuthService', () => {
             expect(isAuthenticated).toEqual(true);
         });
 
-
         it('if there is token and it is expired, should return false', () => {
             spyOn(jwtService, 'tokenGetter').and.returnValue(true);
             spyOn(jwtService, 'decodeToken').and.returnValue({ iss: '' });
@@ -103,7 +100,6 @@ describe('Service: AuthService', () => {
 
             expect(isAuthenticated).toEqual(false);
         });
-
 
         it('if there isn`t token, should return false', () => {
             spyOn(jwtService, 'isTokenExpired').and.returnValue(true);
@@ -121,5 +117,5 @@ describe('Service: AuthService', () => {
 
             expect(isAuthenticated).toEqual(false);
         });
-    })
+    });
 });
