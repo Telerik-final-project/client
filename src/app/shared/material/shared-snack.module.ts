@@ -3,12 +3,12 @@ import { NgModule } from '@angular/core';
 
 import { MatSnackBar, MatSnackBarConfig, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
 
-// @NgModule({
-//   imports: [
-//       ],
-//   exports: [
-//   ],
-// })
+@NgModule({
+  imports: [
+      ],
+  exports: [
+  ],
+})
 export class SharedSnackModule {
   constructor(private matSnackBar: MatSnackBar) {}
 
