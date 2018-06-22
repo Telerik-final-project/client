@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick, inject } from '@angular/core/testing';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { TableComponent } from '../app/admin/dynamic-buttons/listing/table/table.component';
 import { AppConfig } from '../app/config/app.config';
 import { DynamicButtonsService } from '../app/core/dynamic.buttons.service';
@@ -22,23 +23,35 @@ describe('Component: TableComponent ( dynamic buttons )', () => {
 
     let component: TableComponent;
     let fixture: ComponentFixture<TableComponent>;
-    let mockMatSnackBar;
-    let mockSharedSnackModule;
+
+    let mockDynamicButtonsService = {
+        getAll: () => Observable.of({ body: [] }),
+    };
+
+    const mockData = {
+        id: 1,
+        name: 'btn.name',
+        targetUrl: 'btn.target',
+        iconUrl: 'btn.link',
+        date: 'btn.createdAt',
+        edit: 'edit',
+        delete: 'delete',
+        type: 'btn.type',
+    };
+
+    let mockMatSnackBar = {
+        openSnackMsg: (...args) => { },
+    };
+
     let mockHttpHandler;
     let mockHttpClient;
     let mockAppConfig;
-    let mockDynamicButtonsService;
     let mockMatDialog;
     let mockRouter;
-    let paginatedButtons;
-    let dataSource;
-    let sort;
     let service;
 
     beforeEach(() => {
 
-        mockMatSnackBar = {};
-        mockSharedSnackModule = {};
         mockHttpHandler = {};
         mockHttpClient = {};
         mockAppConfig = {};
@@ -72,8 +85,7 @@ describe('Component: TableComponent ( dynamic buttons )', () => {
                 { provide: AppConfig, useValue: mockAppConfig },
                 { provide: HttpClient, useValue: mockHttpClient },
                 { provide: HttpHandler, useValue: mockHttpHandler },
-                { provide: SharedSnackModule, useValue: mockSharedSnackModule },
-                { provide: MatSnackBar, useValue: mockMatSnackBar },
+                { provide: SharedSnackModule, useValue: mockMatSnackBar },
             ],
             imports: [
                 CommonModule,
@@ -89,31 +101,71 @@ describe('Component: TableComponent ( dynamic buttons )', () => {
 
     describe('-ngOnInit', () => {
 
+        beforeEach(inject(
+            [
+                DynamicButtonsService,
+                SharedSnackModule,
+                // tslint:disable-next-line:align
+            ], (
+                btnsService: DynamicButtonsService,
+                snackService: SharedSnackModule,
+            ) => {
+                mockDynamicButtonsService = btnsService;
+                mockMatSnackBar = snackService;
+            }));
+
         it('after ngOnInit load database method should be called once', () => {
+
             spyOn((component as any), 'loadDBInfo');
 
             component.ngOnInit();
 
             expect((component as any).loadDBInfo).toHaveBeenCalled();
+
         });
 
-    });
+        it('when there is no data a pop-up should appear', fakeAsync(() => {
 
-    describe('-ngAfterViewInit', () => {
+            spyOn(mockMatSnackBar, 'openSnackMsg');
 
-        it('dataSource should be undefined if there is no paginatedButtons', () => {
+            const serviceSpy = spyOn(mockDynamicButtonsService, 'getAll');
+            serviceSpy.and.returnValue(Observable.of({ body: [] }));
+
+            component.ngOnInit();
+            tick();
+
+            expect(serviceSpy).toHaveBeenCalledTimes(1);
+            expect(mockMatSnackBar.openSnackMsg).toHaveBeenCalled();
+
+        }));
+
+        it('dataSource.data should be empty array if there is no paginatedButtons', () => {
+
             component.paginatedButtons = 0;
 
-            component.ngAfterViewInit();
+            spyOn(service, 'getAll').and.returnValue(Observable.of({ body: [] }));
 
-            // expect(component.dataSource).not.toBeUndefined('THIS IS NOT UNDF, BECAUSE IT IS CREATED');
-            // expect(component.dataSource.sort).toBeTruthy('THIS IS NOT UNDF, BECAUSE IT IS CREATED');
+            component.ngOnInit();
+
+            const actualLength = component.dataSource.data.length;
+            expect(actualLength).toEqual(0);
+
         });
+    });
 
-        it('dataSource should be undefined if paginatedButtons`s type isn`t number', () => {
-            paginatedButtons = 'asdasd';
-            expect(dataSource).toBeUndefined();
+    describe('-applyFilter', () => {
+
+        it('dataSource.filter shouldn`t be empty string if applyFilter has been called', () => {
+
+            const expectedFilterValue = 'filterValue';
+
+            component.applyFilter(expectedFilterValue);
+
+            const actualFilterValue = component.dataSource.filter;
+            expect(actualFilterValue).toEqual(expectedFilterValue);
+
         });
 
     });
+
 });
