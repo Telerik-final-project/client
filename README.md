@@ -1,4 +1,4 @@
-# Client
+# [Telerik final project] Client 
 ## The Chocolate Company
 ![logo](./src/assets/logo.png) 
 
